@@ -53,7 +53,7 @@ const UploadFile = () => {
       <h3>Upload File</h3>
       <div className="mb-3">
         <label htmlFor="fileInput" className="form-label">
-          Choose File
+          Drag and drop files here or click to browse.
         </label>
         <input
           type="file"
