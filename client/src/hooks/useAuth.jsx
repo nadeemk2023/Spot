@@ -32,12 +32,7 @@ const authContext = createContext();
 export function ProvideAuth({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <authContext.Provider
-      value={{
-        state,
-        dispatch,
-      }}
-    >
+    <authContext.Provider value={{ state, dispatch }}>
       {children}
     </authContext.Provider>
   );

@@ -1,18 +1,17 @@
 import "./App.css";
 import CustomNavbar from "./components/Navbar/Navbar";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Home, Profile, Search, Feed } from "./pages";
 
 function App() {
   return (
     <Router>
       <CustomNavbar />
-      <Switch>
-        <Route path="/" exact Component={home} />
-        <Route path="/profile" exact Component={profile} />
-        <Route path="/search" exact Component={search} />
-        <Route path="/feed" exact Component={feed} />
-        <Route path="/logout" exact Component={logout} />
-      </Switch>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/profile" element={<Profile />} />
+      <Route exact path="/search" element={<Search />} />
+      <Route exact path="/feed" element={<Feed />} />
+      <Route exact path="/" element={<Logout />} />
     </Router>
   );
 }
