@@ -16,13 +16,13 @@ const createError = require("http-errors");
 mongoose.connect(keys.database.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
+  // useFindAndModify: false,
+  // useCreateIndex: true,
 });
 
 mongoose.connection.on("connected", () => {
   console.log("connected to mongoDB");
-  seedDatabase();
+  // seedDatabase();
 });
 
 mongoose.connection.on("error", (err) => {

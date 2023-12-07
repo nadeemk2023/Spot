@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     min: 1,
     max: 3,
     default: 3,
-  }
+  },
 
 
   dog: {
