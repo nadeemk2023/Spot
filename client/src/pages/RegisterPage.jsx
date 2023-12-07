@@ -106,7 +106,7 @@ const RegisterPage = () => {
           <option value="medium">Medium (23 lbs - 57 lbs)</option>
           <option value="large">Large (58 lbs or more)</option>
         </select>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Sign Up!</button>
       </form>
     </section>
   );
