@@ -17,8 +17,5 @@
   ],
   "devDependencies": {
     "concurrently": "^8.2.1"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3"
   }
 }
