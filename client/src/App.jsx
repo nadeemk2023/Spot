@@ -1,9 +1,12 @@
 import React from "react";
+import EditProfile from "./components/EditProfile/EditProfile";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <div></div>;
+  return (
+    <div>
+      <EditProfile />
+    </div>
+  );
 }
 
 export default App;

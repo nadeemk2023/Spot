@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function EditProfile(props) {
   const [userProfile, setUserProfile] = useState({
@@ -25,7 +26,7 @@ function EditProfile(props) {
   const addFamilyMember = () => {
     setUserProfile({
       ...userProfile,
-      familyMembers: [...userProfile.familyMembers, ""],
+      familyMembers: [...userProfile.familyMembers, { dogname: "", breed: "" }],
     });
   };
 
@@ -39,9 +40,9 @@ function EditProfile(props) {
     });
   };
 
-  const handleFamilyMemberChange = (e, index) => {
+  const handleFamilyMemberChange = (e, index, field) => {
     const updateFamilyMembers = [...userProfile.familyMembers];
-    updateFamilyMembers[index] = e.target.value;
+    updateFamilyMembers[index][field] = e.target.value;
     setUserProfile({
       ...userProfile,
       familyMembers: updateFamilyMembers,
@@ -53,52 +54,94 @@ function EditProfile(props) {
   };
 
   return (
-    <div>
-      <h2>Edit Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={userProfile.name}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={userProfile.email}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Zipcode:
-          <input
-            type="number"
-            name="zipcode"
-            value={userProfile.name}
-            onChange={handleInputChange}
-          />
-        </label>
-        <div>
-          <h3>Family Members</h3>
-          {userProfile.familyMembers.map((member, index) => (
-            <div key={index}>
+    <div
+      style={{ height: "100vh", width: "100vw" }}
+      className="d-flex justify-content-center align-items-center"
+    >
+      <div className="text-center">
+        <h2 className="text-center mb-4">Edit Profile</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex flex-column align-items-center"
+        >
+          <div className="mb-3">
+            <label className="form-control">
+              Name:
               <input
                 type="text"
-                value={member}
-                onChange={(e) => handleFamilyMemberChange(e, index)}
+                className="form-control"
+                name="name"
+                value={userProfile.name}
+                onChange={handleInputChange}
               />
-              <button onClick={() => deleteFamilyMember(index)}>Delete</button>
-            </div>
-          ))}
-          <button onClick={addFamilyMember}>Add Family Member</button>
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
+            </label>
+          </div>
+          <div className="mb-3">
+            <label className="form-control">
+              Email:
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={userProfile.email}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-3">
+            <label className="form-control">
+              Zipcode:
+              <input
+                type="number"
+                className="form-control"
+                name="zipcode"
+                value={userProfile.name}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div>
+            <h3>Family Members</h3>
+            {userProfile.familyMembers.map((member, index) => (
+              <div className="mb-3" key={index}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Dog Name"
+                  value={member.dogname}
+                  onChange={(e) =>
+                    handleFamilyMemberChange(e, index, "dogname")
+                  }
+                />
+                <input
+                  type="text"
+                  className="form-control mt-2"
+                  placeholder="Breed"
+                  value={member.breed}
+                  onChange={(e) => handleFamilyMemberChange(e, index, "breed")}
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger ms-2 mt-2"
+                  onClick={() => deleteFamilyMember(index)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={addFamilyMember}
+            >
+              Add Family Member
+            </button>
+          </div>
+          <button type="submit" className="btn btn-success mt-3">
+            Save Changes
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
