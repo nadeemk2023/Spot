@@ -11,7 +11,15 @@ router.route("/").get((req, res, next) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { username, password, confirmPassword, email, profile_image } =
+  const { username,
+    password,
+    confirmPassword,
+    email,
+    dogName,
+    dogSize,
+    dogBreed,
+    zipcode,
+    profile_image, } =
     req.body;
 
   if (!password || !username || !email) {
@@ -46,6 +54,12 @@ router.post("/signup", async (req, res) => {
         const user = new User({
           username,
           email,
+          dog:{
+            name:dogName,
+            breed:dogBreed, 
+            size: dogSize,
+          },
+          zipcode,
           passwordHash: hashedpassword,
           profile_image: profile_image,
         });
