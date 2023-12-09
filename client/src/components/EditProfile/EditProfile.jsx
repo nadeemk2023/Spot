@@ -11,6 +11,7 @@ function EditProfile(props) {
       {
         dogname: "",
         breed: "",
+        size: "",
       },
     ],
   });
@@ -119,6 +120,13 @@ function EditProfile(props) {
                   placeholder="Breed"
                   value={member.breed}
                   onChange={(e) => handleFamilyMemberChange(e, index, "breed")}
+                />
+                <input
+                  type="text"
+                  className="form-control mt-2"
+                  placeholder="Size"
+                  value={member.size}
+                  onChange={(e) => handleFamilyMemberChange(e, index, "size")}
                 />
                 <button
                   type="button"
