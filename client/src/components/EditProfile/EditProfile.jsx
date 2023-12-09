@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function EditProfile(props) {
@@ -50,8 +51,11 @@ function EditProfile(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post("save", userProfile);
+    } catch (error) {}
   };
 
   return (
@@ -96,7 +100,7 @@ function EditProfile(props) {
                 type="number"
                 className="form-control"
                 name="zipcode"
-                value={userProfile.name}
+                value={userProfile.zipcode}
                 onChange={handleInputChange}
               />
             </label>
