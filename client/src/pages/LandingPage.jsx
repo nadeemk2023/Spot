@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from '../components/Login/Login';
 import Header from '../components/Header';
+import PhotoCarousel from '../components/PhotoCarousel/PhotoCarousel';
 
 const LandingPage = () => {
   const styleCarousel = {
@@ -14,9 +15,11 @@ const LandingPage = () => {
     alignItems: 'center',
     justifyContent: 'center',
   };
+  //! still working on PhotoCarousel
   return (
     <div>
       <Header />
+      {/* <PhotoCarousel /> */}
       <div style={styleCarousel}>The carousel will be here later</div>
       <Login />
     </div>
