@@ -13,8 +13,7 @@ const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    // setUserName('');
-    // setPassword('');
+
     const userRequestData = {
       username: username,
       password: password,
@@ -25,8 +24,6 @@ const Login = () => {
       console.log(userRequestData, 'userRequestData');
       console.log(response, 'response - make sure this has a response');
 
-      //! check response status of the response make sure it's 200, double check if its response.data.status or response.status (might need to play around to find response status - work with console.log to figure this out)
-
       if (response.status === 200 || response.status === 201) {
         navigate('/homepage');
       } else {
@@ -35,6 +32,9 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error);
       toast.error('An error occured during login');
+    } finally {
+      setUserName('');
+      setPassword('');
     }
   };
 
@@ -42,7 +42,7 @@ const Login = () => {
     <div>
       <ToastContainer />
       <Form onSubmit={handleSubmit} className={styles.form}>
-        <label htmlFor="">
+        <label htmlFor="username">
           <input
             type="text"
             id="username"
@@ -50,9 +50,10 @@ const Login = () => {
             placeholder="username"
             onChange={e => setUserName(e.target.value)}
             aria-label="Username"
+            autoComplete="username"
           ></input>
         </label>
-        <label htmlFor="">
+        <label htmlFor="password">
           <input
             type="password"
             id="password"
@@ -60,6 +61,7 @@ const Login = () => {
             placeholder="password"
             onChange={e => setPassword(e.target.value)}
             aria-label="Password"
+            autoComplete="off"
           ></input>
         </label>
         <button className={styles.button}>Sign In</button>
