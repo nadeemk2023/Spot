@@ -4,6 +4,7 @@ import EditProfile from "../components/EditProfile/EditProfile";
 import { Routes, Route } from "react-router-dom";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
+import { Container, Card, Button } from "react-bootstrap";
 
 function ProfilePage() {
   const { state } = useProvideAuth();
@@ -41,96 +42,113 @@ function ProfilePage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  };
 
-    const handleInputChange = (event) => {
-      setData({
-        ...data,
-        [event.target.name]: event.target.value,
-      });
-    };
+  const handleInputChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-    const handleUpdatePassword = async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (data.password !== data.confirm_password) {
-        toast.error("Passwords Do Not Match");
-        return;
-      }
-      if (data.password.length < 8 || data.password.length > 20) {
-        toast.error("Password Must Be Between 8 and 20 Characters");
-        return;
-      }
-      const form = event.currentTarget;
-      if (form.checkValidity() === false) {
-        setValidated(true);
-        return;
-      }
-      setData({
-        ...data,
-        isSubmitting: true,
-        errorMessage: null,
-      });
-      try {
-        const response = await api.put(`/users/${params.uname}`, {
-          confirm_password: data.confirm_password,
-          password: data.password,
-          current_password: data.current_password,
-        });
-        const {
-          user: { uid, username },
-        } = state;
-        console.log(data.password, uid, username);
-        setValidated(false);
-        setLoading(false);
-        toast.success("Password Updated");
-      } catch (error) {
-        setData({
-          ...data,
-          isSubmitting: false,
-          errorMessage: error.message,
-        });
-      }
-    };
-
-    if (!isAuthenticated) {
+  const handleUpdatePassword = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (data.password !== data.confirm_password) {
+      toast.error("Passwords Do Not Match");
       return;
     }
-
-    if (loading) {
+    if (data.password.length < 8 || data.password.length > 20) {
+      toast.error("Password Must Be Between 8 and 20 Characters");
       return;
     }
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      setValidated(true);
+      return;
+    }
+    setData({
+      ...data,
+      isSubmitting: true,
+      errorMessage: null,
+    });
+    try {
+      const response = await api.put(`/users/${params.uname}`, {
+        confirm_password: data.confirm_password,
+        password: data.password,
+        current_password: data.current_password,
+      });
+      const {
+        user: { uid, username },
+      } = state;
+      console.log(data.password, uid, username);
+      setValidated(false);
+      setLoading(false);
+      toast.success("Password Updated");
+    } catch (error) {
+      setData({
+        ...data,
+        isSubmitting: false,
+        errorMessage: error.message,
+      });
+    }
+  };
 
-    return (
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-4 mb-4">
-            <img
-              src=""
-              alt="Profile Picture"
-              className="img-fluid rounded-circle"
-            />
-          </div>
-          <div className="col-md-8">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">About Us</h5>
-                <p>
-                  This is where the user will write about their pupum and
-                  themselves.
-                </p>
+  if (!isAuthenticated) {
+    return;
+  }
+
+  if (loading) {
+    return;
+  }
+
+  return (
+    <>
+      <Container>
+        <Button
+          variant="outline-info"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Go Back
+        </Button>
+        <Card>
+          <Card.Body>
+            <div className="row">
+              <div className="col-md-4 mb-4">
+                <img
+                  src=""
+                  alt="Profile Picture"
+                  className="img-fluid rounded-circle"
+                />
+              </div>
+              <div className="col-md-8">
+                <Card>
+                  <Card.Body>
+                    <Card.Title>About Us</Card.Title>
+                    <Card.Text>
+                      This is where the user will write about their pupum and
+                      themselves.
+                    </Card.Text>
+                    {state.user.username === params.uname && (
+                      <div
+                        onClick={() => setOpen(!open)}
+                        style={{ cursor: "pointer", color: "#BFBFBF" }}
+                      >
+                        Edit Password
+                      </div>
+                    )}
+                    {open && <EditProfile />}
+                  </Card.Body>
+                </Card>
               </div>
             </div>
-            <Routes>
-              <Route />
-            </Routes>
-            {/* <Link to={<EditProfile />} className="btn btn-primary mt-3">
-            Edit Profile
-          </Link> */}
-          </div>
-        </div>
-      </div>
-    );
-  };
+          </Card.Body>
+        </Card>
+      </Container>
+    </>
+  );
 }
 
 export default ProfilePage;
