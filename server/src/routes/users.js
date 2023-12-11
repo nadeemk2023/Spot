@@ -111,43 +111,4 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// POST register a new user
-// router.post("/", async (req, res) => {
-//   try {
-//     const {
-//       username,
-//       password,
-//       confirmPassword,
-//       email,
-//       dog,
-//       zipcode,
-//       profile_image,
-//     } = req.body;
-
-//     if (password.length < 8 || password.length > 20 || confirmPassword.length < 8 || confirmPassword.length > 20 || password !== confirmPassword) {
-//       return res.status(422).json({
-//         error: "Invalid password. Password must be 8-20 characters and match the confirmation",
-//       });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 12);
-
-//     const newUser = new User({
-//       username,
-//       email,
-//       passwordHash: hashedPassword,
-//       dog,
-//       zipcode,
-//       profile_image,
-//     });
-
-//     const savedUser = await newUser.save();
-
-//     res.status(201).json(savedUser.toJSON());
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
 export default router;
