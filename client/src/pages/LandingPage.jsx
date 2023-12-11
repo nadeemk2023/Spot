@@ -19,8 +19,8 @@ const LandingPage = () => {
   return (
     <div>
       <Header />
-      {/* <PhotoCarousel /> */}
-      <div style={styleCarousel}>The carousel will be here later</div>
+      <PhotoCarousel />
+      {/* <div style={styleCarousel}>The carousel will be here later</div> */}
       <Login />
     </div>
   );
