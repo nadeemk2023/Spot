@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
     dogSize,
     dogBreed,
     zipcode,
-    profile_image, } =
+    profile_image } =
     req.body;
 
   if (!password || !username || !email) {

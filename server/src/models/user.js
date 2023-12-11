@@ -19,29 +19,29 @@ const userSchema = new mongoose.Schema({
   dog: {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     breed: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     size: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
 
   email: {
     type: String,
-    required: true,
+    // required: true,
     pattern: "[a-z0-9]+@[a-z]+.[a-z]{2,3}",
   },
 
   passwordHash: {
     type: String,
-    required: true,
+    // required: true,
   },
 
   zipcode: {
