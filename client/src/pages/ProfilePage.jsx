@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditProfile from "../components/EditProfile/EditProfile";
+import { Routes, Route } from "react-router-dom";
 
 function ProfilePage() {
   return (
@@ -24,9 +25,12 @@ function ProfilePage() {
               </p>
             </div>
           </div>
-          <Link to={<EditProfile />} className="btn btn-primary mt-3">
+          <Routes>
+            <Route />
+          </Routes>
+          {/* <Link to={<EditProfile />} className="btn btn-primary mt-3">
             Edit Profile
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
