@@ -1,33 +1,28 @@
 import Carousel from 'react-bootstrap/Carousel';
+import styles from './PhotoCarousel.module.css';
 
-function IndividualIntervalsExample() {
+function PhotoCarousel() {
   return (
-    <>
-      <Carousel>
-        <Carousel.Item>
-          <img src="/dogs1.jpg" alt="" style={{ height: '500px' }} />
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-    </>
+    <Carousel id={styles.photoCarousel}>
+      <Carousel.Item>
+        <img src="/dogs1.jpg" alt="" style={{ height: '500px' }} />
+        <Carousel.Caption>
+          <h1 className={`${styles.carouselCaption} fw-bold text-capitalize `}>
+            Let's Get it Pawpen'
+          </h1>
+          <p className="fs-5 text-uppercase mt-4">
+            Discover what all the howlin' is about
+          </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src="/dogs2.jpg" alt="" style={{ height: '500px' }} />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src="/dogs3.jpg" alt="" style={{ height: '500px' }} />
+      </Carousel.Item>
+    </Carousel>
   );
 }
 
-export default IndividualIntervalsExample;
+export default PhotoCarousel;
