@@ -4,7 +4,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useProvideAuth } from "../../hooks/useAuth";
 
-function CustomNavbar() {
+function Navbar() {
   const {
     state: { user },
     signout,
@@ -48,4 +48,4 @@ function CustomNavbar() {
   );
 }
 
-export default CustomNavbar;
+export default Navbar;
