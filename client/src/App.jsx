@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage';
 import RegisterPage from './pages/RegisterPage';
 import React from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
-import HomePage from './pages/HomePage';
+// import HomePage from './pages/HomePage';
 
 function App() {
   return (
