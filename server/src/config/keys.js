@@ -7,7 +7,7 @@ module.exports = {
        
       url:
         process.env.MONGODB_URI ||
-        `mongodb+srv://spotcapstone:spot@spot.lho6oyr.mongodb.net/?retryWrites=true&w=majority`, 
+        `mongodb+srv://spotcapstone:spot@spot.lho6oyr.mongodb.net/?retryWrites=true`, 
       name: process.env.MONGODB_NAME || "capstone",
     },
     jwt: {
