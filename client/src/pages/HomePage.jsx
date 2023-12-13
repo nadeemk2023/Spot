@@ -4,7 +4,7 @@ import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 const HomePage = () => {
   return (
     <div>
-      {/* Navbar */}
+      {/* Navbar, this is just for styling purposes for this page before a merge of a different NavBar already created  */}
       <Navbar bg="light" expand="lg" style={{ border: '1px solid black' }}>
         <Container fluid>
           <Row className="d-flex align-items-center">
