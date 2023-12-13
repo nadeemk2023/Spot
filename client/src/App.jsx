@@ -1,9 +1,9 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import RegisterPage from './pages/RegisterPage';
-import React from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterPage from "./pages/RegisterPage";
+import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   return (
