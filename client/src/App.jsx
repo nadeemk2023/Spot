@@ -1,18 +1,21 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import Header from "./components/Header";
-import UploadFile from "./components/UploadFile";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterPage from "./pages/RegisterPage";
+import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <UploadFile />
-    </>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
+          //! Add other Routes here
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
-
 export default App;
