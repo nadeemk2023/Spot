@@ -55,13 +55,9 @@ function EditProfile(props) {
     e.preventDefault();
     try {
       const response = await axios.post("save", userProfile);
-<<<<<<< HEAD
-    } catch (error) {}
-=======
     } catch (error) {
       console.error();
     }
->>>>>>> b47146c3bf775ae4458f896a2f2ad47028470316
   };
 
   return (
