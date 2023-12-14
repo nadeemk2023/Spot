@@ -4,7 +4,7 @@ import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 const HomePage = () => {
   return (
     <div>
-      {/* Navbar, this is just for styling purposes for this page before a merge of a different NavBar already created  */}
+      {/* Navbar */}
       <Navbar bg="light" expand="lg" style={{ border: '1px solid black' }}>
         <Container fluid>
           <Row className="d-flex align-items-center">
@@ -33,19 +33,21 @@ const HomePage = () => {
       </Navbar>
 
       {/* Main Content */}
-      <Container className="mt-4" style={{ border: '1px solid black' }}>
-        <Row>
-          {/* Create Post Panel */}
-          <Col xs={12} md={4}>
+      <Container className="mt-4">
+        {/* Create Post Panel */}
+        <Row className="d-flex justify-content-center ">
+          <Col xs={10} className="mb-4" style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Create Post</h4>
               {/* Placeholder for CreatePost component */}
               <p>Placeholder for CreatePost component</p>
             </div>
           </Col>
+        </Row>
 
-          {/* Feed Component */}
-          <Col xs={12} md={8}>
+        {/* Feed Component */}
+        <Row className="d-flex justify-content-center">
+          <Col xs={10} style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Feed</h4>
               {/* Placeholder for Feed component */}
