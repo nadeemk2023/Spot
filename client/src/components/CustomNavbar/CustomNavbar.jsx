@@ -15,7 +15,7 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar sticky="top" bg="light" expand="lg">
+    <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
