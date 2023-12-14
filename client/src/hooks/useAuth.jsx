@@ -46,6 +46,13 @@ export function useProvideAuth() {
   const { state, dispatch } = useAuth();
   let navigate = useNavigate();
 
+  // export function useProvideAuth() {
+  //   const { state, dispatch } = useAuth();
+  //   if (!state || !dispatch) {
+  //     throw new Error("Invalid state or dispatch from useAuth");
+  //   }
+  //   let navigate = useNavigate();
+
   const signin = async (username, password, confirm_password) => {
     try {
       const response = await api.post(`/auth/signin`, {
