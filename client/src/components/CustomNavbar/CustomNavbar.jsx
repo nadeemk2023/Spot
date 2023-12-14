@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Logo from ".publiclogo.png";
+import Logo from "/logo.png";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useProvideAuth } from "../../hooks/useAuth";
+import { useProvideAuth, useAuth } from "../../hooks/useAuth";
 
-function Navbar() {
+function CustomNavbar() {
   const {
     state: { user },
     signout,
@@ -48,4 +48,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default CustomNavbar;
