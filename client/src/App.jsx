@@ -13,15 +13,17 @@ function App() {
   } = useProvideAuth();
 
   return (
-    <ErrorBoundary>
-      {/* {user && <Navbar />} */}
+    <>
       <CustomNavbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<RegisterPage />} />
-        //! Add other Routes here
-      </Routes>
-    </ErrorBoundary>
+      <ErrorBoundary>
+        {/* {user && <Navbar />} */}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
+          //! Add other Routes here
+        </Routes>
+      </ErrorBoundary>
+    </>
   );
 }
 export default App;
