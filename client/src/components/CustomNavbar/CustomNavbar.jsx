@@ -29,9 +29,17 @@ function CustomNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/profile" className="mx-3">
-              Profile
-            </Nav.Link>
+            {user ? (
+              <Nav.Link
+                as={Link}
+                to={`/profile/u/${user.username}`}
+                className="mx-3"
+              >
+                Profile
+              </Nav.Link>
+            ) : (
+              ""
+            )}
             <Nav.Link as={Link} to="/search" className="mx-3">
               Search
             </Nav.Link>
