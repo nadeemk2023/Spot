@@ -6,6 +6,7 @@ import React from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const {
@@ -14,12 +15,13 @@ function App() {
 
   return (
     <>
-      <CustomNavbar />
+      {/* <CustomNavbar /> */}
       <ErrorBoundary>
-        {/* {user && <Navbar />} */}
+        {user && <CustomNavbar />}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/profile/u/:uname" element={<ProfilePage />} />
           //! Add other Routes here
         </Routes>
       </ErrorBoundary>
