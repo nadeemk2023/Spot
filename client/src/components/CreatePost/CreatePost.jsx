@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import styles from './CreatePost.module.css';
 import { useProvideAuth } from '../../hooks/useAuth';
+import axios from 'axios';
 
 const CreatePost = ({ onPostCreated }) => {
   const {
@@ -19,10 +20,17 @@ const CreatePost = ({ onPostCreated }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     //! Need to add logic here
+    const responseData = {
+      user: userObj,
+      text: text,
+    };
+    axios.post('http://localhost:3001/api/posts', responseData).then(res => {
+      console.log(res.data);
+    });
   };
   useEffect(() => {
     if (userObj) {
-      console.log(userObj.username);
+      console.log(`${userObj} <- userObj`);
     }
   }, [userObj]);
 
@@ -31,7 +39,8 @@ const CreatePost = ({ onPostCreated }) => {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="postText">
           <Form.Label>
-            What's on your mind, {userObj.username ? userObj.username : ''}?
+            What's on your mind
+            {userObj?.username ? `, ${userObj.username}` : ''}?
           </Form.Label>
           <Form.Control
             as="textarea"
