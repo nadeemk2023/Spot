@@ -27,8 +27,6 @@ const Login = () => {
         userRequestData.password
       );
 
-      console.log(response, 'response - make sure this has a response');
-
       if (response.status === 200 || response.status === 201) {
         navigate('/homepage');
       } else {

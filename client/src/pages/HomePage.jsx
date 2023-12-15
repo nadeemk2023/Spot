@@ -1,49 +1,16 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
-import CustomNavBar from '../components/CustomNavbar/CustomNavbar';
 import { useProvideAuth } from '../hooks/useAuth';
 
 const HomePage = () => {
   const {
     state: { user },
-  } = useProvideAuth();
+  } = useProvideAuth(); // Correctly destructured user from state
 
-  console.log(user, 'user');
+  console.log(user ? user.username : 'No user logged in', 'Logged in user'); // Log 'user' directly
 
   return (
     <div>
-      {/* Conditionally render Navbars */}
-      {user ? (
-        <CustomNavBar />
-      ) : (
-        <Navbar bg="light" expand="lg" style={{ border: '1px solid black' }}>
-          <Container fluid>
-            <Row className="d-flex align-items-center">
-              {/* Logo */}
-              <Col xs={6}>
-                <Navbar.Brand href="/homepage">
-                  <img
-                    src="/logo.png"
-                    width="30%"
-                    height="auto"
-                    alt="Your Logo"
-                  />
-                </Navbar.Brand>
-              </Col>
-              {/* Navigation Links */}
-              <Col xs={6} className="d-flex justify-content-end">
-                <Nav className="ms-auto" navbarScroll>
-                  <Nav.Link href="/profile">Profile</Nav.Link>
-                  <Nav.Link href="/search">Search</Nav.Link>
-                  <Nav.Link href="/feed">Feed</Nav.Link>
-                  <Nav.Link href="/logout">Logout</Nav.Link>
-                </Nav>
-              </Col>
-            </Row>
-          </Container>
-        </Navbar>
-      )}
-
       {/* Main Content */}
       <Container className="mt-4">
         {/* Create Post Panel */}
