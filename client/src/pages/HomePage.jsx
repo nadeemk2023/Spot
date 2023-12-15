@@ -1,13 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { useProvideAuth } from '../hooks/useAuth';
+import CreatePost from '../components/CreatePost/CreatePost';
 
 const HomePage = () => {
   const {
     state: { user },
-  } = useProvideAuth(); // Correctly destructured user from state
-
-  console.log(user ? user.username : 'No user logged in', 'Logged in user'); // Log 'user' directly
+  } = useProvideAuth();
 
   return (
     <div>
@@ -18,8 +17,7 @@ const HomePage = () => {
           <Col xs={10} className="mb-4" style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Create Post</h4>
-              {/* Placeholder for CreatePost component */}
-              <p>Placeholder for CreatePost component</p>
+              <CreatePost />
             </div>
           </Col>
         </Row>
