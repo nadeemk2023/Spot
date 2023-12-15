@@ -24,10 +24,11 @@ const CreatePost = ({ onPostCreated }) => {
       user: userObj,
       text: text,
     };
-    axios.post('http://localhost:3001/api/posts', responseData).then(res => {
+    axios.post('/posts', responseData).then(res => {
       console.log(res.data);
     });
   };
+
   useEffect(() => {
     if (userObj) {
       console.log(`${userObj} <- userObj`);
