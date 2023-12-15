@@ -28,7 +28,7 @@ const Login = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        navigate('/homepage');
+        navigate('/home');
       } else {
         toast.error('Could not sign in, please check credentials');
       }
