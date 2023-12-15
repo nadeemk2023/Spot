@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import api from "../../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Form, Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -41,9 +41,7 @@ function EditProfile(props) {
     const getUser = async () => {
       try {
         const userResponse = await api.get(`/users/${params.uname}`);
-        setUser(userResponse.data);
         setProfileImage(userResponse.data.profile_image);
-        setLoading(false);
       } catch (err) {
         console.error(err.message);
       }
@@ -94,7 +92,6 @@ function EditProfile(props) {
       } = state;
       console.log(data.password, uid, username);
       setValidated(false);
-      setLoading(false);
       toast.success("Password Updated");
     } catch (error) {
       setData({
@@ -109,9 +106,9 @@ function EditProfile(props) {
     return;
   }
 
-  if (loading) {
-    return;
-  }
+  // if (loading) {
+  //   return;
+  // }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
