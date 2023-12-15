@@ -2,7 +2,6 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage';
 import React from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import { ProvideAuth, useProvideAuth, useAuth } from './hooks/useAuth';
@@ -15,13 +14,14 @@ function App() {
 
   return (
     <>
-      <CustomNavbar />
+      {/* <CustomNavbar /> */}
       <ErrorBoundary>
-        {/* {user && <Navbar />} */}
+        {user && <CustomNavbar />}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/homepage" element={<HomePage />} />
+          <Route path="/profile/u/:uname" element={<ProfilePage />} />
           //! Add other Routes here
         </Routes>
       </ErrorBoundary>
