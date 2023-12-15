@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Logo from "/logo.png";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useProvideAuth, useAuth } from "../../hooks/useAuth";
+import React, { useState } from 'react';
+import Logo from '/logo.png';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useProvideAuth, useAuth } from '../../hooks/useAuth';
 
 function CustomNavbar() {
   const {
@@ -17,7 +17,7 @@ function CustomNavbar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/home">
           <img
             alt="white dog with black bullseye"
             src={Logo}
@@ -38,7 +38,7 @@ function CustomNavbar() {
                 Profile
               </Nav.Link>
             ) : (
-              ""
+              ''
             )}
             <Nav.Link as={Link} to="/search" className="mx-3">
               Search
