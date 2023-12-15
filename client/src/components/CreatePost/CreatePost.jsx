@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import styles from './CreatePost.module.css';
 import { useProvideAuth } from '../../hooks/useAuth';
 
 const CreatePost = ({ onPostCreated }) => {
-  const { state: user } = useProvideAuth();
+  const {
+    state: { user: userObj },
+  } = useProvideAuth();
   const [text, setText] = useState('');
   const maxChars = 500;
 
@@ -18,14 +20,18 @@ const CreatePost = ({ onPostCreated }) => {
     e.preventDefault();
     //! Need to add logic here
   };
+  useEffect(() => {
+    if (userObj) {
+      console.log(userObj.username);
+    }
+  }, [userObj]);
 
-  console.log(user.user.username);
   return (
-    <Container>
+    <Container className="createPostContainer">
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="postText">
           <Form.Label>
-            What's on your mind, {user.user.username ? user.user.username : ''}?
+            What's on your mind, {userObj.username ? userObj.username : ''}?
           </Form.Label>
           <Form.Control
             as="textarea"
