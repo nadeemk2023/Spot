@@ -28,6 +28,8 @@ const CreatePost = () => {
       .post('/posts', responseData)
       .then(res => {
         console.log(res.data);
+        setText('');
+        e.target.value = '';
       })
       .catch(err => {
         console.error(err);
