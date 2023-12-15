@@ -26,7 +26,6 @@ const CreatePost = ({ onPostCreated }) => {
         <Form.Group className="mb-3" controlId="postText">
           <Form.Label>
             What's on your mind, {user.user.username ? user.user.username : ''}?
-            {user.username}
           </Form.Label>
           <Form.Control
             as="textarea"
