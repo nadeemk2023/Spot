@@ -9,7 +9,8 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   const isAuthor = currentUser && post.author._id === currentUser._id;
   const [showCommentInput, setShowCommentInput] = useState(false);
 
-  const timeAgo = '6 days ago'; // Replace with actual logic to display time ago
+  //! Replace with actual logic to display time ago
+  const timeAgo = '6 days ago';
 
   const toggleCommentInput = () => setShowCommentInput(!showCommentInput);
 
@@ -18,7 +19,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
       <Card.Body>
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div>
-            <Card.Text className="mb-1 font-weight-bold">
+            <Card.Text className="mb-1 fw-bold">
               {post.author.username}
             </Card.Text>
             <Card.Text
@@ -28,7 +29,8 @@ const PostCard = ({ post, onDelete, onEdit }) => {
               {timeAgo}
             </Card.Text>
           </div>
-          {/* Optional Edit/Delete buttons */}
+
+          {/* Edit/Delete buttons to work on later */}
           {isAuthor && (
             <div>
               <Button
