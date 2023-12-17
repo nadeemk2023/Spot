@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useProvideAuth } from '../../hooks/useAuth';
 import api from '../../../utils/api.utils';
+import { Row, Col } from 'react-bootstrap';
+import PostCard from '../PostCard/PostCard';
 
 const HomeFeed = () => {
   const {
@@ -31,7 +33,15 @@ const HomeFeed = () => {
     });
   }, []);
 
-  return <div>HomeFeed</div>;
+  return (
+    <Row>
+      {posts.map(post => (
+        <Col key={post._id} xs={12} md={6} lg={4}>
+          <PostCard post={post} />
+        </Col>
+      ))}
+    </Row>
+  );
 };
 
 export default HomeFeed;
