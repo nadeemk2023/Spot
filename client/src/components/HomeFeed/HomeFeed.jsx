@@ -36,7 +36,7 @@ const HomeFeed = () => {
   return (
     <Row>
       {posts.map(post => (
-        <Col key={post._id} xs={12} md={6} lg={4}>
+        <Col key={post._id} xs={12}>
           <PostCard post={post} />
         </Col>
       ))}
