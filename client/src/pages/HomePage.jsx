@@ -1,55 +1,35 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
+import { useProvideAuth } from '../hooks/useAuth';
+import CreatePost from '../components/CreatePost/CreatePost';
+import HomeFeed from '../components/HomeFeed/HomeFeed';
 
 const HomePage = () => {
+  const {
+    state: { user },
+  } = useProvideAuth();
+
   return (
     <div>
-      {/* Navbar, this is just for styling purposes for this page before a merge of a different NavBar already created  */}
-      <Navbar bg="light" expand="lg" style={{ border: '1px solid black' }}>
-        <Container fluid>
-          <Row className="d-flex align-items-center">
-            {/* Logo */}
-            <Col xs={6}>
-              <Navbar.Brand href="/homepage">
-                <img
-                  src="/logo.png"
-                  width="30%"
-                  height="auto"
-                  alt="Your Logo"
-                />
-              </Navbar.Brand>
-            </Col>
-            {/* Navigation Links */}
-            <Col xs={6} className="d-flex justify-content-end">
-              <Nav className="ms-auto" navbarScroll>
-                <Nav.Link href="/profile">Profile</Nav.Link>
-                <Nav.Link href="/search">Search</Nav.Link>
-                <Nav.Link href="/feed">Feed</Nav.Link>
-                <Nav.Link href="/logout">Logout</Nav.Link>
-              </Nav>
-            </Col>
-          </Row>
-        </Container>
-      </Navbar>
-
       {/* Main Content */}
-      <Container className="mt-4" style={{ border: '1px solid black' }}>
-        <Row>
-          {/* Create Post Panel */}
-          <Col xs={12} md={4}>
+      <Container className="mt-4">
+        {/* Create Post Panel */}
+        <Row className="d-flex justify-content-center ">
+          <Col xs={10} className="mb-4" style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Create Post</h4>
-              {/* Placeholder for CreatePost component */}
-              <p>Placeholder for CreatePost component</p>
+              <CreatePost />
             </div>
           </Col>
+        </Row>
 
-          {/* Feed Component */}
-          <Col xs={12} md={8}>
+        {/* Feed Component */}
+        <Row className="d-flex justify-content-center">
+          <Col xs={10} style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Feed</h4>
               {/* Placeholder for Feed component */}
-              <p>Placeholder for Feed component</p>
+              <HomeFeed />
             </div>
           </Col>
         </Row>

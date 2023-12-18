@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button, InputGroup, Col } from "react-bootstrap";
+import AddDog from "../components/AddDog/AddDog";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,12 @@ const RegisterPage = () => {
     },
     zipcode: "",
   });
+
+  const [dogs, setDogs] = useState([]);
+
+  const handleAddDog = (newDog) => {
+    setDogs([...dogs, newDog]);
+  };
 
   const [placeholders, setPlaceholders] = useState({
     username: "PuppyBreath4Lyfe",
@@ -241,13 +248,24 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-3">
-          Let's Go!
-        </Button>
+        {/* AddDog component */}
+        <AddDog onAddDog={handleAddDog} />
 
+        {/* "Let's Go!" button */}
+        <div className="mt-3">
+          <Button variant="primary" type="submit">
+            Let's Go!
+          </Button>
+        </div>
+
+        {/* "Already Registered?" section */}
         <Col className="mt-3">
           Already Registered?
-          <Button as="a" variant="link" onClick={() => navigate("/login")}>
+          <Button
+            as="a"
+            variant="link"
+            onClick={() => console.log("Navigate to Login")}
+          >
             Login
           </Button>
         </Col>
