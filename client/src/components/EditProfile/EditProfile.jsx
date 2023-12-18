@@ -8,9 +8,9 @@ function EditProfile(props) {
     name: "",
     email: "",
     zipcode: "",
-    familyMembers: [
+    dog: [
       {
-        dogname: "",
+        name: "",
         breed: "",
         size: "",
       },
@@ -25,29 +25,27 @@ function EditProfile(props) {
     });
   };
 
-  const addFamilyMember = () => {
+  const addDog = () => {
     setUserProfile({
       ...userProfile,
-      familyMembers: [...userProfile.familyMembers, { dogname: "", breed: "" }],
+      dog: [...userProfile.dog, { name: "", breed: "", size: "" }],
     });
   };
 
-  const deleteFamilyMember = (index) => {
-    const updateFamilyMembers = userProfile.familyMembers.filter(
-      (_, i) => i !== index
-    );
+  const deleteDog = (index) => {
+    const updateDog = userProfile.dog.filter((_, i) => i !== index);
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
-  const handleFamilyMemberChange = (e, index, field) => {
-    const updateFamilyMembers = [...userProfile.familyMembers];
-    updateFamilyMembers[index][field] = e.target.value;
+  const handleDogChange = (e, index, field) => {
+    const updateDog = [...userProfile.dog];
+    updateDog[index][field] = e.target.value;
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
@@ -55,13 +53,9 @@ function EditProfile(props) {
     e.preventDefault();
     try {
       const response = await axios.post("save", userProfile);
-<<<<<<< HEAD
-    } catch (error) {}
-=======
     } catch (error) {
       console.error();
     }
->>>>>>> b47146c3bf775ae4458f896a2f2ad47028470316
   };
 
   return (
@@ -113,45 +107,39 @@ function EditProfile(props) {
           </div>
           <div>
             <h3>Family Members</h3>
-            {userProfile.familyMembers.map((member, index) => (
+            {userProfile.dog.map((member, index) => (
               <div className="mb-3" key={index}>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Dog Name"
-                  value={member.dogname}
-                  onChange={(e) =>
-                    handleFamilyMemberChange(e, index, "dogname")
-                  }
+                  value={member.name}
+                  onChange={(e) => handleDogChange(e, index, "name")}
                 />
                 <input
                   type="text"
                   className="form-control mt-2"
                   placeholder="Breed"
                   value={member.breed}
-                  onChange={(e) => handleFamilyMemberChange(e, index, "breed")}
+                  onChange={(e) => handleDogChange(e, index, "breed")}
                 />
                 <input
                   type="text"
                   className="form-control mt-2"
                   placeholder="Size"
                   value={member.size}
-                  onChange={(e) => handleFamilyMemberChange(e, index, "size")}
+                  onChange={(e) => handleDogChange(e, index, "size")}
                 />
                 <button
                   type="button"
                   className="btn btn-danger ms-2 mt-2"
-                  onClick={() => deleteFamilyMember(index)}
+                  onClick={() => deleteDog(index)}
                 >
                   Delete
                 </button>
               </div>
             ))}
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={addFamilyMember}
-            >
+            <button type="button" className="btn btn-primary" onClick={addDog}>
               Add Family Member
             </button>
           </div>
