@@ -175,10 +175,7 @@ function EditProfile(props) {
   };
 
   return (
-    <div
-      style={{ height: "100vh", width: "100vw" }}
-      className="d-flex justify-content-center align-items-center"
-    >
+    <Container className="h-100 d-flex justify-content-center align-items-center">
       <div className="text-center">
         <h2 className="text-center mb-4">Edit Profile</h2>
         <form
@@ -264,7 +261,7 @@ function EditProfile(props) {
           </button>
         </form>
       </div>
-    </div>
+    </Container>
   );
 }
 
