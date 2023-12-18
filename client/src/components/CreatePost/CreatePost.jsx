@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import styles from './CreatePost.module.css';
 import { useProvideAuth } from '../../hooks/useAuth';
-import axios from 'axios';
+import api from '../../../utils/api.utils';
 
-const CreatePost = ({ onPostCreated }) => {
+const CreatePost = () => {
   const {
     state: { user: userObj },
   } = useProvideAuth();
@@ -24,16 +24,17 @@ const CreatePost = ({ onPostCreated }) => {
       user: userObj,
       text: text,
     };
-    axios.post('/posts', responseData).then(res => {
-      console.log(res.data);
-    });
+    api
+      .post('/posts', responseData)
+      .then(res => {
+        console.log(res.data);
+        setText('');
+        e.target.value = '';
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
-
-  useEffect(() => {
-    if (userObj) {
-      console.log(`${userObj} <- userObj`);
-    }
-  }, [userObj]);
 
   return (
     <Container className="createPostContainer">
