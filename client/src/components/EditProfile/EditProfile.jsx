@@ -12,9 +12,16 @@ function EditProfile(props) {
     name: "",
     email: "",
     zipcode: "",
-    familyMembers: [
+    // familyMembers: [
+    //   {
+    //     dogname: "",
+    //     breed: "",
+    //     size: "",
+    //   },
+    // ],
+    dog: [
       {
-        dogname: "",
+        name: "",
         breed: "",
         size: "",
       },
@@ -48,17 +55,6 @@ function EditProfile(props) {
     };
     isAuthenticated && getUser();
   }, [params.uname, isAuthenticated]);
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  // };
-
-  // const handleInputChange = (event) => {
-  //   setData({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
@@ -106,10 +102,6 @@ function EditProfile(props) {
     return;
   }
 
-  // if (loading) {
-  //   return;
-  // }
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (
@@ -131,39 +123,37 @@ function EditProfile(props) {
         [name]: value,
       });
     } else {
-      const updateFamilyMembers = [...userProfile.familyMembers];
+      const updateDog = [...userProfile.dog];
       const index = e.target.dataset.index;
-      updateFamilyMembers[index][name] = value;
+      updateDog[index][name] = value;
       setUserProfile({
         ...userProfile,
-        familyMembers: updateFamilyMembers,
+        dog: updateDog,
       });
     }
   };
 
-  const addFamilyMember = () => {
+  const addDog = () => {
     setUserProfile({
       ...userProfile,
-      familyMembers: [...userProfile.familyMembers, { dogname: "", breed: "" }],
+      dog: [...userProfile.dog, { name: "", breed: "", size: "" }],
     });
   };
 
-  const deleteFamilyMember = (index) => {
-    const updateFamilyMembers = userProfile.familyMembers.filter(
-      (_, i) => i !== index
-    );
+  const deleteDog = (index) => {
+    const updateDog = userProfile.dog.filter((_, i) => i !== index);
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
-  const handleFamilyMemberChange = (e, index, field) => {
-    const updateFamilyMembers = [...userProfile.familyMembers];
-    updateFamilyMembers[index][field] = e.target.value;
+  const handleDogChange = (e, index, field) => {
+    const updateDog = [...userProfile.dog];
+    updateDog[index][field] = e.target.value;
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
@@ -241,30 +231,26 @@ function EditProfile(props) {
                     className="form-control"
                     placeholder="Dog Name"
                     value={member.dogname}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(e, index, "dogname")
-                    }
+                    onChange={(e) => handleDogChange(e, index, "name")}
                   />
                   <input
                     type="text"
                     className="form-control mt-2"
                     placeholder="Breed"
                     value={member.breed}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(e, index, "breed")
-                    }
+                    onChange={(e) => handleDogChange(e, index, "breed")}
                   />
                   <input
                     type="text"
                     className="form-control mt-2"
                     placeholder="Size"
                     value={member.size}
-                    onChange={(e) => handleFamilyMemberChange(e, index, "size")}
+                    onChange={(e) => handleDogChange(e, index, "size")}
                   />
                   <Button
                     type="button"
                     className="btn btn-danger ms-2 mt-2"
-                    onClick={() => deleteFamilyMember(index)}
+                    onClick={() => deleteDog(index)}
                   >
                     Delete
                   </Button>
@@ -273,7 +259,7 @@ function EditProfile(props) {
               <Button
                 type="button"
                 className="btn btn-primary"
-                onClick={addFamilyMember}
+                onClick={addDog}
               >
                 Add Family Member
               </Button>
