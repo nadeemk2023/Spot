@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { useProvideAuth } from '../hooks/useAuth';
 import CreatePost from '../components/CreatePost/CreatePost';
+import HomeFeed from '../components/HomeFeed/HomeFeed';
 
 const HomePage = () => {
   const {
@@ -28,7 +29,7 @@ const HomePage = () => {
             <div className="bg-light p-3">
               <h4>Feed</h4>
               {/* Placeholder for Feed component */}
-              <p>Placeholder for Feed component</p>
+              <HomeFeed />
             </div>
           </Col>
         </Row>

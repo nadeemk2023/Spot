@@ -36,12 +36,6 @@ const CreatePost = () => {
       });
   };
 
-  useEffect(() => {
-    if (userObj) {
-      console.log(`${userObj} <- userObj`);
-    }
-  }, [userObj]);
-
   return (
     <Container className="createPostContainer">
       <Form onSubmit={handleSubmit}>
