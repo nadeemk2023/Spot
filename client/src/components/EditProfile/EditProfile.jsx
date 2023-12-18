@@ -131,12 +131,12 @@ function EditProfile(props) {
         [name]: value,
       });
     } else {
-      const updateFamilyMembers = [...userProfile.familyMembers];
+      const updateDog = [...userProfile.dog];
       const index = e.target.dataset.index;
-      updateFamilyMembers[index][name] = value;
+      updateDog[index][name] = value;
       setUserProfile({
         ...userProfile,
-        familyMembers: updateFamilyMembers,
+        dog: updateDog,
       });
     }
   };
@@ -264,7 +264,7 @@ function EditProfile(props) {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
