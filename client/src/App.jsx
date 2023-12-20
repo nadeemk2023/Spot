@@ -24,7 +24,7 @@ function App() {
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/u/:uname" element={<ProfilePage />} />
-          <Route path="/search" element={<SearchPage />} />
+          {/* <Route path="/search" element={<SearchPage />} /> */}
           //! Add other Routes here
         </Routes>
       </ErrorBoundary>
