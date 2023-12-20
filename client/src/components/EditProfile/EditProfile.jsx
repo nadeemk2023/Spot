@@ -106,10 +106,6 @@ function EditProfile(props) {
     return;
   }
 
-  // if (loading) {
-  //   return;
-  // }
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (
