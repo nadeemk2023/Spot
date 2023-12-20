@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Logo from '/logo.png';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useProvideAuth, useAuth } from '../../hooks/useAuth';
+import React, { useState } from "react";
+import Logo from "/logo.png";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useProvideAuth, useAuth } from "../../hooks/useAuth";
 
 function CustomNavbar() {
   const {
@@ -15,7 +15,7 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="bg-body-tertiary " fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/home">
           <img
@@ -26,27 +26,32 @@ function CustomNavbar() {
             className="d-inline-block align-top"
           />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
+        <Navbar.Toggle />
+        <Navbar.Collapse className="">
+          <Nav className="ml-auto">
             {user ? (
               <Nav.Link
                 as={Link}
                 to={`/profile/u/${user.username}`}
-                className="mx-3"
+                className="mx-4"
               >
                 Profile
               </Nav.Link>
             ) : (
-              ''
+              ""
             )}
-            <Nav.Link as={Link} to="/search" className="mx-3">
+            <Nav.Link as={Link} to="/search" className="mx-4">
               Search
             </Nav.Link>
-            <Nav.Link as={Link} to="/feed" className="mx-3">
+            <Nav.Link as={Link} to="/feed" className="mx-4">
               Feed
             </Nav.Link>
-            <Nav.Link as={Link} to="/" onClick={() => signout()}>
+            <Nav.Link
+              as={Link}
+              to="/"
+              onClick={() => signout()}
+              className="mx-4"
+            >
               Logout
             </Nav.Link>
           </Nav>
