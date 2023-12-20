@@ -11,19 +11,6 @@ import Logo from "/logo.png";
 function ProfilePage() {
   const { state } = useProvideAuth();
   const [isEditing, setIsEditing] = useState(false);
-  // const [user, setUser] = useState();
-  // const [loading, setLoading] = useState(true);
-  // const [validated, setValidated] = useState(false);
-  // const [open, setOpen] = useState(false);
-  // const [data, setData] = useState({
-  //   password: "",
-  //   current_password: "",
-  //   confirm_password: "",
-  //   isSubmitting: false,
-  //   errorMessage: null,
-  // });
-
-  // let navigate = useNavigate();
   let params = useParams();
   console.log(params);
   const {
@@ -64,36 +51,26 @@ function ProfilePage() {
               <div className="col-md-8">
                 <Card>
                   <Card.Body>
-                    <Card.Title>About Us</Card.Title>
-                    <Card.Text>
-                      This is where the user will write about their pupum and
-                      themselves.
-                    </Card.Text>
+                    <Card.Title>Placeholder</Card.Title>
+                    <Card.Text>Placeholder</Card.Text>
                   </Card.Body>
                 </Card>
                 <Card className="mt-3">
                   <Card.Body>
-                    <Card.Title>Feed</Card.Title>
-                    <Card.Text>This is a placeholder for the feed.</Card.Text>
+                    <Card.Title>Placeholder</Card.Title>
+                    <Card.Text>Placeholder</Card.Text>
                   </Card.Body>
                 </Card>
                 {console.log(state.user, params.uname)}
                 {params.uname && (
                   // state.user.username === params.uname &&
                   <>
-                    <Button
-                      className="mt-3"
-                      // onClick={() => setOpen(!open)}
-                      onClick={handleEditProfile}
-                      // style={{ cursor: "pointer", color: "#BFBFBF" }}
-                    >
+                    <Button className="mt-3" onClick={handleEditProfile}>
                       {isEditing ? "Close Edit Profile" : "Edit Profile"}
-                      {/* Edit Profile */}
                     </Button>
                     {isEditing && <EditProfile />}
                   </>
                 )}
-                {/* {open && <EditProfile />} */}
               </div>
             </div>
           </Card.Body>

@@ -49,17 +49,6 @@ function EditProfile(props) {
     isAuthenticated && getUser();
   }, [params.uname, isAuthenticated]);
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  // };
-
-  // const handleInputChange = (event) => {
-  //   setData({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
-
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
     event.stopPropagation();
