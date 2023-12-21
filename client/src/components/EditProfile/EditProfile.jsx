@@ -153,7 +153,7 @@ function EditProfile(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("save", userProfile);
+      const response = await api.post(`${API_TARGET}/${API_URL}`, userProfile);
     } catch (error) {
       console.error();
     }
