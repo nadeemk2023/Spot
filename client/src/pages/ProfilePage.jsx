@@ -5,12 +5,13 @@ import EditProfile from "../components/EditProfile/EditProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Card, Button, Modal } from "react-bootstrap";
 import Logo from "/logo.png";
 
 function ProfilePage() {
   const { state } = useProvideAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [cardcontent, setCardContent] = useState("");
   let params = useParams();
   console.log(params);
   const {
@@ -19,6 +20,11 @@ function ProfilePage() {
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleSaveChanges = () => {
+    setCardContent("Update card content");
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -34,12 +40,10 @@ function ProfilePage() {
 
   return (
     <>
-      <Container>
+      <Container className="text-center">
         <Card>
           <Card.Body>
-            <Card.Title className="text-center">
-              Hello, {state.user.username} !
-            </Card.Title>
+            <Card.Title>Hello, {state.user.username} !</Card.Title>
             <div className="row">
               <div className="col-md-4 mb-4">
                 <img
@@ -51,8 +55,15 @@ function ProfilePage() {
               <div className="col-md-8">
                 <Card>
                   <Card.Body>
-                    <Card.Title>Placeholder</Card.Title>
-                    <Card.Text>Placeholder</Card.Text>
+                    <Card.Title>Welcome to our page!</Card.Title>
+                    {state.user &&
+                      state.user.dogs &&
+                      state.user.dogs.map((dog, index) => (
+                        <Card.Text key={index}>
+                          Name: {state.user.name}, Dog Name: {dog.name}, Breed:
+                          {dog.breed}, Size: {dog.size}
+                        </Card.Text>
+                      ))}
                   </Card.Body>
                 </Card>
                 <Card className="mt-3">
@@ -68,9 +79,16 @@ function ProfilePage() {
                     <Button className="mt-3" onClick={handleEditProfile}>
                       {isEditing ? "Close Edit Profile" : "Edit Profile"}
                     </Button>
-                    {isEditing && <EditProfile />}
                   </>
                 )}
+                <Modal show={isEditing} onHide={handleEditProfile} centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Edit Profile</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {isEditing && <EditProfile onSubmit={handleSaveChanges} />}
+                  </Modal.Body>
+                </Modal>
               </div>
             </div>
           </Card.Body>
