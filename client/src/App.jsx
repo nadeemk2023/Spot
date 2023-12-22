@@ -1,13 +1,13 @@
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage';
-import ProfilePage from './pages/ProfilePage';
-import React from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
-import { ProvideAuth, useProvideAuth, useAuth } from './hooks/useAuth';
-import CustomNavbar from './components/CustomNavbar/CustomNavbar';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
   const {
