@@ -6,7 +6,7 @@ import { Button, Form, Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 
-function EditProfile(props) {
+function EditProfile({ onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [userProfile, setUserProfile] = useState({
     name: "",
@@ -154,6 +154,7 @@ function EditProfile(props) {
     e.preventDefault();
     try {
       const response = await api.post(`${API_TARGET}/${API_URL}`, userProfile);
+      onSubmit();
     } catch (error) {
       console.error();
     }
