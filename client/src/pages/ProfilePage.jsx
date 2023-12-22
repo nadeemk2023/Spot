@@ -11,6 +11,7 @@ import Logo from "/logo.png";
 function ProfilePage() {
   const { state } = useProvideAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [cardcontent, setCardContent] = useState("");
   let params = useParams();
   console.log(params);
   const {
@@ -19,6 +20,11 @@ function ProfilePage() {
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleSaveChanges = () => {
+    setCardContent("Update card content");
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -49,8 +55,15 @@ function ProfilePage() {
               <div className="col-md-8">
                 <Card>
                   <Card.Body>
-                    <Card.Title>Placeholder</Card.Title>
-                    <Card.Text>Placeholder</Card.Text>
+                    <Card.Title>Welcome to our page!</Card.Title>
+                    {state.user &&
+                      state.user.dogs &&
+                      state.user.dogs.map((dog, index) => (
+                        <Card.Text key={index}>
+                          Name: {state.user.name}, Dog Name: {dog.name}, Breed:
+                          {dog.breed}, Size: {dog.size}
+                        </Card.Text>
+                      ))}
                   </Card.Body>
                 </Card>
                 <Card className="mt-3">
@@ -72,7 +85,9 @@ function ProfilePage() {
                   <Modal.Header closeButton>
                     <Modal.Title>Edit Profile</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>{isEditing && <EditProfile />}</Modal.Body>
+                  <Modal.Body>
+                    {isEditing && <EditProfile onSubmit={handleSaveChanges} />}
+                  </Modal.Body>
                 </Modal>
               </div>
             </div>
