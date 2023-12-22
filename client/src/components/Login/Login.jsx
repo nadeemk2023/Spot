@@ -5,11 +5,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Login.module.css';
+import { useProvideAuth } from '../../hooks/useAuth';
 
 const Login = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const auth = useProvideAuth();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -20,12 +22,13 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('/signin', userRequestData);
-      console.log(userRequestData, 'userRequestData');
-      console.log(response, 'response - make sure this has a response');
+      const response = await auth.signin(
+        userRequestData.username,
+        userRequestData.password
+      );
 
       if (response.status === 200 || response.status === 201) {
-        navigate('/homepage');
+        navigate('/home');
       } else {
         toast.error('Could not sign in, please check credentials');
       }

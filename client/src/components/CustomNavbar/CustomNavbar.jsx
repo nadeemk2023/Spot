@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Logo from ".publiclogo.png";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useProvideAuth } from "../../hooks/useAuth";
+import React, { useState } from 'react';
+import Logo from '/logo.png';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useProvideAuth, useAuth } from '../../hooks/useAuth';
 
 function CustomNavbar() {
   const {
@@ -15,9 +15,9 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar sticky="top" bg="light" expand="lg">
+    <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/home">
           <img
             alt="white dog with black bullseye"
             src={Logo}
@@ -29,9 +29,17 @@ function CustomNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/profile" className="mx-3">
-              Profile
-            </Nav.Link>
+            {user ? (
+              <Nav.Link
+                as={Link}
+                to={`/profile/u/${user.username}`}
+                className="mx-3"
+              >
+                Profile
+              </Nav.Link>
+            ) : (
+              ''
+            )}
             <Nav.Link as={Link} to="/search" className="mx-3">
               Search
             </Nav.Link>
