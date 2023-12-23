@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
       type: String,
       // required: true,
     },
+    //currently configured to serve static files
+    dog_image: {type: String, default: "/images/default-dog.jpg"},
   },
 
   email: {
@@ -49,7 +51,9 @@ const userSchema = new mongoose.Schema({
     max: 99999,
   },
 
-  profile_image: { type: String, default: "stored photo" },
+  //currently configured to serve static files
+  profile_image: { type: String, default: "/images/default-profile.jpg" },
+
 
   posts: [
     {

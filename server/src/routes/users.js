@@ -70,35 +70,42 @@ router.route("/:username")
 
 // PUT /users/:username/avatar - update user avatar
 router.put("/:username/avatar", requireAuth, async (req, res) => {
-  try {
-    const { username } = req.params;
-    const { profile_image } = req.body;
+  const { username } = req.params;
 
-    if (req.user.username.toLowerCase() !== username.toLowerCase()) {
-      return res.status(401).json({ error: "Unauthorized" });
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No image uploaded.');
+  }
+
+  const profileImage = req.files.image;
+  const imageName = uuid() + path.extname(profileImage.name);
+  const uploadPath = path.join(__dirname, "..", "public", "images", imageName);
+
+  profileImage.mv(uploadPath, async function(err) {
+    if (err) {
+      return res.status(500).send(err);
     }
 
-    const user = await User.findOne({ username });
+    const imagePath = `/images/${imageName}`;
+    const user = await User.findOneAndUpdate(
+      { username },
+      { $set: { profile_image: imagePath } },
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    user.profile_image = profile_image;
-
-    await user.save();
-    res.json(user.toJSON());
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+    res.json(user);
+  });
 });
+
 
 // GET /users/search - search for users based on zip code, pet breed, username, pet size
 router.get("/search", async (req, res) => {
   try {
     const { zipcode, breed, username, size } = req.query;
-
+    console.log("Query Paramenters", {zipcode, breed, username, size})
     if (!zipcode && !breed && !username && !size) {
       return res.status(400).json({ error: "At least one search parameter is required" });
     }
