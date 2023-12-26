@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
       path: "comments",
       populate: { path: "author", select: ["username", "profile_image"] },
     },
-    "likes"
+    "likes",
   ];
   const posts = await Post.find({})
     .sort({ created: -1 })
@@ -29,13 +29,19 @@ router.post("/", requireAuth, async (req, res, next) => {
     author: user._id,
   });
 
-  if (req.files && req.files.image){
-    const postImage = req.files.image
-    const imageName = uuid() + path.extname(postImage.name)
-    const uploadPath = path.join(__dirname, "..", "public", "images", imageName)
-    await postImage.mv(uploadPath)
+  if (req.files && req.files.image) {
+    const postImage = req.files.image;
+    const imageName = uuid() + path.extname(postImage.name);
+    const uploadPath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "images",
+      imageName
+    );
+    await postImage.mv(uploadPath);
 
-    post.image = `/images/${imageName}`
+    post.image = `/images/${imageName}`;
   }
 
   try {

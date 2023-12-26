@@ -8,13 +8,12 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  role:{
+  role: {
     type: Number,
     min: 1,
     max: 3,
     default: 3,
   },
-
 
   dog: {
     name: {
@@ -32,7 +31,7 @@ const userSchema = new mongoose.Schema({
       // required: true,
     },
     //currently configured to serve static files
-    dog_image: {type: String, default: "/images/default-dog.jpg"},
+    dog_image: { type: String, default: "/images/default-dog.jpg" },
   },
 
   email: {
@@ -53,7 +52,6 @@ const userSchema = new mongoose.Schema({
 
   //currently configured to serve static files
   profile_image: { type: String, default: "/images/default-profile.jpg" },
-
 
   posts: [
     {

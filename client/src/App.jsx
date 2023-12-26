@@ -8,6 +8,7 @@ import React from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+import ParkPage from "./pages/ParkPage";
 
 function App() {
   const {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile/u/:uname" element={<ProfilePage />} />
+          <Route path="/dogparks" element={<ParkPage />} />
           {/* <Route path="/search" element={<SearchPage />} /> */}
           //! Add other Routes here
         </Routes>
