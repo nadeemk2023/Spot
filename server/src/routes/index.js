@@ -14,7 +14,7 @@ router.get("/", (req, res, next) => {
 router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/posts", postRouter);
-router.use("/dogparks");
+// router.use("/dogparks");
 router.use("/files", fileUpload(), fileRoutes);
 
 module.exports = router;
