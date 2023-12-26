@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
       // required: true,
     },
     //currently configured to serve static files
-    dog_image: { type: String, default: "/images/default-dog.jpg" },
+    images: [{ type: String }],
   },
 
   email: {
