@@ -113,6 +113,42 @@ router.put("/:username/avatar", requireAuth, async (req, res) => {
   });
 });
 
+//PUT /users/:username/dog/images - update dog images
+router.put("/:username/dog/images", requireAuth, async (req, res) => {
+  const { username } = req.params;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No images uploaded");
+  }
+
+  const dogImage = req.files.images;
+  const imgUrls = await Promise.all(
+    dogImage.map(async (image) => {
+      const imageName = uuid() + path.extname(image.name);
+      const uploadPath = path.join(
+        __dirname,
+        "..",
+        "public",
+        "images",
+        imageName
+      );
+
+      await image.mv(uploadPath);
+      return `/images/${imageName}`;
+    })
+  );
+
+  const user = await User.findOneAndUpdate(
+    { username },
+    { $push: { "dog.images": { $each: imgUrls } } },
+    { new: true }
+  );
+  if (!user) {
+    return res.status(404).json({ error: "user not found" });
+  }
+  res.json(user);
+});
+
 // GET /users/search - search for users based on zip code, pet breed, username, pet size
 router.get("/search", async (req, res) => {
   try {
