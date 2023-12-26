@@ -64,6 +64,7 @@ router
 
         const hashedPassword = await bcrypt.hash(password, 12);
         user.passwordHash = hashedPassword;
+
         await user.save();
       } else {
         // Update other user details
@@ -81,62 +82,35 @@ router
     }
   });
 
-// PUT /users/:username/avatar - update user avatar
+//PUT /users/:username/avatar - update user avatar
 router.put("/:username/avatar", requireAuth, async (req, res) => {
-  const { username } = req.params;
+  try {
+    const { username } = req.params;
+    const { profile_image } = req.body;
 
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No image uploaded.");
-  }
-
-  const profileImage = req.files.image;
-  const imageName = uuid() + path.extname(profileImage.name);
-  const uploadPath = path.join(__dirname, "..", "public", "images", imageName);
-
-  profileImage.mv(uploadPath, async function (err) {
-    if (err) {
-      return res.status(500).send(err);
+    if (req.user.username.toLowerCase() !== username.toLowerCase()) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
-
-    const imagePath = `/images/${imageName}`;
-    const user = await User.findOneAndUpdate(
-      { username },
-      { $set: { profile_image: imagePath } },
-      { new: true }
-    );
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.json(user);
-  });
+    user.profile_image = profile_image;
+
+    await user.save();
+    res.json(user.toJSON());
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //PUT /users/:username/dog/images - update dog images
 router.put("/:username/dog/images", requireAuth, async (req, res) => {
   const { username } = req.params;
-
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No images uploaded");
-  }
-
-  const dogImage = req.files.images;
-  const imgUrls = await Promise.all(
-    dogImage.map(async (image) => {
-      const imageName = uuid() + path.extname(image.name);
-      const uploadPath = path.join(
-        __dirname,
-        "..",
-        "public",
-        "images",
-        imageName
-      );
-
-      await image.mv(uploadPath);
-      return `/images/${imageName}`;
-    })
-  );
+  const { imgUrls } = req.body;
 
   const user = await User.findOneAndUpdate(
     { username },
