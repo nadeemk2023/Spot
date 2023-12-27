@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const UploadFile = () => {
@@ -17,19 +17,31 @@ const UploadFile = () => {
     setSelectedFiles([...selectedFiles, ...files]);
   };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    selectedFiles.forEach((file) => {
-      formData.append("files[]", file);
-    });
-    axios
-      .post("/api/upload", formData)
-      .then((res) => {
-        res.data;
-      })
-      .catch((err) => {
-        err;
+  const handleUpload = async () => {
+    const clientId = "941b3a19da909d1";
+    const auth = "Client-ID " + clientId;
+
+    try {
+      const promises = selectedFiles.map((file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        return fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: auth,
+          },
+        })
+          .then((response) => response.json())
+          .catch((error) => console.error("Error:", error));
       });
+
+      const responses = await Promise.all(promises);
+      console.log("Uploaded:", responses);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const removeFile = (index) => {
