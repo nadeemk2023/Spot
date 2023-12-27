@@ -21,28 +21,14 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
-  const { text } = req.body;
+  const { text, imgUrl } = req.body;
   const { user } = req;
 
   const post = new Post({
     text: text,
     author: user._id,
+    image: imgUrl,
   });
-
-  if (req.files && req.files.image) {
-    const postImage = req.files.image;
-    const imageName = uuid() + path.extname(postImage.name);
-    const uploadPath = path.join(
-      __dirname,
-      "..",
-      "public",
-      "images",
-      imageName
-    );
-    await postImage.mv(uploadPath);
-
-    post.image = `/images/${imageName}`;
-  }
 
   try {
     const savedPost = await post.save();
