@@ -39,8 +39,9 @@ function ParkLocator() {
         };
   
         const response = await axios.request(options);
+        console.log("API response", response.data)
         setDogParks(response.data.parks || []);
-        console.log(response.data.parks);
+        console.log("dog parks", response.data.parks);
       } catch (error) {
         console.error(error);
         setDogParks([])
@@ -57,7 +58,7 @@ function ParkLocator() {
   
         <div>
           {dogParks && dogParks.length > 0 ? (dogParks.map((park, index) => (
-            <Card key={index} style={{ width: "18rem", marginBottom: "1rem" }}>
+            <Card key={index} >
               <Card.Body>
                 <Card.Title>{park.name}</Card.Title>
                 <Card.Text>{park.address}</Card.Text>
