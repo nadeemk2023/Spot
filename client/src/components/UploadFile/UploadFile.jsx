@@ -1,31 +1,33 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import api from "../../../utils/api.utils";
 
 const UploadFile = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleFileUpload = (event) => {
-    const files = Array.from(event.target.files);
-    setSelectedFiles([...selectedFiles, ...files]);
+    setSelectedFiles(event.target.files[0]);
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const files = Array.from(event.dataTransfer.files);
-    setSelectedFiles([...selectedFiles, ...files]);
+    setSelectedFiles(event.target.files[0]);
   };
 
   const handleUpload = () => {
     const formData = new FormData();
-    selectedFiles.forEach((file) => {
-      formData.append("files[]", file);
-    });
-    axios
-      .post("/api/upload", formData)
+    // selectedFiles.forEach((file) => {
+    formData.append("files", selectedFiles);
+
+    api
+      .post("/files/images", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((res) => {
         res.data;
+        console.log(res.data);
       })
       .catch((err) => {
         err;
@@ -66,7 +68,7 @@ const UploadFile = () => {
       <div>
         <h5>Selected Files:</h5>
         <ul className="list-group">
-          {selectedFiles.map((file, index) => (
+          {/* {selectedFiles.map((file, index) => (
             <li
               key={index}
               className="list-group-item d-flex justify-content-between align-items-center"
@@ -79,7 +81,7 @@ const UploadFile = () => {
                 X
               </button>
             </li>
-          ))}
+          ))} */}
         </ul>
       </div>
       <button className="btn btn-primary mt-3" onClick={handleUpload}>

@@ -1,3 +1,72 @@
+// import React from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { Card, Button } from "react-bootstrap";
+// import axios from "axios";
+// //import api from "/utils/api.utils";
+
+// function ParkLocator() {
+
+// export default ParkLocator;
+
+
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+//import ParkPage from "./pages/ParkPage";
+
+function App() {
+  const {
+    state: { user },
+  } = useProvideAuth();
+
+  return (
+    <>
+      {/* <CustomNavbar /> */}
+      <ErrorBoundary>
+        {user && <CustomNavbar />}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile/u/:uname" element={<ProfilePage />} />
+          {/* <Route path="/dogparks" element={<ParkPage />} /> */}
+          {/* <Route path="/search" element={<SearchPage />} /> */}
+          //! Add other Routes here
+        </Routes>
+      </ErrorBoundary>
+    </>
+  );
+}
+export default App;
+
+// import React, { useState } from "react";
+
+// import ParkLocator from "../components/ParkLocator/ParkLocator";
+
+
+// const ParkPage = () => {
+    
+
+//     return (
+//         <>
+//       <ParkLocator/>
+//       </>
+//     );
+// };
+
+// export default ParkPage;
+
+
+
+
+
 # PSUEDOCODE
 
 ## bin/www
@@ -248,9 +317,26 @@ empty
   -return updated user data
 
 5. Define a PUT route at `/users/:username/avatar` to update user's avatar. Protect this route with the `requireAuth` middleware.
-  -Check if authenticated user is the same as the user whose avatar is being updated.
-  -Find the user and update their `profile_image` 
-  -Save the updated user and return the user's details.
+  -extract `username` from url, `req.params`
+  -check if file is uploaded, if not send 400 response error message
+  -retrieve image file from request assign to variable `profileImage`
+  -generate unique name for image using `uuid()` and assign to `imageName`
+  -create path to save image on the server using `path.join()` and assign to variable `uploadPath`
+  -use `mv()` to move image to the `uploadPath`, if erroro respond with 500
+  -assign `imagePath` to new image path
+  -update User profile in db. `User.findOneAndUpdate` method is used to find user by `username` and update the `profile_image` with `imagePath` using $set 
+
+
+6.  Define a PUT route at `/users/:username/dog/images` to update dog image. Protect this route with the `requireAuth` middleware.
+  -extract `username` from url, `req.params`
+  -check if file is uploaded, if not send 400 response error message
+  -retrieve image file from request assign to variable `dogImage`
+  -generate unique name for image using `uuid()` and assign to `imageName`
+  -create path to save image on the server using `path.join()` and assign to variable `uploadPath`
+  -use `mv()` to move image to the `uploadPath`, if erroro respond with 500
+  -assign `imagePath` to new image path
+  -update User profile in db. `User.findOneAndUpdate` method is used to find user by `username` and uses `$push` operator to add new image URL to `dog.images`
+  -`{new: true}` ensures the update document is returned. 
 
 6. Define a GET route at `/users/search`
   -Extract search parameters zipcode, breed, username and size from request query string
@@ -271,6 +357,13 @@ empty
 3. Define a POST route at base path'/' to create a new post. Protect this route with the `requireAuth` middleware.
    -Extract the post text from the request body and authenticate the user's ID 
    -Create new post witht this data
+   -handle file uploads
+    -check if `req` contains any files using `files` property and for file with  `images` key 
+    -if image exists retrieve and store as variable `postImage`
+    -generate a unique image name using `uuid()` get the file extension using `path.extname(postImage.name)` 
+    -set path for upload using `path.join()`
+    -use `mv()` to move file to `uploadPath`. use await as this is an async operation
+    -update `post` object to have reference to the image path
    -Save post to database, update the user's post 
    -Send saved post as JSON response
 

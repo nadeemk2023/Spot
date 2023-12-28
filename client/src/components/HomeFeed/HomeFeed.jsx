@@ -15,22 +15,18 @@ const HomeFeed = () => {
   const fetchPosts = async () => {
     try {
       const response = await api.get('/posts');
-      return response.data;
+      if (response.data && response.data.length > 0) {
+        setPosts(response.data);
+      } else {
+        console.log('No posts found');
+      }
     } catch (error) {
       console.error(`Error fetching posts:`, error);
-      return null;
     }
   };
 
   useEffect(() => {
-    fetchPosts().then(fetchedPosts => {
-      if (fetchedPosts && fetchedPosts.length > 0) {
-        console.log(fetchedPosts, 'fetched posts');
-        setPosts(fetchedPosts);
-      } else {
-        console.log('Failed to fetch posts or received empty data');
-      }
-    });
+    fetchPosts();
   }, []);
 
   return (

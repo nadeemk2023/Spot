@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
       path: "comments",
       populate: { path: "author", select: ["username", "profile_image"] },
     },
-    "likes"
+    "likes",
   ];
   const posts = await Post.find({})
     .sort({ created: -1 })
@@ -21,12 +21,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
-  const { text } = req.body;
+  const { text, imgUrl } = req.body;
   const { user } = req;
 
   const post = new Post({
     text: text,
     author: user._id,
+    image: imgUrl,
   });
 
   try {

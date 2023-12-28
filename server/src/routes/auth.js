@@ -1,16 +1,16 @@
-import express from 'express';
-import bcrypt from 'bcryptjs';
-import { User } from '../models';
-import keys from '../config/keys';
-import jwt from 'jsonwebtoken';
+import express from "express";
+import bcrypt from "bcryptjs";
+import { User } from "../models";
+import keys from "../config/keys";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-router.route('/').get((req, res, next) => {
-  res.send('auth endpoint');
+router.route("/").get((req, res, next) => {
+  res.send("auth endpoint");
 });
 
-router.post('/signup', async (req, res) => {
+router.post("/signup", async (req, res) => {
   const {
     username,
     password,
@@ -24,7 +24,7 @@ router.post('/signup', async (req, res) => {
   } = req.body;
 
   if (!password || !username || !email) {
-    return res.status(422).json({ error: 'please add all the fields' });
+    return res.status(422).json({ error: "please add all the fields" });
   }
 
   if (
@@ -34,24 +34,24 @@ router.post('/signup', async (req, res) => {
     confirmPassword.length > 20
   ) {
     return res.status(422).json({
-      error: 'must be 8-20 characters',
+      error: "must be 8-20 characters",
     });
   }
 
   if (password !== confirmPassword) {
     return res.status(422).json({
-      error: ' passwords do not match',
+      error: " passwords do not match",
     });
   }
 
   User.findOne({ $or: [{ username: username }, { email: email }] })
-    .then(savedUser => {
+    .then((savedUser) => {
       if (savedUser) {
         return res
           .status(422)
-          .json({ error: 'user already exists with that name' });
+          .json({ error: "user already exists with that name" });
       }
-      bcrypt.hash(password, 12).then(hashedpassword => {
+      bcrypt.hash(password, 12).then((hashedpassword) => {
         const user = new User({
           username,
           email,
@@ -67,23 +67,23 @@ router.post('/signup', async (req, res) => {
 
         user
           .save()
-          .then(user => {
-            res.json({ message: 'saved successfully' });
+          .then((user) => {
+            res.json({ message: "saved successfully" });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 });
 
-router.post('/signin', async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(422).json({ error: 'missing username or password' });
+    return res.status(422).json({ error: "missing username or password" });
   }
 
   const user = await User.findOne({ username: username });
@@ -92,7 +92,7 @@ router.post('/signin', async (req, res) => {
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
-      error: 'invalid username or password',
+      error: "invalid username or password",
     });
   }
 

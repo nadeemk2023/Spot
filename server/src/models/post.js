@@ -25,6 +25,8 @@ const postSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    //path set up for static file serving
+    image: { type: String, default: "/images/default-post.jpg" },
 
     comments: [
       {

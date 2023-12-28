@@ -4,7 +4,7 @@ import styles from './CreatePost.module.css';
 import { useProvideAuth } from '../../hooks/useAuth';
 import api from '../../../utils/api.utils';
 
-const CreatePost = () => {
+const CreatePost = ({ onPostCreated }) => {
   const {
     state: { user: userObj },
   } = useProvideAuth();
@@ -19,21 +19,20 @@ const CreatePost = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    //! Need to add logic here
     const responseData = {
       user: userObj,
       text: text,
     };
-    api
-      .post('/posts', responseData)
-      .then(res => {
-        console.log(res.data);
-        setText('');
-        e.target.value = '';
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    try {
+      const res = await api.post('/posts', responseData);
+      console.log(res.data);
+      setText('');
+      if (onPostCreated) {
+        onPostCreated();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
