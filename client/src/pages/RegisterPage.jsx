@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import { Form, Button, InputGroup, Col } from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
+import api from "../../utils/api.utils"
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -90,7 +91,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/signup", formData);
+      const response = await api.post("/api/signup", formData);
       console.log(response.data);
     } catch (error) {
       console.error("Error during signup:", error);
@@ -160,7 +161,7 @@ const RegisterPage = () => {
             Please enter a password:
           </Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="password"
             required
             value={formData.password}
@@ -179,7 +180,7 @@ const RegisterPage = () => {
             Confirm your password:
           </Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="confirmPassword"
             required
             value={formData.confirmPassword}
