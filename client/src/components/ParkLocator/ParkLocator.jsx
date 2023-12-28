@@ -40,8 +40,8 @@ function ParkLocator() {
 
       const response = await axios.request(options);
       console.log("API response", response.data);
-      setDogParks(response.data.parks || []);
-      console.log("dog parks", response.data.parks);
+      setDogParks(response.data.result || []);
+      console.log("dog parks", response.data.result);
     } catch (error) {
       console.error(error);
       setDogParks([]);
