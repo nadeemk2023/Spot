@@ -1,67 +1,46 @@
-// import React from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import { Card, Button } from "react-bootstrap";
-// import axios from "axios";
-// //import api from "/utils/api.utils";
-
-// function ParkLocator() {
-
-// export default ParkLocator;
+## Server side park code
+ // import express from "express";
+// import bcrypt from "bcryptjs";
+// import { User } from "../models";
+// // import keys, { app } from "../config/keys";
+// import jwt from "jsonwebtoken";
+// import { requireAuth } from "../middleware";
 
 
-import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import RegisterPage from "./pages/RegisterPage";
-import HomePage from "./pages/HomePage";
-import ProfilePage from "./pages/ProfilePage";
-import React from "react";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
-import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
-//import ParkPage from "./pages/ParkPage";
+// const router = express.Router();
 
-function App() {
-  const {
-    state: { user },
-  } = useProvideAuth();
+// router.get("/", async (req, res) => {
+//   try {
+//     // const { lat, lng } = req.query;
+//     const response = await axios({
+//       method: "POST",
+//       url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
+//       headers: {
+//         "content-type": "application/json",
+//         "X-RapidAPI-Key": "a8cae885b6msha39d1a7a8eccfd1p1759bajsn2ffd7e679a1f",
+//         "X-RapidAPI-Host":
+//           "pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com",
+//       },
+//       data: {
+//         coords: 
+//         // { lat, lng }
+//         { 
+//           lat: 41.378442396701416, 
+//           lng: 2.0965230925291145 
+//         },
+//         radius: 1,
+//         leisure: "dog_park",
+//       },
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
-  return (
-    <>
-      {/* <CustomNavbar /> */}
-      <ErrorBoundary>
-        {user && <CustomNavbar />}
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/profile/u/:uname" element={<ProfilePage />} />
-          {/* <Route path="/dogparks" element={<ParkPage />} /> */}
-          {/* <Route path="/search" element={<SearchPage />} /> */}
-          //! Add other Routes here
-        </Routes>
-      </ErrorBoundary>
-    </>
-  );
-}
-export default App;
-
-// import React, { useState } from "react";
-
-// import ParkLocator from "../components/ParkLocator/ParkLocator";
+// export default router;
 
 
-// const ParkPage = () => {
-    
-
-//     return (
-//         <>
-//       <ParkLocator/>
-//       </>
-//     );
-// };
-
-// export default ParkPage;
 
 
 
