@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import SearchPage from "./pages/searchPage";
 import React from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
@@ -28,7 +29,7 @@ function App() {
           <Route path="/profile/u/:uname" element={<ProfilePage />} />
           <Route path="upload" element={<UploadFile />} />
           <Route path="/parks" element={<ParkPage />} />
-          {/* <Route path="/search" element={<SearchPage />} /> */}
+          <Route path="/search" element={<SearchPage />} />
           //! Add other Routes here
         </Routes>
       </ErrorBoundary>
