@@ -1,3 +1,72 @@
+// import React from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { Card, Button } from "react-bootstrap";
+// import axios from "axios";
+// //import api from "/utils/api.utils";
+
+// function ParkLocator() {
+
+// export default ParkLocator;
+
+
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ProvideAuth, useProvideAuth, useAuth } from "./hooks/useAuth";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+//import ParkPage from "./pages/ParkPage";
+
+function App() {
+  const {
+    state: { user },
+  } = useProvideAuth();
+
+  return (
+    <>
+      {/* <CustomNavbar /> */}
+      <ErrorBoundary>
+        {user && <CustomNavbar />}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile/u/:uname" element={<ProfilePage />} />
+          {/* <Route path="/dogparks" element={<ParkPage />} /> */}
+          {/* <Route path="/search" element={<SearchPage />} /> */}
+          //! Add other Routes here
+        </Routes>
+      </ErrorBoundary>
+    </>
+  );
+}
+export default App;
+
+// import React, { useState } from "react";
+
+// import ParkLocator from "../components/ParkLocator/ParkLocator";
+
+
+// const ParkPage = () => {
+    
+
+//     return (
+//         <>
+//       <ParkLocator/>
+//       </>
+//     );
+// };
+
+// export default ParkPage;
+
+
+
+
+
 # PSUEDOCODE
 
 ## bin/www

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import { Form, Button, InputGroup, Col } from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
+import api from "../../utils/api.utils"
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -86,16 +88,21 @@ const RegisterPage = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post("/api/signup", formData);
+      const response = await api.post("/api/signup", formData);
       console.log(response.data);
+
+      navigate("/home"); 
     } catch (error) {
       console.error("Error during signup:", error);
     }
   };
+  
 
   return (
     <section
@@ -160,7 +167,7 @@ const RegisterPage = () => {
             Please enter a password:
           </Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="password"
             required
             value={formData.password}
@@ -179,7 +186,7 @@ const RegisterPage = () => {
             Confirm your password:
           </Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="confirmPassword"
             required
             value={formData.confirmPassword}
@@ -264,7 +271,7 @@ const RegisterPage = () => {
           <Button
             as="a"
             variant="link"
-            onClick={() => console.log("Navigate to Login")}
+            onClick={() => navigate("/")}
           >
             Login
           </Button>
