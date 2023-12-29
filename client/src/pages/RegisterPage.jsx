@@ -2,21 +2,22 @@ import React, { useState } from "react";
 //import axios from "axios";
 import { Form, Button, InputGroup, Col } from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
-import api from "../../utils/api.utils"
+import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     username: "",
+    email: "",
     password: "",
     confirmPassword: "",
-    email: "",
+    zipcode: "",
     dog: {
       name: "",
       breed: "",
       size: "",
     },
-    zipcode: "",
   });
 
   const [dogs, setDogs] = useState([]);
@@ -30,6 +31,7 @@ const RegisterPage = () => {
     email: "DogzRule@gmail.com",
     password: "Enter your password",
     confirmPassword: "Confirm your password",
+    zipcode: "12345",
     dogName: "Sir Barks-a-Lot",
     dogBreed: "All breeds welcome!",
   });
@@ -74,11 +76,13 @@ const RegisterPage = () => {
       case "username":
         return "PuppyBreath4Lyfe";
       case "email":
-        return "YourEmail@example.com";
+        return "DogzRule@gmail.com";
       case "password":
         return "Enter your password";
       case "confirmPassword":
         return "Confirm your password";
+      case "zipcode":
+        return "12345";
       case "dogName":
         return "Sir Barks-a-Lot";
       case "dogBreed":
@@ -89,20 +93,29 @@ const RegisterPage = () => {
   };
 
   const navigate = useNavigate();
+  const auth = useProvideAuth();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
-    try {
-      const response = await api.post("/api/signup", formData);
-      console.log(response.data);
 
-      navigate("/home"); 
+    try {
+      const res = await auth.signup(
+        formData.username,
+        formData.email,
+        formData.password,
+        formData.confirmPassword,
+        formData.zipcode,
+        formData.dogName,
+        formData.dogBreed,
+        formData.dogSize
+      );
+      console.log(res.data);
+
+      navigate("/home");
     } catch (error) {
       console.error("Error during signup:", error);
     }
   };
-  
 
   return (
     <section
@@ -148,7 +161,7 @@ const RegisterPage = () => {
             What is your email address?
           </Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             name="email"
             required
             value={formData.email}
@@ -197,6 +210,25 @@ const RegisterPage = () => {
           />
         </Form.Group>
 
+        <Form.Group controlId="zipcode" className="mt-3">
+          <Form.Label
+            style={{ fontWeight: "bold" }}
+            className="d-flex align-items-start"
+          >
+            What's your zipcode?:
+          </Form.Label>
+          <Form.Control
+            type="text"
+            name="zipcode"
+            required
+            value={formData.zipcode}
+            onChange={handleInputChange}
+            onFocus={() => handleFocus("zipcode")}
+            onBlur={() => handleBlur("zipcode")}
+            placeholder={placeholders.zipcode}
+          />
+        </Form.Group>
+
         {/* Dog details: */}
         <Form.Group controlId="formDogName" className="mt-3">
           <Form.Label
@@ -240,7 +272,7 @@ const RegisterPage = () => {
             style={{ fontWeight: "bold" }}
             className="d-flex align-items-start"
           >
-            Last but not least, how big is your dog?
+            How big is your dog?
           </Form.Label>
           <Form.Control
             as="select"
@@ -253,6 +285,17 @@ const RegisterPage = () => {
             <option value="medium">Medium (23 lbs - 57 lbs)</option>
             <option value="large">Large (58 lbs or more)</option>
           </Form.Control>
+        </Form.Group>
+
+        {/* Avatar Picker */}
+        <Form.Group controlId="formAvatar" className="mt-3">
+          <Form.Label
+            style={{ fontWeight: "bold" }}
+            className="d-flex align-items-start"
+          >
+            Last but not least, choose your avatar!
+          </Form.Label>
+          <AvatarPicker />
         </Form.Group>
 
         {/* AddDog component */}
@@ -268,11 +311,7 @@ const RegisterPage = () => {
         {/* "Already Registered?" section */}
         <Col className="mt-3">
           Already Registered?
-          <Button
-            as="a"
-            variant="link"
-            onClick={() => navigate("/")}
-          >
+          <Button as="a" variant="link" onClick={() => navigate("/")}>
             Login
           </Button>
         </Col>
