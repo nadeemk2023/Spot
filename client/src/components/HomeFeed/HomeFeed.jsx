@@ -16,7 +16,6 @@ const HomeFeed = () => {
     try {
       const response = await api.get('/posts');
       if (response.data && response.data.length > 0) {
-        console.log(response.data);
         setPosts(response.data);
       } else {
         console.log('No posts found');
