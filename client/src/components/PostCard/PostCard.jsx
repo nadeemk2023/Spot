@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 import { useProvideAuth } from '../../hooks/useAuth';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const PostCard = ({ post, onDelete, onEdit }) => {
+  console.log(post);
   const {
     state: { user: currentUser },
   } = useProvideAuth();
@@ -10,7 +12,9 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
 
   //! Replace with actual logic to display time ago
-  const timeAgo = '6 days ago';
+  const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
+    addSuffix: true,
+  });
 
   const toggleCommentInput = () => setShowCommentInput(!showCommentInput);
 
