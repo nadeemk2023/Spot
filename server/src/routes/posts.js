@@ -1,26 +1,26 @@
-import express from "express";
+import express from 'express';
 const router = express.Router();
-import { Post } from "../models";
-import { requireAuth } from "../middleware";
+import { Post } from '../models';
+import { requireAuth } from '../middleware';
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   const populateQuery = [
-    { path: "author", select: ["username", "profile_image"] },
+    { path: 'author', select: ['username', 'profile_image'] },
     {
-      path: "comments",
-      populate: { path: "author", select: ["username", "profile_image"] },
+      path: 'comments',
+      populate: { path: 'author', select: ['username', 'profile_image'] },
     },
-    "likes",
+    'likes',
   ];
   const posts = await Post.find({})
     .sort({ created: -1 })
     .populate(populateQuery)
     .exec();
 
-  res.json(posts.map((post) => post.toJSON()));
+  res.json(posts.map(post => post.toJSON()));
 });
 
-router.post("/", requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, async (req, res, next) => {
   const { text, imgUrl } = req.body;
   const { user } = req;
 
@@ -42,12 +42,12 @@ router.post("/", requireAuth, async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   const populateQuery = [
-    { path: "author", select: ["username", "profile_image"] },
+    { path: 'author', select: ['username', 'profile_image'] },
     {
-      path: "comments",
-      populate: { path: "author", select: ["username", "profile_image"] },
+      path: 'comments',
+      populate: { path: 'author', select: ['username', 'profile_image'] },
     },
   ];
   const post = await Post.findById(req.params.id)
@@ -60,20 +60,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", requireAuth, async (req, res, next) => {
+router.delete('/:id', requireAuth, async (req, res, next) => {
   const { id } = req.params;
   const deletedPost = await Post.findByIdAndDelete(id);
   if (!deletedPost) return res.sendStatus(404);
   res.json(deletedPost);
 });
 
-router.all("/like/:postId", requireAuth, async (req, res) => {
+router.all('/like/:postId', requireAuth, async (req, res) => {
   const { postId } = req.params;
   const { user } = req;
   const post = await Post.findOne({ _id: postId });
 
   if (!post) {
-    return res.status(422).json({ error: "Cannot find post" });
+    return res.status(422).json({ error: 'Cannot find post' });
   }
   try {
     if (post.likes.includes(user.id)) {
@@ -94,16 +94,17 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
   }
 });
 
-router.put("/comments", async (req, res, next) => {
+router.put('/comments', async (req, res, next) => {
   const { text, userId, postId } = req.body;
   const comment = {
     text: text,
     author: userId,
   };
   const populateQuery = [
-    { path: "comments.author", select: ["username", "profile_image"] },
+    { path: 'comments.author', select: ['username', 'profile_image'] },
   ];
-  Post.findByIdAndUpdate(
+
+  const post = await Post.findByIdAndUpdate(
     postId,
     {
       $push: { comments: comment },
@@ -111,15 +112,8 @@ router.put("/comments", async (req, res, next) => {
     {
       new: true,
     }
-  )
-    .populate(populateQuery)
-    .exec((err, result) => {
-      if (err) {
-        next(err);
-      } else {
-        res.json(result);
-      }
-    });
+  ).populate(populateQuery);
+  res.json(post);
 });
 
 module.exports = router;
