@@ -8,3 +8,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 Alexis resources (https://v5.reactrouter.com/web/api/Switch)
+
+
+# Ev's Resources: 
+  - Dog Avatars: https://www.freepik.com/author/freepik/icons/kawaii-flat_45?t=f&query=dog%20avatar
