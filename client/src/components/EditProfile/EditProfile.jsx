@@ -2,9 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import UploadFile from "../UploadFile/UploadFile";
 
 function EditProfile({ onSubmit }) {
   const [validated, setValidated] = useState(false);
@@ -154,9 +155,9 @@ function EditProfile({ onSubmit }) {
     e.preventDefault();
     try {
       const response = await api.post(`${API_TARGET}/${API_URL}`, userProfile);
-      onSubmit();
+      onSubmit(userProfile);
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   };
 
@@ -164,6 +165,9 @@ function EditProfile({ onSubmit }) {
     <Container className="h-100 d-flex justify-content-center align-items-center">
       <div className="text-center">
         <h2 className="text-center mb-4">Edit Profile</h2>
+        <div className="mb-3">
+          <UploadFile />
+        </div>
         <form
           onSubmit={handleSubmit}
           className="d-flex flex-column align-items-center"
