@@ -61,9 +61,9 @@ function ParkLocator() {
           dogParks.map((park, index) => (
             <Card key={index}>
               <Card.Body>
-                <Card.Title>{park.name}</Card.Title>
-                <Card.Text>{park.address}</Card.Text>
-                <Card.Text>{park.description}</Card.Text>
+                <Card.Title>{park.properties.name}</Card.Title>
+                <Card.Text>{park.properties.address}</Card.Text>
+                <Card.Text>{park.properties.description}</Card.Text>
                 <Button variant="primary">Visit Park</Button>
               </Card.Body>
             </Card>
