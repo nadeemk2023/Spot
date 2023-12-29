@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import UploadFile from "../UploadFile/UploadFile";
