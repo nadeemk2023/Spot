@@ -2,7 +2,12 @@ import React, { useState } from "react";
 
 const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
   const avatarOptions = [
-    "/dogAvatar.png",
+    "/beagle.png",
+    "/bergamasco.png",
+    "/bichon-frise.png",
+    "/cone.png",
+    "/greatdane.png", 
+    "/pug.png",
   ];
 
   const avatarSize = "50px";
@@ -16,7 +21,7 @@ const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
 
   return (
     <div className="avatar-picker">
-      <h6>Select Your Avatar</h6>
+      <h6>Select Your Avatar!</h6>
       <div className="avatar-list">
         {avatarOptions.map((avatar, index) => (
           <div
