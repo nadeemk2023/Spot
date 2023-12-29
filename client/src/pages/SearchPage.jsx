@@ -167,7 +167,7 @@ const SearchPage = () => {
 
   return (
     <div>
-      <h2>Let's Find Some Friends!</h2>
+      <h2 style={{marginTop: "3rem"}}>Let's Find Some Friends!</h2>
       <input
         type="text"
         value={searchQuery}
@@ -179,7 +179,7 @@ const SearchPage = () => {
         Search
       </button>
 
-      <div>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}>
         {searchResults.map((user, index) => (
           <Card key={index} style={{ width: "18rem", margin: "1rem" }}>
             <Card.Img
@@ -203,5 +203,4 @@ const SearchPage = () => {
 
 export default SearchPage;
 
- 
 

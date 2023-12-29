@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { useProvideAuth } from '../hooks/useAuth';
 import CreatePost from '../components/CreatePost/CreatePost';
@@ -9,6 +9,12 @@ const HomePage = () => {
     state: { user },
   } = useProvideAuth();
 
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refreshPosts = useCallback(() => {
+    setRefreshKey(prevKey => prevKey + 1);
+  }, []);
+
   return (
     <div>
       {/* Main Content */}
@@ -18,7 +24,7 @@ const HomePage = () => {
           <Col xs={10} className="mb-4" style={{ border: '1px solid black' }}>
             <div className="bg-light p-3">
               <h4>Create Post</h4>
-              <CreatePost />
+              <CreatePost onPostCreated={refreshPosts} />
             </div>
           </Col>
         </Row>
@@ -29,7 +35,7 @@ const HomePage = () => {
             <div className="bg-light p-3">
               <h4>Feed</h4>
               {/* Placeholder for Feed component */}
-              <HomeFeed />
+              <HomeFeed key={refreshKey} />
             </div>
           </Col>
         </Row>
