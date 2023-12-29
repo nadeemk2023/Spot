@@ -38,6 +38,15 @@ const PostCard = ({ post, onDelete, onEdit }) => {
     }
   };
 
+  const handleDeletePost = async postId => {
+    try {
+      const res = await api.delete(`/posts/${postId}`);
+      console.log(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Card className="mb-3 text-dark">
       <Card.Body>
@@ -55,7 +64,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
           </div>
 
           {/* Edit/Delete buttons to work on later */}
-          {isAuthor && (
+          {post.author._id === currentUser.uid && (
             <div>
               <Button
                 variant="outline-secondary"
@@ -66,9 +75,9 @@ const PostCard = ({ post, onDelete, onEdit }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => onDelete(post._id)}
+                onClick={() => handleDeletePost(post._id)}
               >
-                Delete
+                Delete Post
               </Button>
             </div>
           )}
