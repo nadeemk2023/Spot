@@ -80,15 +80,23 @@ export function useProvideAuth() {
     username,
     email,
     password,
+    confirm_password, 
+    zipcode,
+    dogName,
+    dogBreed,
+    dogSize,
     profile_image,
-    confirm_password
   ) => {
     try {
       await api.post(`/auth/signup`, {
         username: username,
         password: password,
-        confirm_password: confirm_password,
+        confirmPassword: confirm_password,
         email: email,
+        zipcode: zipcode,
+        dogName: dogName,
+        dogSize: dogSize,
+        dogBreed: dogBreed,
         profile_image: profile_image,
       });
       return await signin(username, password);
