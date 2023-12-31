@@ -13,7 +13,8 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   } = useProvideAuth();
   const isAuthor = currentUser && post.author._id === currentUser._id;
   const [commentText, setCommentText] = useState('');
-  const hasLiked = post.likes.includes(currentUser._id);
+  const [postState, setPostState] = useState(post);
+  const [isLiked, setIsLiked] = useState(post.likes.includes(currentUser._id));
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -22,7 +23,12 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   const handleLike = async postId => {
     try {
       const res = await api.post(`/posts/like/${postId}`);
-      console.log(res);
+      if (res.status === 200) {
+        setPostState(res.data);
+        setIsLiked(res.data.likes.includes(currentUser._id));
+      } else {
+        console.log('Failed to like post:', res.status);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -89,7 +95,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
         <Card.Text className="mb-3">{post.text}</Card.Text>
         <div className="mb-3 d-flex justify-content-start align-items-center">
           <span role="img" aria-label="thumbs up" className="mr-2">
-            👍 {post.likes.length} Likes
+            👍 {postState.likes.length} Likes
           </span>
           <span>{post.comments.length} comments</span>
         </div>
@@ -102,7 +108,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
               className="text-primary py-2 px-3"
               onClick={() => handleLike(post._id)}
             >
-              <FontAwesomeIcon icon={hasLiked ? filledHeart : outlinedHeart} />
+              <FontAwesomeIcon icon={isLiked ? filledHeart : outlinedHeart} />
             </Button>
           </Col>
           <Col xs={6} className="text-center">

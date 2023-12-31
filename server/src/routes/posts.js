@@ -67,30 +67,54 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
   res.json(deletedPost);
 });
 
+//! Previous .all Code works but only sends a success status
+// router.all('/like/:postId', requireAuth, async (req, res) => {
+//   const { postId } = req.params;
+//   const { user } = req;
+//   const post = await Post.findOne({ _id: postId });
+//
+//   if (!post) {
+//     return res.status(422).json({ error: 'Cannot find post' });
+//   }
+//   try {
+//     if (post.likes.includes(user.id)) {
+//       const result = await post.updateOne({
+//         $pull: { likes: user.id },
+//       });
+//
+//       res.json(result);
+//     } else {
+//       const result = await post.updateOne({
+//         $push: { likes: user.id },
+//       });
+//
+//       res.json(result);
+//     }
+//   } catch (err) {
+//     return res.status(422).json({ error: err });
+//   }
+// });
+
 router.all('/like/:postId', requireAuth, async (req, res) => {
   const { postId } = req.params;
   const { user } = req;
-  const post = await Post.findOne({ _id: postId });
+  const post = await Post.findById(postId);
 
   if (!post) {
     return res.status(422).json({ error: 'Cannot find post' });
   }
   try {
-    if (post.likes.includes(user.id)) {
-      const result = await post.updateOne({
-        $pull: { likes: user.id },
-      });
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      post.likes.includes(user.id)
+        ? { $pull: { likes: user.id } }
+        : { $push: { likes: user.id } },
+      { new: true }
+    ).populate('author', 'comments');
 
-      res.json(result);
-    } else {
-      const result = await post.updateOne({
-        $push: { likes: user.id },
-      });
-
-      res.json(result);
-    }
+    res.json(updatedPost);
   } catch (err) {
-    return res.status(422).json({ error: err });
+    return res.status(422).json({ error: err.message });
   }
 });
 
