@@ -25,7 +25,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
       const res = await api.post(`/posts/like/${postId}`);
       if (res.status === 200) {
         setPostState(res.data);
-        setIsLiked(res.data.likes.includes(currentUser._id));
+        setIsLiked(prevLiked => !prevLiked);
       } else {
         console.log('Failed to like post:', res.status);
       }
