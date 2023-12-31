@@ -3,6 +3,9 @@ import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 import { useProvideAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import api from '../../../utils/api.utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
 
 const PostCard = ({ post, onDelete, onEdit }) => {
   const {
@@ -10,6 +13,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   } = useProvideAuth();
   const isAuthor = currentUser && post.author._id === currentUser._id;
   const [commentText, setCommentText] = useState('');
+  const hasLiked = post.likes.includes(currentUser._id);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -98,7 +102,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
               className="text-primary py-2 px-3"
               onClick={() => handleLike(post._id)}
             >
-              Like
+              <FontAwesomeIcon icon={hasLiked ? filledHeart : outlinedHeart} />
             </Button>
           </Col>
           <Col xs={6} className="text-center">
