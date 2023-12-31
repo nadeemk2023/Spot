@@ -18,6 +18,7 @@ const RegisterPage = () => {
       breed: "",
       size: "",
     },
+    profile_image:"",
   });
 
   const [dogs, setDogs] = useState([]);
@@ -107,7 +108,8 @@ const RegisterPage = () => {
         formData.zipcode,
         formData.dogName,
         formData.dogBreed,
-        formData.dogSize
+        formData.dogSize,
+        formData.profile_image,
       );
       console.log(res.data);
 
