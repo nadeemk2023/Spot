@@ -30,10 +30,11 @@ const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
             style={{
               border:
                 selectedOption === avatar
-                  ? "2px solid #FCC44C"
+                  ? "2px solid rgb(50, 214, 126)"
                   : "2px solid transparent",
               padding: "1px",
-              borderRadius: "10px",
+              borderRadius: "6px",
+              marginRight: "-5px"
             }}
           >
             <img
