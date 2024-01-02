@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import UploadFile from "../UploadFile/UploadFile";
 
-function EditProfile({ onSubmit }) {
+function EditProfile({ API_URL, API_TARGET, onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [userProfile, setUserProfile] = useState({
     name: "",

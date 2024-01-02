@@ -7,6 +7,7 @@ import { useProvideAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { Container, Card, Button, Modal } from "react-bootstrap";
 import Logo from "/logo.png";
+import { API_URL, API_TARGET } from "../../constants";
 
 function ProfilePage() {
   const { state } = useProvideAuth();
@@ -91,7 +92,13 @@ function ProfilePage() {
                     <Modal.Title>Edit Profile</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {isEditing && <EditProfile onSubmit={handleSaveChanges} />}
+                    {isEditing && (
+                      <EditProfile
+                        API_URL={API_URL}
+                        API_TARGET={API_TARGET}
+                        onSubmit={handleSaveChanges}
+                      />
+                    )}
                   </Modal.Body>
                 </Modal>
               </div>
