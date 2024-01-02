@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Logo from '/logo.png';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useProvideAuth, useAuth } from '../../hooks/useAuth';
+import React, { useState } from "react";
+import Logo from "/logo.png";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useProvideAuth, useAuth } from "../../hooks/useAuth";
 
 function CustomNavbar() {
   const {
@@ -15,38 +15,51 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
+    <Navbar className="bg-body-tertiary py-0" fixed="top">
+      <Container fluid>
         <Navbar.Brand as={Link} to="/home">
           <img
             alt="white dog with black bullseye"
             src={Logo}
-            width="30"
-            height="30"
+            width="100"
+            height="100"
             className="d-inline-block align-top"
           />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Nav className="ml-auto w-100 justify-content-around">
             {user ? (
               <Nav.Link
                 as={Link}
                 to={`/profile/u/${user.username}`}
-                className="mx-3"
+                className="text-decoration-none fs-5"
               >
                 Profile
               </Nav.Link>
             ) : (
-              ''
+              ""
             )}
-            <Nav.Link as={Link} to="/search" className="mx-3">
+            <Nav.Link
+              as={Link}
+              to="/search"
+              className="text-decoration-none fs-5"
+            >
               Search
             </Nav.Link>
-            <Nav.Link as={Link} to="/feed" className="mx-3">
+            <Nav.Link
+              as={Link}
+              to="/feed"
+              className="text-decoration-none fs-5"
+            >
               Feed
             </Nav.Link>
-            <Nav.Link as={Link} to="/" onClick={() => signout()}>
+            <Nav.Link
+              as={Link}
+              to="/"
+              onClick={() => signout()}
+              className="text-decoration-none fs-5"
+            >
               Logout
             </Nav.Link>
           </Nav>
