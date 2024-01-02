@@ -122,6 +122,7 @@ const PostCard = ({ post }) => {
               onChange={e => setEditedText(e.target.value)}
             ></input>
             <Button onClick={() => handleEditComment()}>Save Change</Button>
+            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </>
         )}
         <div className="mb-3 d-flex justify-content-start align-items-center">
