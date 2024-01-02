@@ -1,148 +1,24 @@
-## Server side park code
+## Karen's notes
 
-import React, { useState } from "react";
-// import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import api from "../../../utils/api.utils";
+-search endpoint test
+-park locator styling/conditional rendering
+-update pseudocode 
+ -likes endpoint
+ -edit endpoint
+ -park locator
+ -upload photo adjustments
+ ## Karen's notes
 
-const UploadFile = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+-search endpoint test
+-park locator styling/conditional rendering
+-update pseudocode 
+ -likes endpoint
+ -edit endpoint
+ -park locator
+ -upload photo adjustments
+ 
 
-  const handleFileUpload = (event) => {
-    setSelectedFiles(event.target.files[0]);
-  };
-
-  const handleDrop = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setSelectedFiles(event.target.files[0]);
-  };
-
-  const handleUpload = () => {
-    const formData = new FormData();
-    // selectedFiles.forEach((file) => {
-    formData.append("files", selectedFiles);
-
-    api
-      .post("/files/images", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((res) => {
-        res.data;
-        console.log(res.data);
-      })
-      .catch((err) => {
-        err;
-      });
-  };
-
-  const removeFile = (index) => {
-    const newFiles = [...selectedFiles];
-    newFiles.splice(index, 1);
-    setSelectedFiles(newFiles);
-  };
-
-  const preventDefaults = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  return (
-    <div
-      className="container mt-5 p-3 border border-primary rounded"
-      onDrop={handleDrop}
-      onDragOver={preventDefaults}
-      onDragEnter={preventDefaults}
-    >
-      <h3>Upload File</h3>
-      <div className="mb-3">
-        <label htmlFor="fileInput" className="form-label">
-          Drag and drop files here or click to browse.
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          className="form-control"
-          multiple
-          onChange={handleFileUpload}
-        />
-      </div>
-      <div>
-        <h5>Selected Files:</h5>
-        <ul className="list-group">
-          {/* {selectedFiles.map((file, index) => (
-            <li
-              key={index}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              {file.name}
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => removeFile(index)}
-              >
-                X
-              </button>
-            </li>
-          ))} */}
-        </ul>
-      </div>
-      <button className="btn btn-primary mt-3" onClick={handleUpload}>
-        Upload
-      </button>
-    </div>
-  );
-};
-
-export default UploadFile;
-
- // import express from "express";
-// import bcrypt from "bcryptjs";
-// import { User } from "../models";
-// // import keys, { app } from "../config/keys";
-// import jwt from "jsonwebtoken";
-// import { requireAuth } from "../middleware";
-
-
-// const router = express.Router();
-
-// router.get("/", async (req, res) => {
-//   try {
-//     // const { lat, lng } = req.query;
-//     const response = await axios({
-//       method: "POST",
-//       url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
-//       headers: {
-//         "content-type": "application/json",
-//         "X-RapidAPI-Key": "a8cae885b6msha39d1a7a8eccfd1p1759bajsn2ffd7e679a1f",
-//         "X-RapidAPI-Host":
-//           "pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com",
-//       },
-//       data: {
-//         coords: 
-//         // { lat, lng }
-//         { 
-//           lat: 41.378442396701416, 
-//           lng: 2.0965230925291145 
-//         },
-//         radius: 1,
-//         leisure: "dog_park",
-//       },
-//     });
-//     res.json(response.data);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-
-// export default router;
-
-
-
-
-
-
-
-# PSUEDOCODE
+# PSEUDOCODE
 
 ## bin/www
 sets up basic HTTP server to serve express application
