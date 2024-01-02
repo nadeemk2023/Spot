@@ -1,18 +1,51 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 import { useProvideAuth } from '../../hooks/useAuth';
+import { formatDistanceToNow, parseISO } from 'date-fns';
+import api from '../../../utils/api.utils';
 
 const PostCard = ({ post, onDelete, onEdit }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
   const isAuthor = currentUser && post.author._id === currentUser._id;
-  const [showCommentInput, setShowCommentInput] = useState(false);
+  const [commentText, setCommentText] = useState('');
 
-  //! Replace with actual logic to display time ago
-  const timeAgo = '6 days ago';
+  const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
+    addSuffix: true,
+  });
 
-  const toggleCommentInput = () => setShowCommentInput(!showCommentInput);
+  const handleLike = async postId => {
+    try {
+      const res = await api.post(`/posts/like/${postId}`);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSubmitComment = async postId => {
+    const responseData = {
+      text: commentText,
+      userid: currentUser.uid,
+      postId: postId,
+    };
+    try {
+      const res = await api.put('/posts/comments', responseData);
+      console.log(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeletePost = async postId => {
+    try {
+      const res = await api.delete(`/posts/${postId}`);
+      console.log(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Card className="mb-3 text-dark">
@@ -31,7 +64,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
           </div>
 
           {/* Edit/Delete buttons to work on later */}
-          {isAuthor && (
+          {post.author._id === currentUser.uid && (
             <div>
               <Button
                 variant="outline-secondary"
@@ -42,9 +75,9 @@ const PostCard = ({ post, onDelete, onEdit }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => onDelete(post._id)}
+                onClick={() => handleDeletePost(post._id)}
               >
-                Delete
+                Delete Post
               </Button>
             </div>
           )}
@@ -63,6 +96,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
             <Button
               variant="outline-primary"
               className="text-primary py-2 px-3"
+              onClick={() => handleLike(post._id)}
             >
               Like
             </Button>
@@ -71,24 +105,29 @@ const PostCard = ({ post, onDelete, onEdit }) => {
             <Button
               variant="outline-primary"
               className="text-primary py-2 px-3"
-              onClick={toggleCommentInput}
             >
-              Comment
+              Show Comments
             </Button>
           </Col>
         </Row>
       </Card.Body>
 
       {/* Comment input field, shown when Comment button is clicked */}
-      {showCommentInput && (
-        <Card.Footer className="bg-transparent border-top-0">
-          <Form>
-            <Form.Group>
-              <Form.Control type="text" placeholder="Write a comment..." />
-            </Form.Group>
-          </Form>
-        </Card.Footer>
-      )}
+      <Card.Footer className="bg-transparent border-top-0">
+        <Form>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              placeholder="Write a comment..."
+              onChange={e => setCommentText(e.target.value)}
+              value={commentText}
+            />
+          </Form.Group>
+          <Button onClick={() => handleSubmitComment(post._id)}>
+            Submit Comment
+          </Button>
+        </Form>
+      </Card.Footer>
     </Card>
   );
 };

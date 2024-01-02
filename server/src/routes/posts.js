@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
       path: "comments",
       populate: { path: "author", select: ["username", "profile_image"] },
     },
-    "likes"
+    "likes",
   ];
   const posts = await Post.find({})
     .sort({ created: -1 })
@@ -21,12 +21,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAuth, async (req, res, next) => {
-  const { text } = req.body;
+  const { text, imgUrl } = req.body;
   const { user } = req;
 
   const post = new Post({
     text: text,
     author: user._id,
+    image: imgUrl,
   });
 
   try {
@@ -61,9 +62,15 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", requireAuth, async (req, res, next) => {
   const { id } = req.params;
-  const deletedPost = await Post.findByIdAndDelete(id);
-  if (!deletedPost) return res.sendStatus(404);
-  res.json(deletedPost);
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (!deletedPost) {
+      return res.sendStatus(404);
+    }
+    res.json(deletedPost);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.all("/like/:postId", requireAuth, async (req, res) => {
@@ -119,6 +126,24 @@ router.put("/comments", async (req, res, next) => {
         res.json(result);
       }
     });
+});
+
+//do i need to add requireAuth?
+router.put("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
+    if (!updatedPost) {
+      return res.sendStatus(404);
+    }
+    res.json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

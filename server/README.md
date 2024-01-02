@@ -1,3 +1,147 @@
+## Server side park code
+
+import React, { useState } from "react";
+// import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import api from "../../../utils/api.utils";
+
+const UploadFile = () => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleFileUpload = (event) => {
+    setSelectedFiles(event.target.files[0]);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setSelectedFiles(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    // selectedFiles.forEach((file) => {
+    formData.append("files", selectedFiles);
+
+    api
+      .post("/files/images", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        res.data;
+        console.log(res.data);
+      })
+      .catch((err) => {
+        err;
+      });
+  };
+
+  const removeFile = (index) => {
+    const newFiles = [...selectedFiles];
+    newFiles.splice(index, 1);
+    setSelectedFiles(newFiles);
+  };
+
+  const preventDefaults = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  return (
+    <div
+      className="container mt-5 p-3 border border-primary rounded"
+      onDrop={handleDrop}
+      onDragOver={preventDefaults}
+      onDragEnter={preventDefaults}
+    >
+      <h3>Upload File</h3>
+      <div className="mb-3">
+        <label htmlFor="fileInput" className="form-label">
+          Drag and drop files here or click to browse.
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          className="form-control"
+          multiple
+          onChange={handleFileUpload}
+        />
+      </div>
+      <div>
+        <h5>Selected Files:</h5>
+        <ul className="list-group">
+          {/* {selectedFiles.map((file, index) => (
+            <li
+              key={index}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {file.name}
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => removeFile(index)}
+              >
+                X
+              </button>
+            </li>
+          ))} */}
+        </ul>
+      </div>
+      <button className="btn btn-primary mt-3" onClick={handleUpload}>
+        Upload
+      </button>
+    </div>
+  );
+};
+
+export default UploadFile;
+
+ // import express from "express";
+// import bcrypt from "bcryptjs";
+// import { User } from "../models";
+// // import keys, { app } from "../config/keys";
+// import jwt from "jsonwebtoken";
+// import { requireAuth } from "../middleware";
+
+
+// const router = express.Router();
+
+// router.get("/", async (req, res) => {
+//   try {
+//     // const { lat, lng } = req.query;
+//     const response = await axios({
+//       method: "POST",
+//       url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
+//       headers: {
+//         "content-type": "application/json",
+//         "X-RapidAPI-Key": "a8cae885b6msha39d1a7a8eccfd1p1759bajsn2ffd7e679a1f",
+//         "X-RapidAPI-Host":
+//           "pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com",
+//       },
+//       data: {
+//         coords: 
+//         // { lat, lng }
+//         { 
+//           lat: 41.378442396701416, 
+//           lng: 2.0965230925291145 
+//         },
+//         radius: 1,
+//         leisure: "dog_park",
+//       },
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+
+// export default router;
+
+
+
+
+
+
+
 # PSUEDOCODE
 
 ## bin/www
@@ -248,9 +392,26 @@ empty
   -return updated user data
 
 5. Define a PUT route at `/users/:username/avatar` to update user's avatar. Protect this route with the `requireAuth` middleware.
-  -Check if authenticated user is the same as the user whose avatar is being updated.
-  -Find the user and update their `profile_image` 
-  -Save the updated user and return the user's details.
+  -extract `username` from url, `req.params`
+  -check if file is uploaded, if not send 400 response error message
+  -retrieve image file from request assign to variable `profileImage`
+  -generate unique name for image using `uuid()` and assign to `imageName`
+  -create path to save image on the server using `path.join()` and assign to variable `uploadPath`
+  -use `mv()` to move image to the `uploadPath`, if erroro respond with 500
+  -assign `imagePath` to new image path
+  -update User profile in db. `User.findOneAndUpdate` method is used to find user by `username` and update the `profile_image` with `imagePath` using $set 
+
+
+6.  Define a PUT route at `/users/:username/dog/images` to update dog image. Protect this route with the `requireAuth` middleware.
+  -extract `username` from url, `req.params`
+  -check if file is uploaded, if not send 400 response error message
+  -retrieve image file from request assign to variable `dogImage`
+  -generate unique name for image using `uuid()` and assign to `imageName`
+  -create path to save image on the server using `path.join()` and assign to variable `uploadPath`
+  -use `mv()` to move image to the `uploadPath`, if erroro respond with 500
+  -assign `imagePath` to new image path
+  -update User profile in db. `User.findOneAndUpdate` method is used to find user by `username` and uses `$push` operator to add new image URL to `dog.images`
+  -`{new: true}` ensures the update document is returned. 
 
 6. Define a GET route at `/users/search`
   -Extract search parameters zipcode, breed, username and size from request query string
@@ -271,6 +432,13 @@ empty
 3. Define a POST route at base path'/' to create a new post. Protect this route with the `requireAuth` middleware.
    -Extract the post text from the request body and authenticate the user's ID 
    -Create new post witht this data
+   -handle file uploads
+    -check if `req` contains any files using `files` property and for file with  `images` key 
+    -if image exists retrieve and store as variable `postImage`
+    -generate a unique image name using `uuid()` get the file extension using `path.extname(postImage.name)` 
+    -set path for upload using `path.join()`
+    -use `mv()` to move file to `uploadPath`. use await as this is an async operation
+    -update `post` object to have reference to the image path
    -Save post to database, update the user's post 
    -Send saved post as JSON response
 

@@ -2,19 +2,20 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import UploadFile from "../UploadFile/UploadFile";
 
-function EditProfile(props) {
+function EditProfile({ onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [userProfile, setUserProfile] = useState({
     name: "",
     email: "",
     zipcode: "",
-    familyMembers: [
+    dog: [
       {
-        dogname: "",
+        name: "",
         breed: "",
         size: "",
       },
@@ -48,17 +49,6 @@ function EditProfile(props) {
     };
     isAuthenticated && getUser();
   }, [params.uname, isAuthenticated]);
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  // };
-
-  // const handleInputChange = (event) => {
-  //   setData({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
@@ -106,10 +96,6 @@ function EditProfile(props) {
     return;
   }
 
-  // if (loading) {
-  //   return;
-  // }
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (
@@ -131,199 +117,141 @@ function EditProfile(props) {
         [name]: value,
       });
     } else {
-      const updateFamilyMembers = [...userProfile.familyMembers];
+      const updateDog = [...userProfile.dog];
       const index = e.target.dataset.index;
-      updateFamilyMembers[index][name] = value;
+      updateDog[index][name] = value;
       setUserProfile({
         ...userProfile,
-        familyMembers: updateFamilyMembers,
+        dog: updateDog,
       });
     }
   };
 
-  const addFamilyMember = () => {
+  const addDog = () => {
     setUserProfile({
       ...userProfile,
-      familyMembers: [...userProfile.familyMembers, { dogname: "", breed: "" }],
+      dog: [...userProfile.dog, { name: "", breed: "", size: "" }],
     });
   };
 
-  const deleteFamilyMember = (index) => {
-    const updateFamilyMembers = userProfile.familyMembers.filter(
-      (_, i) => i !== index
-    );
+  const deleteDog = (index) => {
+    const updateDog = userProfile.dog.filter((_, i) => i !== index);
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
-  const handleFamilyMemberChange = (e, index, field) => {
-    const updateFamilyMembers = [...userProfile.familyMembers];
-    updateFamilyMembers[index][field] = e.target.value;
+  const handleDogChange = (e, index, field) => {
+    const updateDog = [...userProfile.dog];
+    updateDog[index][field] = e.target.value;
     setUserProfile({
       ...userProfile,
-      familyMembers: updateFamilyMembers,
+      dog: updateDog,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("save", userProfile);
+      const response = await api.post(`${API_TARGET}/${API_URL}`, userProfile);
+      onSubmit(userProfile);
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   };
 
   return (
-    <>
-      <Button
-        variant="outline-info"
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        Go Back
-      </Button>
-      <div
-        style={{ height: "100vh", width: "100vw" }}
-        className="d-flex justify-content-center align-items-center"
-      >
-        <div className="text-center">
-          <h2 className="text-center mb-4">Edit Profile</h2>
-          <Form
-            onSubmit={handleSubmit}
-            className="d-flex flex-column align-items-center"
-          >
-            <Form.Group className="mb-3">
-              <Form.Label className="form-control">
-                Name:
+    <Container className="h-100 d-flex justify-content-center align-items-center">
+      <div className="text-center">
+        <h2 className="text-center mb-4">Edit Profile</h2>
+        <div className="mb-3">
+          <UploadFile />
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex flex-column align-items-center"
+        >
+          <div className="mb-3">
+            <label className="form-control">
+              Name:
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={userProfile.name}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-3">
+            <label className="form-control">
+              Email:
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={userProfile.email}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-3">
+            <label className="form-control">
+              Zipcode:
+              <input
+                type="number"
+                className="form-control"
+                name="zipcode"
+                value={userProfile.zipcode}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div>
+            <h3>Family Members</h3>
+            {userProfile.dog.map((member, index) => (
+              <div className="mb-3" key={index}>
                 <input
                   type="text"
                   className="form-control"
-                  name="name"
-                  value={userProfile.name}
-                  onChange={handleInputChange}
+                  placeholder="Dog Name"
+                  value={member.name}
+                  onChange={(e) => handleDogChange(e, index, "name")}
                 />
-              </Form.Label>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="form-control">
-                Email:
                 <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  value={userProfile.email}
-                  onChange={handleInputChange}
+                  type="text"
+                  className="form-control mt-2"
+                  placeholder="Breed"
+                  value={member.breed}
+                  onChange={(e) => handleDogChange(e, index, "breed")}
                 />
-              </Form.Label>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="form-control">
-                Zipcode:
                 <input
-                  type="number"
-                  className="form-control"
-                  name="zipcode"
-                  value={userProfile.zipcode}
-                  onChange={handleInputChange}
+                  type="text"
+                  className="form-control mt-2"
+                  placeholder="Size"
+                  value={member.size}
+                  onChange={(e) => handleDogChange(e, index, "size")}
                 />
-              </Form.Label>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Family Members</Form.Label>
-              {userProfile.familyMembers.map((member, index) => (
-                <div className="mb-3" key={index}>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Dog Name"
-                    value={member.dogname}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(e, index, "dogname")
-                    }
-                  />
-                  <input
-                    type="text"
-                    className="form-control mt-2"
-                    placeholder="Breed"
-                    value={member.breed}
-                    onChange={(e) =>
-                      handleFamilyMemberChange(e, index, "breed")
-                    }
-                  />
-                  <input
-                    type="text"
-                    className="form-control mt-2"
-                    placeholder="Size"
-                    value={member.size}
-                    onChange={(e) => handleFamilyMemberChange(e, index, "size")}
-                  />
-                  <Button
-                    type="button"
-                    className="btn btn-danger ms-2 mt-2"
-                    onClick={() => deleteFamilyMember(index)}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              ))}
-              <Button
-                type="button"
-                className="btn btn-primary"
-                onClick={addFamilyMember}
-              >
-                Add Family Member
-              </Button>
-            </Form.Group>
-            <Button type="submit" className="btn btn-success mt-3">
-              Save Changes
-            </Button>
-            <Form
-              noValidate
-              validated={validated}
-              onSubmit={handleUpdatePassword}
-            >
-              <Form.Group>
-                <Form.Label>Current Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="current_password"
-                  required
-                  value={data.current_password}
-                  onChange={handleInputChange}
-                />
-                <Form.Label htmlFor="password">New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  required
-                  value={data.password}
-                  onChange={handleInputChange}
-                />
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="confirm_password"
-                  required
-                  pattern={data.password}
-                  value={data.confirm_password}
-                  onChange={handleInputChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  New Password is required
-                </Form.Control.Feedback>
-                <Form.Text id="passwordHelpBlock" muted>
-                  Must be 8-20 characters long.
-                </Form.Text>
-              </Form.Group>
-            </Form>
-          </Form>
-        </div>
+                <button
+                  type="button"
+                  className="btn btn-danger ms-2 mt-2"
+                  onClick={() => deleteDog(index)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+            <button type="button" className="btn btn-primary" onClick={addDog}>
+              Add Family Member
+            </button>
+          </div>
+          <button type="submit" className="btn btn-success mt-3">
+            Save Changes
+          </button>
+        </form>
       </div>
-    </>
+    </Container>
   );
 }
 

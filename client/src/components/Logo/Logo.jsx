@@ -1,12 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './Logo.module.css'; 
 
+
+
+
 const Logo = () => {
-  const history = useHistory();
+  const navigate = useNavigate(); 
 
   const handleLogoClick = () => {
-    history.push('/');
+    navigate('/home');
   };
 
   return (

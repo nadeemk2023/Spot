@@ -2,8 +2,9 @@ import express from "express";
 import authRouter from "./auth";
 import userRouter from "./users";
 import postRouter from "./posts";
-import fileRoutes from "./file";
-import fileUpload from "express-fileupload";
+import fileRouter from "./file";
+// import fileUpload from "express-fileupload";
+// import parkRouter from "./park"
 
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.get("/", (req, res, next) => {
 router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/posts", postRouter);
-router.use("/files", fileUpload(), fileRoutes);
+// router.use("/parks", parkRouter);
+router.use("/files", fileRouter);
 
 module.exports = router;
