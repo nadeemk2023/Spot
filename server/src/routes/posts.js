@@ -62,9 +62,15 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", requireAuth, async (req, res, next) => {
   const { id } = req.params;
-  const deletedPost = await Post.findByIdAndDelete(id);
-  if (!deletedPost) return res.sendStatus(404);
-  res.json(deletedPost);
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (!deletedPost) {
+      return res.sendStatus(404);
+    }
+    res.json(deletedPost);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.all("/like/:postId", requireAuth, async (req, res) => {
@@ -120,6 +126,24 @@ router.put("/comments", async (req, res, next) => {
         res.json(result);
       }
     });
+});
+
+//do i need to add requireAuth?
+router.put("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
+    if (!updatedPost) {
+      return res.sendStatus(404);
+    }
+    res.json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
