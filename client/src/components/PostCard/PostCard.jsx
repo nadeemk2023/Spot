@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, posts, setPosts }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
@@ -73,6 +73,8 @@ const PostCard = ({ post }) => {
     try {
       const res = await api.delete(`/posts/${postId}`);
       console.log(res.data);
+      const updatedPosts = posts.filter(post => post._id !== postId);
+      setPosts(updatedPosts);
     } catch (err) {
       console.error(err);
     }
