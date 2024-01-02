@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
 
-const PostCard = ({ post, onDelete, onEdit }) => {
+const PostCard = ({ post, posts, setPosts }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
@@ -17,6 +17,8 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   const [isLiked, setIsLiked] = useState(
     post.likes.some(like => like._id === currentUser.uid)
   );
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState('');
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -49,11 +51,30 @@ const PostCard = ({ post, onDelete, onEdit }) => {
       console.error(err);
     }
   };
+  const handleEditComment = async () => {
+    const responseData = {
+      text: editedText,
+      userid: currentUser.uid,
+    };
+    try {
+      const res = await api.put(`/posts/${post._id}`, responseData);
+      if (res.status === 200) {
+        setPostState(res.data);
+        setIsEditing(false);
+      } else {
+        console.error('Failed to update post:', res.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleDeletePost = async postId => {
     try {
       const res = await api.delete(`/posts/${postId}`);
       console.log(res.data);
+      const updatedPosts = posts.filter(post => post._id !== postId);
+      setPosts(updatedPosts);
     } catch (err) {
       console.error(err);
     }
@@ -80,7 +101,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
             <div>
               <Button
                 variant="outline-secondary"
-                onClick={() => onEdit(post)}
+                onClick={() => setIsEditing(true)}
                 className="mr-2"
               >
                 Edit
@@ -94,7 +115,18 @@ const PostCard = ({ post, onDelete, onEdit }) => {
             </div>
           )}
         </div>
-        <Card.Text className="mb-3">{post.text}</Card.Text>
+        {!isEditing ? (
+          <Card.Text className="mb-3">{postState.text}</Card.Text>
+        ) : (
+          <>
+            <input
+              value={editedText}
+              onChange={e => setEditedText(e.target.value)}
+            ></input>
+            <Button onClick={() => handleEditComment()}>Save Change</Button>
+            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+          </>
+        )}
         <div className="mb-3 d-flex justify-content-start align-items-center">
           <span role="img" aria-label="thumbs up" className="mr-2">
             👍 {postState.likes.length} Likes
