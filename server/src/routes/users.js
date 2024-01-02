@@ -4,6 +4,31 @@ import { User } from "../models";
 import { requireAuth } from "../middleware";
 
 const router = express.Router();
+// GET /users/search - search for users based on zip code, pet breed, username, pet size
+router.get("/search", async (req, res) => {
+  try {
+    const { zipcode, breed, username, size } = req.query;
+    console.log("Query Paramenters", { zipcode, breed, username, size });
+    if (!zipcode && !breed && !username && !size) {
+      return res
+        .status(400)
+        .json({ error: "At least one search parameter is required" });
+    }
+
+    const users = await User.find({
+      $or: [
+        { zipcode },
+        { "dog.breed": breed },
+        { username },
+        { "dog.size": size },
+      ],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // GET /users/:username - get user details including posts
 // PUT /users/:username - update user details
@@ -121,32 +146,6 @@ router.put("/:username/dog/images", requireAuth, async (req, res) => {
     return res.status(404).json({ error: "user not found" });
   }
   res.json(user);
-});
-
-// GET /users/search - search for users based on zip code, pet breed, username, pet size
-router.get("/search", async (req, res) => {
-  try {
-    const { zipcode, breed, username, size } = req.query;
-    console.log("Query Paramenters", { zipcode, breed, username, size });
-    if (!zipcode && !breed && !username && !size) {
-      return res
-        .status(400)
-        .json({ error: "At least one search parameter is required" });
-    }
-
-    const users = await User.find({
-      $or: [
-        { zipcode },
-        { "dog.breed": breed },
-        { username },
-        { "dog.size": size },
-      ],
-    });
-    res.status(200).json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
 });
 
 export default router;
