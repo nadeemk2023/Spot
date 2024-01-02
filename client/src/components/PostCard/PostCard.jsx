@@ -11,10 +11,12 @@ const PostCard = ({ post, onDelete, onEdit }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
-  const isAuthor = currentUser && post.author._id === currentUser._id;
+  const isAuthor = post.author._id === currentUser.uid;
   const [commentText, setCommentText] = useState('');
   const [postState, setPostState] = useState(post);
-  const [isLiked, setIsLiked] = useState(post.likes.includes(currentUser._id));
+  const [isLiked, setIsLiked] = useState(
+    post.likes.some(like => like._id === currentUser.uid)
+  );
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -74,7 +76,7 @@ const PostCard = ({ post, onDelete, onEdit }) => {
           </div>
 
           {/* Edit/Delete buttons to work on later */}
-          {post.author._id === currentUser.uid && (
+          {isAuthor && (
             <div>
               <Button
                 variant="outline-secondary"
