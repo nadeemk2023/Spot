@@ -9,6 +9,8 @@ import {
   faThumbsUp as solidThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
 import {
+  faComment,
+  faTrashCan,
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
 } from '@fortawesome/free-regular-svg-icons';
@@ -102,13 +104,12 @@ const PostCard = ({ post, posts, setPosts }) => {
             </Card.Text>
           </div>
 
-          {/* Edit/Delete buttons to work on later */}
           {isAuthor && (
             <div>
               <Button
                 variant="outline-secondary"
                 onClick={() => setIsEditing(true)}
-                className="mr-2"
+                style={{ marginRight: '0.2rem' }}
               >
                 Edit
               </Button>
@@ -116,7 +117,7 @@ const PostCard = ({ post, posts, setPosts }) => {
                 variant="outline-danger"
                 onClick={() => handleDeletePost(post._id)}
               >
-                Delete Post
+                <FontAwesomeIcon icon={faTrashCan} />
               </Button>
             </div>
           )}
@@ -143,6 +144,11 @@ const PostCard = ({ post, posts, setPosts }) => {
             <span className="ml-2">{postState.likes.length} Likes</span>
           </div>
           <div>
+            <FontAwesomeIcon
+              icon={faComment}
+              style={{ color: '#0d6efd' }}
+              className="me-1"
+            />
             <span>{post.comments.length} comments</span>
           </div>
         </div>
