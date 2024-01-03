@@ -194,6 +194,7 @@ const PostCard = ({ post, posts, setPosts }) => {
           <Button
             onClick={() => handleSubmitComment(post._id)}
             variant="outline-primary"
+            className="py-2 px-3"
           >
             Submit Comment
           </Button>
