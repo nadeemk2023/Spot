@@ -4,8 +4,17 @@ import { useProvideAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import api from '../../../utils/api.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
+import {
+  faHeart as filledHeart,
+  faThumbsUp as solidThumbsUp,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  faComment,
+  faTrashCan,
+  faHeart as outlinedHeart,
+  faThumbsUp as outlinedThumbsUp,
+} from '@fortawesome/free-regular-svg-icons';
+import styles from './PostCard.module.css';
 
 const PostCard = ({ post, posts, setPosts }) => {
   const {
@@ -19,6 +28,7 @@ const PostCard = ({ post, posts, setPosts }) => {
   );
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
+  const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -81,8 +91,8 @@ const PostCard = ({ post, posts, setPosts }) => {
   };
 
   return (
-    <Card className="mb-3 text-dark">
-      <Card.Body>
+    <Card className="mb-4 text-dark">
+      <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div>
             <Card.Text className="mb-1 fw-bold">
@@ -96,13 +106,12 @@ const PostCard = ({ post, posts, setPosts }) => {
             </Card.Text>
           </div>
 
-          {/* Edit/Delete buttons to work on later */}
           {isAuthor && (
             <div>
               <Button
                 variant="outline-secondary"
                 onClick={() => setIsEditing(true)}
-                className="mr-2"
+                style={{ marginRight: '0.2rem' }}
               >
                 Edit
               </Button>
@@ -110,13 +119,13 @@ const PostCard = ({ post, posts, setPosts }) => {
                 variant="outline-danger"
                 onClick={() => handleDeletePost(post._id)}
               >
-                Delete Post
+                <FontAwesomeIcon icon={faTrashCan} />
               </Button>
             </div>
           )}
         </div>
         {!isEditing ? (
-          <Card.Text className="mb-3">{postState.text}</Card.Text>
+          <Card.Text className="m-5">{postState.text}</Card.Text>
         ) : (
           <>
             <input
@@ -127,28 +136,43 @@ const PostCard = ({ post, posts, setPosts }) => {
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </>
         )}
-        <div className="mb-3 d-flex justify-content-start align-items-center">
-          <span role="img" aria-label="thumbs up" className="mr-2">
-            👍 {postState.likes.length} Likes
-          </span>
-          <span>{post.comments.length} comments</span>
+        <div className="d-flex justify-content-between mb-3">
+          <div className="d-flex align-items-center">
+            <FontAwesomeIcon
+              icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
+              style={{ color: '#0d6efd' }}
+              className="me-1"
+            />
+            <span className="ml-2">{postState.likes.length} Likes</span>
+          </div>
+          <div>
+            <FontAwesomeIcon
+              icon={faComment}
+              style={{ color: '#0d6efd' }}
+              className="me-1"
+            />
+            <span>{post.comments.length} comments</span>
+          </div>
         </div>
 
-        {/* Interaction buttons */}
         <Row className="border-top pt-2">
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
-              className="text-primary py-2 px-3"
+              className={`text-primary py-2 px-3 ${styles.heartIconButton}`}
               onClick={() => handleLike(post._id)}
+              onMouseEnter={() => setHoverHeart(true)}
+              onMouseLeave={() => setHoverHeart(false)}
             >
-              <FontAwesomeIcon icon={isLiked ? filledHeart : outlinedHeart} />
+              <FontAwesomeIcon
+                icon={isLiked || hoverHeart ? filledHeart : outlinedHeart}
+              />
             </Button>
           </Col>
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
-              className="text-primary py-2 px-3"
+              className={`text-primary py-2 px-3 ${styles.showCommentsButton}`}
             >
               Show Comments
             </Button>
@@ -156,7 +180,6 @@ const PostCard = ({ post, posts, setPosts }) => {
         </Row>
       </Card.Body>
 
-      {/* Comment input field, shown when Comment button is clicked */}
       <Card.Footer className="bg-transparent border-top-0">
         <Form>
           <Form.Group>
@@ -165,9 +188,14 @@ const PostCard = ({ post, posts, setPosts }) => {
               placeholder="Write a comment..."
               onChange={e => setCommentText(e.target.value)}
               value={commentText}
+              className="mb-2"
             />
           </Form.Group>
-          <Button onClick={() => handleSubmitComment(post._id)}>
+          <Button
+            onClick={() => handleSubmitComment(post._id)}
+            variant="outline-primary"
+            className="py-2 px-3"
+          >
             Submit Comment
           </Button>
         </Form>
