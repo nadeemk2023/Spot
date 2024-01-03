@@ -28,6 +28,7 @@ const PostCard = ({ post, posts, setPosts }) => {
   );
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
+  const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -140,7 +141,7 @@ const PostCard = ({ post, posts, setPosts }) => {
             <FontAwesomeIcon
               icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
               style={{ color: '#0d6efd' }}
-              className="me-2"
+              className="me-1"
             />
             <span className="ml-2">{postState.likes.length} Likes</span>
           </div>
@@ -158,10 +159,14 @@ const PostCard = ({ post, posts, setPosts }) => {
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
-              className="text-primary py-2 px-3"
+              className={`text-primary py-2 px-3 ${styles.heartIconButton}`}
               onClick={() => handleLike(post._id)}
+              onMouseEnter={() => setHoverHeart(true)}
+              onMouseLeave={() => setHoverHeart(false)}
             >
-              <FontAwesomeIcon icon={isLiked ? filledHeart : outlinedHeart} />
+              <FontAwesomeIcon
+                icon={isLiked || hoverHeart ? filledHeart : outlinedHeart}
+              />
             </Button>
           </Col>
           <Col xs={6} className="text-center">
