@@ -107,6 +107,26 @@ router
     }
   });
 
+ // POST /users/:username/dogs
+
+ router.post(async (req, res) => {
+  const { username } = req.params;
+  const { breed, name, size } = req.body; 
+  
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { username },
+      { $addToSet: { dogs: { breed, name, size, image } } },
+      { runValidators: true, new: true }
+    );
+
+    res.json(updatedUser);
+
+  } catch(error) {
+    // handle errors here
+  }
+})
+
 //PUT /users/:username/avatar - update user avatar
 router.put("/:username/avatar", requireAuth, async (req, res) => {
   try {
