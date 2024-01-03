@@ -133,15 +133,18 @@ const PostCard = ({ post, posts, setPosts }) => {
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </>
         )}
-        <div className="mb-3 d-flex justify-content-start align-items-center">
-          <span role="img" aria-label="thumbs up" className="mr-2">
+        <div className="d-flex justify-content-between mb-3">
+          <div className="d-flex align-items-center">
             <FontAwesomeIcon
               icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
               style={{ color: '#0d6efd' }}
-            />{' '}
-            {postState.likes.length} Likes
-          </span>
-          <span>{post.comments.length} comments</span>
+              className="me-2"
+            />
+            <span className="ml-2">{postState.likes.length} Likes</span>
+          </div>
+          <div>
+            <span>{post.comments.length} comments</span>
+          </div>
         </div>
 
         {/* Interaction buttons */}
