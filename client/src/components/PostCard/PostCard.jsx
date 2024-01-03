@@ -91,8 +91,8 @@ const PostCard = ({ post, posts, setPosts }) => {
   };
 
   return (
-    <Card className="mb-3 text-dark">
-      <Card.Body>
+    <Card className="mb-4 text-dark">
+      <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div>
             <Card.Text className="mb-1 fw-bold">
@@ -125,7 +125,7 @@ const PostCard = ({ post, posts, setPosts }) => {
           )}
         </div>
         {!isEditing ? (
-          <Card.Text className="mb-3">{postState.text}</Card.Text>
+          <Card.Text className="m-5">{postState.text}</Card.Text>
         ) : (
           <>
             <input
