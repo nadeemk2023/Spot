@@ -14,6 +14,7 @@ import {
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
 } from '@fortawesome/free-regular-svg-icons';
+import styles from './PostCard.module.css';
 
 const PostCard = ({ post, posts, setPosts }) => {
   const {
@@ -166,7 +167,7 @@ const PostCard = ({ post, posts, setPosts }) => {
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
-              className="text-primary py-2 px-3"
+              className={`text-primary py-2 px-3 ${styles.showCommentsButton}`}
             >
               Show Comments
             </Button>
