@@ -76,15 +76,27 @@ export function useProvideAuth() {
     }
   };
 
+  // const signup = async (userData) => {
+  //   try {
+  //     await api.post(`/auth/signup`, userData);
+  //     return await signin(userData.username, userData.password);
+  //   } catch (error) {
+  //     console.log(error);
+  //     if (error.response) {
+  //       throw new Error(error.response.data.error);
+  //     } else {
+  //       throw error;
+  //     }
+  //   }
+  // };
+
   const signup = async (
     username,
     email,
     password,
     confirm_password, 
     zipcode,
-    dogName,
-    dogBreed,
-    dogSize,
+    dog,
     profile_image,
   ) => {
     try {
@@ -94,9 +106,7 @@ export function useProvideAuth() {
         confirmPassword: confirm_password,
         email: email,
         zipcode: zipcode,
-        dogName: dogName,
-        dogSize: dogSize,
-        dogBreed: dogBreed,
+        dogs: dog,
         profile_image: profile_image,
       });
       return await signin(username, password);

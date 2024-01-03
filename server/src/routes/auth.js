@@ -16,9 +16,6 @@ router.post("/signup", async (req, res) => {
     password,
     confirmPassword,
     email,
-    dogName,
-    dogSize,
-    dogBreed,
     zipcode,
     profile_image,
   } = req.body;
@@ -55,11 +52,7 @@ router.post("/signup", async (req, res) => {
         const user = new User({
           username,
           email,
-          dog: {
-            name: dogName,
-            breed: dogBreed,
-            size: dogSize,
-          },
+          dog: req.body.dog || [],
           zipcode,
           passwordHash: hashedpassword,
           profile_image: profile_image,
