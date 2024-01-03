@@ -188,10 +188,13 @@ const PostCard = ({ post, posts, setPosts }) => {
               placeholder="Write a comment..."
               onChange={e => setCommentText(e.target.value)}
               value={commentText}
-              className="mb-1"
+              className="mb-2"
             />
           </Form.Group>
-          <Button onClick={() => handleSubmitComment(post._id)}>
+          <Button
+            onClick={() => handleSubmitComment(post._id)}
+            variant="outline-primary"
+          >
             Submit Comment
           </Button>
         </Form>
