@@ -153,7 +153,6 @@ const PostCard = ({ post, posts, setPosts }) => {
           </div>
         </div>
 
-        {/* Interaction buttons */}
         <Row className="border-top pt-2">
           <Col xs={6} className="text-center">
             <Button
@@ -175,7 +174,6 @@ const PostCard = ({ post, posts, setPosts }) => {
         </Row>
       </Card.Body>
 
-      {/* Comment input field, shown when Comment button is clicked */}
       <Card.Footer className="bg-transparent border-top-0">
         <Form>
           <Form.Group>
