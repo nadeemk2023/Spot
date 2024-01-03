@@ -7,19 +7,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import UploadFile from "../UploadFile/UploadFile";
 
-function EditProfile({ onSubmit }) {
+function EditProfile({ userData, onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [userProfile, setUserProfile] = useState({
-    name: "",
-    email: "",
-    zipcode: "",
-    dog: [
-      {
-        name: "",
-        breed: "",
-        size: "",
-      },
-    ],
+    name: userData.name,
+    email: userData.email,
+    zipcode: userData.zipcode,
+    dog: {
+      name: userData.dog.name,
+      breed: userData.dog.breed,
+      size: userData.dog.size,
+    },
   });
 
   const [data, setData] = useState({
@@ -32,6 +30,8 @@ function EditProfile({ onSubmit }) {
 
   let navigate = useNavigate();
   let params = useParams();
+
+  console.log(params);
   const {
     state: { isAuthenticated },
   } = useRequireAuth();
@@ -154,7 +154,7 @@ function EditProfile({ onSubmit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(`${API_TARGET}/${API_URL}`, userProfile);
+      const response = await api.put(`/users/${params.uname}`, userProfile);
       onSubmit(userProfile);
     } catch (error) {
       console.error(error);
@@ -210,38 +210,38 @@ function EditProfile({ onSubmit }) {
           </div>
           <div>
             <h3>Family Members</h3>
-            {userProfile.dog.map((member, index) => (
-              <div className="mb-3" key={index}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Dog Name"
-                  value={member.name}
-                  onChange={(e) => handleDogChange(e, index, "name")}
-                />
-                <input
-                  type="text"
-                  className="form-control mt-2"
-                  placeholder="Breed"
-                  value={member.breed}
-                  onChange={(e) => handleDogChange(e, index, "breed")}
-                />
-                <input
-                  type="text"
-                  className="form-control mt-2"
-                  placeholder="Size"
-                  value={member.size}
-                  onChange={(e) => handleDogChange(e, index, "size")}
-                />
-                <button
-                  type="button"
-                  className="btn btn-danger ms-2 mt-2"
-                  onClick={() => deleteDog(index)}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
+
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Dog Name"
+                value={userProfile.dog.name}
+                onChange={(e) => handleDogChange(e, index, "name")}
+              />
+              <input
+                type="text"
+                className="form-control mt-2"
+                placeholder="Breed"
+                value={userProfile.dog.breed}
+                onChange={(e) => handleDogChange(e, index, "breed")}
+              />
+              <input
+                type="text"
+                className="form-control mt-2"
+                placeholder="Size"
+                value={userProfile.dog.size}
+                onChange={(e) => handleDogChange(e, index, "size")}
+              />
+              <button
+                type="button"
+                className="btn btn-danger ms-2 mt-2"
+                onClick={() => deleteDog(index)}
+              >
+                Delete
+              </button>
+            </div>
+
             <button type="button" className="btn btn-primary" onClick={addDog}>
               Add Family Member
             </button>

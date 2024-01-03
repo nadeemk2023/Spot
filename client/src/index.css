@@ -49,7 +49,7 @@ button {
 }
 
 button:hover {
-  border-color: rgb(102, 110, 255)
+  border-color: rgb(102, 110, 255);
 }
 
 button:focus,
@@ -79,8 +79,10 @@ button:focus-visible {
 .avatar-list {
   border: 2px solid rgb(102, 110, 255);
   border-radius: 10px;
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   gap: 10px;
   padding: 5px;
+  justify-content: center;
+  align-items: center;
 }

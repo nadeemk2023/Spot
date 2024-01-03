@@ -15,7 +15,7 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar className="bg-body-tertiary py-0" fixed="top">
+    <Navbar className="bg-light py-0" fixed="top">
       <Container fluid>
         <Navbar.Brand as={Link} to="/home">
           <img

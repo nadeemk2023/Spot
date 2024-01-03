@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-//import axios from "axios";
-import { Form, Button, InputGroup, Col } from "react-bootstrap";
+import { Form, Button, InputGroup, Col, Modal } from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
+import UploadFile from "../components/UploadFile/UploadFile";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ const RegisterPage = () => {
       breed: "",
       size: "",
     },
-    profile_image:"",
+    profile_image: "",
   });
 
   const [dogs, setDogs] = useState([]);
@@ -109,7 +109,7 @@ const RegisterPage = () => {
         formData.dogName,
         formData.dogBreed,
         formData.dogSize,
-        formData.profile_image,
+        formData.profile_image
       );
       console.log(res.data);
 
@@ -119,6 +119,11 @@ const RegisterPage = () => {
     }
   };
 
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleShowUploadModal = () => setShowUploadModal(true);
+  const handleCloseUploadModal = () => setShowUploadModal(false);
+
   return (
     <section
       id="register"
@@ -127,10 +132,12 @@ const RegisterPage = () => {
         backgroundColor: "rgba(129, 195, 215, 0.3)",
         border: "3px solid #16425B",
         borderRadius: "5px",
-        padding: "20px",
+        padding: "15px",
+        margin: "50px auto",
+        maxWidth: "600px",
       }}
     >
-      <h2>Doggy Adventures Await You!</h2>
+      <h2>Adventures Await You!</h2>
       <Form onSubmit={handleFormSubmit} className="mt-3">
         {/* Users info: */}
         <Form.Group controlId="formUsername" className="mt-3">
@@ -289,13 +296,40 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
+        {/* Upload Button */}
+        <Form.Group controlId="formImg" className="mt-3">
+          <Form.Label
+            style={{ fontWeight: "bold" }}
+            className="d-flex align-items-start"
+          >
+            Now one last thing, you can either upload your own photos here:
+          </Form.Label>
+          <Button
+            variant="primary"
+            onClick={handleShowUploadModal}
+            className="mt-3"
+          >
+            Choose an Image
+          </Button>
+        </Form.Group>
+
+        {/* Upload Modal */}
+        <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Upload File</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <UploadFile />
+          </Modal.Body>
+        </Modal>
+
         {/* Avatar Picker */}
         <Form.Group controlId="formAvatar" className="mt-3">
           <Form.Label
             style={{ fontWeight: "bold" }}
             className="d-flex align-items-start"
           >
-            Last but not least, choose your avatar!
+            Or you can choose an avatar!
           </Form.Label>
           <AvatarPicker />
         </Form.Group>
