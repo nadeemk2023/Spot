@@ -1,21 +1,13 @@
 ## Karen's notes
 
--search endpoint test
+-update server for multiple dogs
 -park locator styling/conditional rendering
 -update pseudocode 
  -likes endpoint
  -edit endpoint
  -park locator
  -upload photo adjustments
- ## Karen's notes
-
--search endpoint test
--park locator styling/conditional rendering
--update pseudocode 
- -likes endpoint
- -edit endpoint
- -park locator
- -upload photo adjustments
+ 
  
 
 # PSEUDOCODE
