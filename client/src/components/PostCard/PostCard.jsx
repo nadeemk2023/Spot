@@ -136,7 +136,7 @@ const PostCard = ({ post, posts, setPosts }) => {
         <div className="mb-3 d-flex justify-content-start align-items-center">
           <span role="img" aria-label="thumbs up" className="mr-2">
             <FontAwesomeIcon
-              icon={outlinedThumbsUp}
+              icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
               style={{ color: '#0d6efd' }}
             />{' '}
             {postState.likes.length} Likes
