@@ -4,8 +4,14 @@ import { useProvideAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import api from '../../../utils/api.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as filledHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
+import {
+  faHeart as filledHeart,
+  faThumbsUp as solidThumbsUp,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart as outlinedHeart,
+  faThumbsUp as outlinedThumbsUp,
+} from '@fortawesome/free-regular-svg-icons';
 
 const PostCard = ({ post, posts, setPosts }) => {
   const {
@@ -129,7 +135,11 @@ const PostCard = ({ post, posts, setPosts }) => {
         )}
         <div className="mb-3 d-flex justify-content-start align-items-center">
           <span role="img" aria-label="thumbs up" className="mr-2">
-            👍 {postState.likes.length} Likes
+            <FontAwesomeIcon
+              icon={outlinedThumbsUp}
+              style={{ color: '#0d6efd' }}
+            />{' '}
+            {postState.likes.length} Likes
           </span>
           <span>{post.comments.length} comments</span>
         </div>
