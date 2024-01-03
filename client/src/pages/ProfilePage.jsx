@@ -28,7 +28,7 @@ function ProfilePage() {
 
   const handleSaveChanges = (updatedUserData) => {
     setuserData(updatedUserData);
-    setCardContent("Update card content");
+    // setCardContent("Update card content");
     setIsEditing(false);
     setShowModal(false);
   };
@@ -37,6 +37,7 @@ function ProfilePage() {
     const getUser = async () => {
       try {
         const userResponse = await api.get(`/users/${params.uname}`);
+        setuserData(userResponse.data);
       } catch (err) {
         console.error(err.message);
       }
@@ -61,21 +62,35 @@ function ProfilePage() {
               <div className="col-md-8">
                 <Card>
                   <Card.Body>
-                    <Card.Title>Welcome to our page!</Card.Title>
-                    {userData &&
-                      userData.dogs &&
-                      userData.dogs.map((dog, index) => (
-                        <Card.Text key={index}>
-                          Name: {userData.name}, Dog Name: {dog.name}, Breed:
-                          {dog.breed}, Size: {dog.size}
-                        </Card.Text>
-                      ))}
+                    <Card.Title>My Info</Card.Title>
+                    {userData && userData.zipcode && (
+                      <Card.Text>
+                        <span style={{ display: "block" }}>
+                          Name: {userData.name}
+                        </span>
+                        <span style={{ display: "block" }}>
+                          Zip Code: {userData.zipcode}
+                        </span>
+                      </Card.Text>
+                    )}
                   </Card.Body>
                 </Card>
                 <Card className="mt-3">
                   <Card.Body>
-                    <Card.Title>Placeholder</Card.Title>
-                    <Card.Text>Placeholder</Card.Text>
+                    <Card.Title>Family Member Info</Card.Title>
+                    {userData && userData.dog && (
+                      <Card.Text>
+                        <span style={{ display: "block" }}>
+                          Dog Name: {userData.dog.name}
+                        </span>
+                        <span style={{ display: "block" }}>
+                          Breed: {userData.dog.breed}
+                        </span>
+                        <span style={{ display: "block" }}>
+                          Size: {userData.dog.size}
+                        </span>
+                      </Card.Text>
+                    )}
                   </Card.Body>
                 </Card>
                 {console.log(state.user, params.uname)}
@@ -94,8 +109,7 @@ function ProfilePage() {
                   <Modal.Body>
                     {isEditing && (
                       <EditProfile
-                        API_URL={API_URL}
-                        API_TARGET={API_TARGET}
+                        userData={userData}
                         onSubmit={handleSaveChanges}
                       />
                     )}
