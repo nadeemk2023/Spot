@@ -27,7 +27,7 @@ const PostCard = ({ post, posts, setPosts }) => {
   const [isLiked, setIsLiked] = useState(
     post.likes.some(like => like._id === currentUser.uid)
   );
-  //! This does not work yet because the post.comments does not have a author for each comment either on front or backend.
+  //! This does not work yet because the post.comments does not have a authorId to compare to currentUser.uid for each comment either on front or backend.
   const hasCommented = post.comments.some(
     comment => comment._id === currentUser.uid
   );
