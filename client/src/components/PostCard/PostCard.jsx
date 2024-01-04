@@ -64,7 +64,6 @@ const PostCard = ({ post, posts, setPosts }) => {
     };
     try {
       const res = await api.put('/posts/comments', responseData);
-      console.log(res.data);
       setCommentText('');
       setHasCommented(true);
 
