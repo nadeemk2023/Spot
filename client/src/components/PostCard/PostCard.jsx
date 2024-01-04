@@ -155,7 +155,7 @@ const PostCard = ({ post, posts, setPosts }) => {
           </div>
         </div>
 
-        <Row className="border-top pt-2">
+        <Row className="border-top border-bottom pt-2 pb-2">
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
@@ -196,7 +196,7 @@ const PostCard = ({ post, posts, setPosts }) => {
             variant="outline-primary"
             className="py-2 px-3"
           >
-            Submit Comment
+            Submit
           </Button>
         </Form>
       </Card.Footer>
