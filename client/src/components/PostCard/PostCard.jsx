@@ -91,7 +91,7 @@ const PostCard = ({ post, posts, setPosts }) => {
   };
 
   return (
-    <Card className="mb-4 text-dark">
+    <Card className="mb-4 text-dark pb-0">
       <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div>
@@ -136,7 +136,7 @@ const PostCard = ({ post, posts, setPosts }) => {
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </>
         )}
-        <div className="d-flex justify-content-between mb-3">
+        <div className="d-flex justify-content-between mb-1 m-3">
           <div className="d-flex align-items-center">
             <FontAwesomeIcon
               icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
@@ -155,7 +155,7 @@ const PostCard = ({ post, posts, setPosts }) => {
           </div>
         </div>
 
-        <Row className="border-top border-bottom pt-2 pb-2">
+        <Row className="border-top border-bottom">
           <Col xs={6} className="text-center">
             <Button
               variant="outline-primary"
@@ -174,7 +174,7 @@ const PostCard = ({ post, posts, setPosts }) => {
               variant="outline-primary"
               className={`text-primary py-2 px-3 ${styles.showCommentsButton}`}
             >
-              Show Comments
+              Comments
             </Button>
           </Col>
         </Row>
@@ -188,13 +188,13 @@ const PostCard = ({ post, posts, setPosts }) => {
               placeholder="Write a comment..."
               onChange={e => setCommentText(e.target.value)}
               value={commentText}
-              className="mb-2"
+              className="mb-3 p-2 "
             />
           </Form.Group>
           <Button
             onClick={() => handleSubmitComment(post._id)}
             variant="outline-primary"
-            className="py-2 px-3"
+            className="py-2 px-3 mb-2"
           >
             Submit
           </Button>
