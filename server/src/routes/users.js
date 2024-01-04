@@ -8,7 +8,8 @@ const router = express.Router();
 router.get("/search", async (req, res) => {
   try {
     const { zipcode, breed, username, size } = req.query;
-    console.log("Query Paramenters", { zipcode, breed, username, size });
+    console.log("Query Parameters", { zipcode, breed, username, size });
+
     if (!zipcode && !breed && !username && !size) {
       return res
         .status(400)
@@ -18,11 +19,12 @@ router.get("/search", async (req, res) => {
     const users = await User.find({
       $or: [
         { zipcode },
-        { "dog.breed": breed },
-        { username },
-        { "dog.size": size },
+        { "dog.breed": { $regex: new RegExp(`^${breed}$`, "i") } },
+        { username: { $regex: new RegExp(`^${username}$`, "i") } },
+        { "dog.size": { $regex: new RegExp(`^${size}$`, "i") } },
       ],
     });
+
     res.status(200).json(users);
   } catch (error) {
     console.error(error);
