@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Container } from "react-bootstrap";
 import axios from "axios";
+import { Container } from "react-bootstrap/lib/Tab";
 
 function ParkLocator() {
   const [dogParks, setDogParks] = useState([]);
@@ -53,25 +54,30 @@ function ParkLocator() {
   };
 
   return (
-    <div className="mt-5">
-      <button onClick={handleClick}>Search Dog Parks</button>
+    <>
+      <Container className="mt-5, mb-5" style={{ width: "50%" }}>
+        <Button onClick={handleClick}>Search Dog Parks</Button>
 
-      <div>
-        {dogParks && dogParks.length > 0 ? (
-          dogParks.map((park, index) => (
-            <Card key={index}>
-              <Card.Body>
-                <Card.Title>{park.properties.name ? park.properties.name: "Dog Park Name Not Available"}</Card.Title>
-                
-                <Button variant="primary">Visit Park</Button>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <div>No Parks found</div>
-        )}
-      </div>
-    </div>
+        <div>
+          {dogParks && dogParks.length > 0 ? (
+            dogParks.map((park, index) => (
+              <Card key={index} >
+                <Card.Body>
+                  <Card.Title>
+                    {park.properties.name
+                      ? park.properties.name
+                      : "Dog Park Name Not Available"}
+                  </Card.Title>
+                  <Button variant="primary" className="mt-2">Visit Park</Button>
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <div>No Parks found</div>
+          )}
+        </div>
+      </Container>
+    </>
   );
 }
 
