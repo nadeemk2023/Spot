@@ -17,8 +17,9 @@ import {
   faPenToSquare as editIcon,
 } from '@fortawesome/free-regular-svg-icons';
 import styles from './PostCard.module.css';
+import CommentsModal from '../CommentsModal/CommentsModal';
 
-const PostCard = ({ post, posts, setPosts }) => {
+const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
@@ -33,7 +34,7 @@ const PostCard = ({ post, posts, setPosts }) => {
       comment => comment.author && comment?.author?._id === currentUser.uid
     )
   );
-
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [hoverHeart, setHoverHeart] = useState(false);
@@ -187,14 +188,26 @@ const PostCard = ({ post, posts, setPosts }) => {
             </Button>
           </Col>
           <Col xs={6} className="text-center">
-            <Button
-              variant="outline-primary"
-              className={`text-primary py-2 px-3 ${styles.showCommentsButton}`}
-            >
-              Comments
-            </Button>
+            {!isInModal && (
+              <Button
+                variant="outline-primary"
+                className={`text-primary py-2 px-3 ${styles.showCommentsButton}`}
+                onClick={() => setShowCommentsModal(true)}
+              >
+                Comments
+              </Button>
+            )}
           </Col>
         </Row>
+        {!isInModal && showCommentsModal && (
+          <CommentsModal
+            post={post}
+            showModal={showCommentsModal}
+            onClose={() => {
+              setShowCommentsModal(false);
+            }}
+          />
+        )}
       </Card.Body>
 
       <Card.Footer className="bg-transparent border-top-0">
