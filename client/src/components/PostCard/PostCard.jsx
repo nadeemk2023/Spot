@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart as filledHeart,
   faThumbsUp as solidThumbsUp,
+  faComment as solidComment,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faComment,
+  faComment as outlinedComment,
   faTrashCan,
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
@@ -25,6 +26,10 @@ const PostCard = ({ post, posts, setPosts }) => {
   const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
     post.likes.some(like => like._id === currentUser.uid)
+  );
+  //! This does not work yet because the post.comments does not have a author for each comment either on front or backend.
+  const hasCommented = post.comments.some(
+    comment => comment._id === currentUser.uid
   );
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
@@ -147,10 +152,11 @@ const PostCard = ({ post, posts, setPosts }) => {
           </div>
           <div>
             <FontAwesomeIcon
-              icon={faComment}
+              icon={hasCommented ? solidComment : outlinedComment}
               style={{ color: '#0d6efd' }}
               className="me-1"
             />
+
             <span>{post.comments.length} comments</span>
           </div>
         </div>
