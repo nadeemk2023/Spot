@@ -76,6 +76,7 @@ const PostCard = ({ post, posts, setPosts }) => {
   };
 
   const handleEditPost = async () => {
+    if (editedText === '') return;
     const responseData = {
       text: editedText,
       userid: currentUser.uid,
