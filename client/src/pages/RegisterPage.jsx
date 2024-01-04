@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Form, Button, InputGroup, Col, Modal } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  InputGroup,
+  Col,
+  Modal,
+  FormGroup,
+} from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +29,13 @@ const RegisterPage = () => {
   });
 
   const [dogs, setDogs] = useState([]);
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({
+      ...formData,
+      profile_image: imageUrl,
+    });
+  };
 
   const handleAddDog = (newDog) => {
     setDogs([...dogs, newDog]);
@@ -296,46 +310,67 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
-        {/* Upload Button */}
-        <Form.Group controlId="formImg" className="mt-3">
-          <Form.Label
-            style={{ fontWeight: "bold" }}
-            className="d-flex align-items-start"
-          >
-            Now one last thing, you can either upload your own photos here:
-          </Form.Label>
-          <Button
-            variant="primary"
-            onClick={handleShowUploadModal}
-            className="mt-3"
-          >
-            Choose an Image
-          </Button>
-        </Form.Group>
-
-        {/* Upload Modal */}
-        <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Upload File</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <UploadFile />
-          </Modal.Body>
-        </Modal>
-
-        {/* Avatar Picker */}
-        <Form.Group controlId="formAvatar" className="mt-3">
-          <Form.Label
-            style={{ fontWeight: "bold" }}
-            className="d-flex align-items-start"
-          >
-            Or you can choose an avatar!
-          </Form.Label>
-          <AvatarPicker />
-        </Form.Group>
-
         {/* AddDog component */}
-        <AddDog onAddDog={handleAddDog} />
+        <FormGroup controlId="addAnotherDog" className="mt-3">
+          <Form.Label
+            style={{ fontWeight: "bold" }}
+            className="d-flex align-items-start"
+          >
+            Have more than one furry friend? Add them here!
+          </Form.Label>
+          <AddDog onAddDog={handleAddDog} />
+        </FormGroup>
+
+        {/* Conditional rendering based on whether an image is uploaded */}
+        {formData.profile_image ? (
+          <div className="mt-3">
+            <p>Image uploaded successfully!</p>
+            <img
+              src={formData.profile_image}
+              alt="Uploaded Avatar"
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+          </div>
+        ) : (
+          <>
+            <Form.Group controlId="formAvatar" className="mt-3">
+              <Form.Label
+                style={{ fontWeight: "bold" }}
+                className="d-flex align-items-start"
+              >
+                Now one last thing, you can either choose an avatar:
+              </Form.Label>
+              <AvatarPicker disabled={!!formData.profile_image} />
+            </Form.Group>
+
+            {/* Upload Button */}
+            <Form.Group controlId="formImg" className="mt-3">
+              <Form.Label
+                style={{ fontWeight: "bold" }}
+                className="d-flex align-items-start"
+              >
+                Or you can upload your own images here:
+              </Form.Label>
+              <Button
+                variant="primary"
+                onClick={handleShowUploadModal}
+                className="mt-3"
+              >
+                Choose an Image
+              </Button>
+            </Form.Group>
+
+            {/* Upload Modal */}
+            <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Upload File</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <UploadFile onUpload={handleImageUpload} />
+              </Modal.Body>
+            </Modal>
+          </>
+        )}
 
         {/* "Let's Go!" button */}
         <div className="mt-3">
