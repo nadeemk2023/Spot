@@ -27,10 +27,12 @@ const PostCard = ({ post, posts, setPosts }) => {
   const [isLiked, setIsLiked] = useState(
     post.likes.some(like => like._id === currentUser.uid)
   );
-  //! This does not work yet because the post.comments does not have a authorId to compare to currentUser.uid for each comment either on front or backend.
-  const hasCommented = post.comments.some(
-    comment => comment._id === currentUser.uid
+  const [hasCommented, setHasCommented] = useState(
+    post.comments.some(
+      comment => comment.author && comment?.author?._id === currentUser.uid
+    )
   );
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [hoverHeart, setHoverHeart] = useState(false);
@@ -63,6 +65,12 @@ const PostCard = ({ post, posts, setPosts }) => {
     try {
       const res = await api.put('/posts/comments', responseData);
       console.log(res.data);
+      setCommentText('');
+      setHasCommented(true);
+
+      if (res.data) {
+        setPostState(res.data);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -159,7 +167,7 @@ const PostCard = ({ post, posts, setPosts }) => {
               className="me-1"
             />
 
-            <span>{post.comments.length} comments</span>
+            <span>{postState.comments.length} comments</span>
           </div>
         </div>
 
