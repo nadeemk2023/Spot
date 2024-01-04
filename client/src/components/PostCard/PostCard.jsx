@@ -14,6 +14,7 @@ import {
   faTrashCan,
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
+  faPenToSquare as editIcon,
 } from '@fortawesome/free-regular-svg-icons';
 import styles from './PostCard.module.css';
 
@@ -128,7 +129,7 @@ const PostCard = ({ post, posts, setPosts }) => {
                 onClick={() => setIsEditing(true)}
                 style={{ marginRight: '0.2rem' }}
               >
-                Edit
+                <FontAwesomeIcon icon={editIcon} />
               </Button>
               <Button
                 variant="outline-danger"
