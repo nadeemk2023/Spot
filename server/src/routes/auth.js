@@ -17,10 +17,11 @@ router.post("/signup", async (req, res) => {
     confirmPassword,
     email,
     zipcode,
+    dogs,
     profile_image,
   } = req.body;
 
-  if (!password || !username || !email) {
+  if (!password || !username || !email || !dogs) {
     return res.status(422).json({ error: "please add all the fields" });
   }
 
@@ -41,6 +42,17 @@ router.post("/signup", async (req, res) => {
     });
   }
 
+  if (!Array.isArray(dogs) || dogs.length === 0) {
+    return res.status(422).json({ error: "Dogs array cannot be empty" });
+  }
+
+  if (dogs.some(dog => !dog.name || !dog.breed || !dog.size || !dog.image)) {
+    return res.status(422).json({ error: "Each dog must have a name, breed, size, and image" });
+  }
+
+
+
+
   User.findOne({ $or: [{ username: username }, { email: email }] })
     .then((savedUser) => {
       if (savedUser) {
@@ -52,10 +64,10 @@ router.post("/signup", async (req, res) => {
         const user = new User({
           username,
           email,
-          dog: req.body.dog || [],
-          zipcode,
           passwordHash: hashedpassword,
-          profile_image: profile_image,
+          zipcode,
+          dogs,
+          profile_image,
         });
 
         user

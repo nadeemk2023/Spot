@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     default: 3,
   },
 
-  dog: [{
+  dogs: [{
     name: {
       type: String,
       required: true,

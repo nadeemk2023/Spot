@@ -16,8 +16,14 @@ module.exports = async (req, res, next) => {
     }
     const { id } = payload;
     User.findById(id).then((userdata) => {
+      if (!userdata) {
+        return res.status(404).json({ error: "User not found" });
+      }
       req.user = userdata;
       next();
+    }).catch(err => {
+      console.error("Middleware Error:", err);
+      res.status(500).json({ error: "Internal Server Error" });
     });
   });
 };

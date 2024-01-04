@@ -107,25 +107,35 @@ router
     }
   });
 
- // POST /users/:username/dogs
-
- router.post(async (req, res) => {
+ // POST /users/:username/dogs - add dog to user
+ router.post("/:username/dogs", async (req, res) => {
   const { username } = req.params;
-  const { breed, name, size } = req.body; 
+  const { name, breed, size, image } = req.body;
+
   
+  // if (!name || !breed || !size || !image) {
+  //   return res.status(400).json({ error: "All dog fields must be provided" });
+  // }
+
   try {
     const updatedUser = await User.findOneAndUpdate(
       { username },
-      { $addToSet: { dogs: { breed, name, size, image } } },
-      { runValidators: true, new: true }
+      { $addToSet: { dogs: { name, breed, size, image } } },
+      { new: true, runValidators: true }
     );
 
-    res.json(updatedUser);
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
+    res.json(updatedUser);
   } catch(error) {
-    // handle errors here
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-})
+});
+
+ 
 
 //PUT /users/:username/avatar - update user avatar
 router.put("/:username/avatar", requireAuth, async (req, res) => {
