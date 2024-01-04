@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
 
 const SearchPage = () => {
@@ -11,14 +12,23 @@ const SearchPage = () => {
 
   const handleSearch = async () => {
     try {
+      const lowercaseUsername = username.toLowerCase();
+      const lowercaseBreed = breed.toLowerCase();
+      const lowercaseSize = size.toLowerCase();
+
       if (
         zipcode.trim() !== "" ||
-        breed.trim() !== "" ||
-        username.trim() !== "" ||
-        size.trim() !== ""
+        lowercaseBreed.trim() !== "" ||
+        lowercaseUsername.trim() !== "" ||
+        lowercaseSize.trim() !== ""
       ) {
         const response = await api.get("/users/search", {
-          params: { zipcode, breed, username, size },
+          params: {
+            zipcode: zipcode,
+            breed: lowercaseBreed,
+            username: lowercaseUsername,
+            size: lowercaseSize,
+          },
         });
 
         setSearchResults(response.data);
@@ -71,26 +81,30 @@ const SearchPage = () => {
         Search
       </button>
 
-      
       <Row>
-        {searchResults.map((user, index) => (
-          <Col key={index} xs={12} sm={6} md={3}>
-            <Card style={{ width: "18rem", margin: "1rem" }}>
-              <Card.Img
-                variant="top"
-                src={user.profile_image}
-                alt={`Profile of ${user.username}`}
-              />
-              <Card.Body>
-                <Card.Title>{user.username}</Card.Title>
-                <Card.Text>Pet's Name: {user.dog.name} </Card.Text>
-                <Card.Text>Pet's Breed: {user.dog.breed}</Card.Text>
-                <Card.Text>Pet's Size: {user.dog.size}</Card.Text>
-                <Card.Text>Zip Code: {user.zipcode}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {searchResults.map((user, index) => {
+          const userProfileUrl = `/profile/u/${user.username}`;
+          return (
+            <Col key={index} xs={12} sm={6} md={3}>
+              <Card style={{ width: "18rem", margin: "1rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={user.profile_image}
+                  alt={`Profile of ${user.username}`}
+                />
+                <Card.Body>
+                  <Card.Title>
+                    <Link to={userProfileUrl}>{user.username}</Link>
+                  </Card.Title>
+                  <Card.Text>Pet's Name: {user.dog.name} </Card.Text>
+                  <Card.Text>Pet's Breed: {user.dog.breed}</Card.Text>
+                  <Card.Text>Pet's Size: {user.dog.size}</Card.Text>
+                  <Card.Text>Zip Code: {user.zipcode}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })}
       </Row>
     </div>
   );
