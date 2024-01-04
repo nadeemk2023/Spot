@@ -92,7 +92,6 @@ router
 
         await user.save();
       } else {
-        // Update other user details
         user = await User.findOneAndUpdate(
           { username },
           { $set: { ...userData } },
