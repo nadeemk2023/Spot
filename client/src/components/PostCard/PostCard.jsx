@@ -54,9 +54,10 @@ const PostCard = ({ post, posts, setPosts }) => {
   };
 
   const handleSubmitComment = async postId => {
+    if (commentText === '') return;
     const responseData = {
       text: commentText,
-      userid: currentUser.uid,
+      userId: currentUser.uid,
       postId: postId,
     };
     try {
@@ -66,7 +67,8 @@ const PostCard = ({ post, posts, setPosts }) => {
       console.error(err);
     }
   };
-  const handleEditComment = async () => {
+
+  const handleEditPost = async () => {
     const responseData = {
       text: editedText,
       userid: currentUser.uid,
@@ -137,7 +139,7 @@ const PostCard = ({ post, posts, setPosts }) => {
               value={editedText}
               onChange={e => setEditedText(e.target.value)}
             ></input>
-            <Button onClick={() => handleEditComment()}>Save Change</Button>
+            <Button onClick={() => handleEditPost()}>Save Change</Button>
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
           </>
         )}
