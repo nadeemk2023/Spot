@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-//import axios from "axios";
-import { Form, Button, InputGroup, Col } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  InputGroup,
+  Col,
+  Modal,
+  FormGroup,
+} from "react-bootstrap";
 import AddDog from "../components/AddDog/AddDog";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
+import UploadFile from "../components/UploadFile/UploadFile";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -18,9 +25,17 @@ const RegisterPage = () => {
       breed: "",
       size: "",
     },
+    profile_image: "",
   });
 
   const [dogs, setDogs] = useState([]);
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({
+      ...formData,
+      profile_image: imageUrl,
+    });
+  };
 
   const handleAddDog = (newDog) => {
     setDogs([...dogs, newDog]);
@@ -107,7 +122,8 @@ const RegisterPage = () => {
         formData.zipcode,
         formData.dogName,
         formData.dogBreed,
-        formData.dogSize
+        formData.dogSize,
+        formData.profile_image
       );
       console.log(res.data);
 
@@ -117,6 +133,11 @@ const RegisterPage = () => {
     }
   };
 
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleShowUploadModal = () => setShowUploadModal(true);
+  const handleCloseUploadModal = () => setShowUploadModal(false);
+
   return (
     <section
       id="register"
@@ -125,10 +146,12 @@ const RegisterPage = () => {
         backgroundColor: "rgba(129, 195, 215, 0.3)",
         border: "3px solid #16425B",
         borderRadius: "5px",
-        padding: "20px",
+        padding: "15px",
+        margin: "50px auto",
+        maxWidth: "600px",
       }}
     >
-      <h2>Doggy Adventures Await You!</h2>
+      <h2>Adventures Await You!</h2>
       <Form onSubmit={handleFormSubmit} className="mt-3">
         {/* Users info: */}
         <Form.Group controlId="formUsername" className="mt-3">
@@ -287,19 +310,67 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
-        {/* Avatar Picker */}
-        <Form.Group controlId="formAvatar" className="mt-3">
+        {/* AddDog component */}
+        <FormGroup controlId="addAnotherDog" className="mt-3">
           <Form.Label
             style={{ fontWeight: "bold" }}
             className="d-flex align-items-start"
           >
-            Last but not least, choose your avatar!
+            Have more than one furry friend? Add them here!
           </Form.Label>
-          <AvatarPicker />
-        </Form.Group>
+          <AddDog onAddDog={handleAddDog} />
+        </FormGroup>
 
-        {/* AddDog component */}
-        <AddDog onAddDog={handleAddDog} />
+        {/* Conditional rendering based on whether an image is uploaded */}
+        {formData.profile_image ? (
+          <div className="mt-3">
+            <p>Image uploaded successfully!</p>
+            <img
+              src={formData.profile_image}
+              alt="Uploaded Avatar"
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+          </div>
+        ) : (
+          <>
+            <Form.Group controlId="formAvatar" className="mt-3">
+              <Form.Label
+                style={{ fontWeight: "bold" }}
+                className="d-flex align-items-start"
+              >
+                Now one last thing, you can either choose an avatar:
+              </Form.Label>
+              <AvatarPicker disabled={!!formData.profile_image} />
+            </Form.Group>
+
+            {/* Upload Button */}
+            <Form.Group controlId="formImg" className="mt-3">
+              <Form.Label
+                style={{ fontWeight: "bold" }}
+                className="d-flex align-items-start"
+              >
+                Or you can upload your own images here:
+              </Form.Label>
+              <Button
+                variant="primary"
+                onClick={handleShowUploadModal}
+                className="mt-3"
+              >
+                Choose an Image
+              </Button>
+            </Form.Group>
+
+            {/* Upload Modal */}
+            <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Upload File</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <UploadFile onUpload={handleImageUpload} />
+              </Modal.Body>
+            </Modal>
+          </>
+        )}
 
         {/* "Let's Go!" button */}
         <div className="mt-3">

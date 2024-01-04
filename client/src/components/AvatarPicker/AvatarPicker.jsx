@@ -6,7 +6,7 @@ const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
     "/bergamasco.png",
     "/bichon-frise.png",
     "/cone.png",
-    "/greatdane.png", 
+    "/greatdane.png",
     "/pug.png",
   ];
 
@@ -21,7 +21,6 @@ const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
 
   return (
     <div className="avatar-picker">
-      <h6>Select Your Avatar!</h6>
       <div className="avatar-list">
         {avatarOptions.map((avatar, index) => (
           <div
@@ -30,10 +29,11 @@ const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
             style={{
               border:
                 selectedOption === avatar
-                  ? "2px solid #FCC44C"
+                  ? "2px solid rgb(50, 214, 126)"
                   : "2px solid transparent",
               padding: "1px",
-              borderRadius: "10px",
+              borderRadius: "6px",
+              marginRight: "-5px",
             }}
           >
             <img

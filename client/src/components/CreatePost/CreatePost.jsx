@@ -55,7 +55,7 @@ const CreatePost = ({ onPostCreated }) => {
             {text.length} / {maxChars}
           </div>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="px-3 py-2">
           Post
         </Button>
       </Form>
