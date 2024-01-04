@@ -5,9 +5,7 @@ import {
   InputGroup,
   Col,
   Modal,
-  FormGroup,
 } from "react-bootstrap";
-import AddDog from "../components/AddDog/AddDog";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
@@ -28,17 +26,18 @@ const RegisterPage = () => {
     profile_image: "",
   });
 
-  const [dogs, setDogs] = useState([]);
+  const handleAvatarSelection = (avatar) => {
+    setFormData({
+      ...formData,
+      profile_image: avatar,
+    });
+  };
 
   const handleImageUpload = (imageUrl) => {
     setFormData({
       ...formData,
       profile_image: imageUrl,
     });
-  };
-
-  const handleAddDog = (newDog) => {
-    setDogs([...dogs, newDog]);
   };
 
   const [placeholders, setPlaceholders] = useState({
@@ -115,14 +114,14 @@ const RegisterPage = () => {
 
     try {
       const res = await auth.signup(
-        formData.username,
-        formData.email,
+        formData.username.toLowerCase(),
+        formData.email.toLowerCase(),
         formData.password,
         formData.confirmPassword,
         formData.zipcode,
-        formData.dogName,
-        formData.dogBreed,
-        formData.dogSize,
+        formData.dog.name.toLowerCase(),
+        formData.dog.breed.toLowerCase(),
+        formData.dog.size.toLowerCase(),
         formData.profile_image
       );
       console.log(res.data);
@@ -134,7 +133,6 @@ const RegisterPage = () => {
   };
 
   const [showUploadModal, setShowUploadModal] = useState(false);
-
   const handleShowUploadModal = () => setShowUploadModal(true);
   const handleCloseUploadModal = () => setShowUploadModal(false);
 
@@ -310,29 +308,20 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
-        {/* AddDog component */}
-        <FormGroup controlId="addAnotherDog" className="mt-3">
-          <Form.Label
-            style={{ fontWeight: "bold" }}
-            className="d-flex align-items-start"
-          >
-            Have more than one furry friend? Add them here!
-          </Form.Label>
-          <AddDog onAddDog={handleAddDog} />
-        </FormGroup>
-
         {/* Conditional rendering based on whether an image is uploaded */}
         {formData.profile_image ? (
           <div className="mt-3">
-            <p>Image uploaded successfully!</p>
+            <p>Profile Image Chosen Successfully!</p>
             <img
               src={formData.profile_image}
-              alt="Uploaded Avatar"
+              alt="Chosen Avatar"
               style={{ maxWidth: "100px", maxHeight: "100px" }}
             />
           </div>
         ) : (
           <>
+
+            {/*Avatar Picker*/}
             <Form.Group controlId="formAvatar" className="mt-3">
               <Form.Label
                 style={{ fontWeight: "bold" }}
@@ -340,7 +329,11 @@ const RegisterPage = () => {
               >
                 Now one last thing, you can either choose an avatar:
               </Form.Label>
-              <AvatarPicker disabled={!!formData.profile_image} />
+              <AvatarPicker
+                selectedAvatar={formData.profile_image}
+                onSelectAvatar={handleAvatarSelection}
+                disabled={!!formData.profile_image}
+              />
             </Form.Group>
 
             {/* Upload Button */}

@@ -50,7 +50,7 @@ function ProfilePage() {
       <Container className="text-center">
         <Card>
           <Card.Body>
-            <Card.Title>Hello, {state.user.username} !</Card.Title>
+            <Card.Title>Hello, {state.user.username}!</Card.Title>
             <div className="row">
               <div className="col-md-4 mb-4">
                 <img
