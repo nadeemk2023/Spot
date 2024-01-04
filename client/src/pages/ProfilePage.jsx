@@ -36,6 +36,7 @@ function ProfilePage() {
     const getUser = async () => {
       try {
         const userResponse = await api.get(`/users/${params.uname}`);
+        setuserData(userResponse.data);
       } catch (err) {
         console.error(err.message);
       }
@@ -52,7 +53,7 @@ function ProfilePage() {
             <div className="row">
               <div className="col-md-4 mb-4">
                 <img
-                  src={Logo}
+                  src={userData ? userData.profile_image : Logo}
                   alt="Profile Picture"
                   className="img-fluid rounded-circle"
                 />
