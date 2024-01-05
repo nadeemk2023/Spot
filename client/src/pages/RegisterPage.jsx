@@ -357,7 +357,10 @@ const RegisterPage = () => {
                 <Modal.Title>Upload File</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <UploadFile onUpload={handleImageUpload} />
+                <UploadFile
+                  onUpload={handleImageUpload}
+                  handleClose={handleCloseUploadModal}
+                />
               </Modal.Body>
             </Modal>
           </>

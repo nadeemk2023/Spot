@@ -8,6 +8,7 @@ import { useRequireAuth } from "../hooks/useRequireAuth";
 import { Container, Card, Button, Modal } from "react-bootstrap";
 import Logo from "/logo.png";
 import { API_URL, API_TARGET } from "../../constants";
+import UploadFile from "../components/UploadFile/UploadFile";
 
 function ProfilePage() {
   const { state } = useProvideAuth();
@@ -50,7 +51,7 @@ function ProfilePage() {
       <Container className="text-center">
         <Card>
           <Card.Body>
-            <Card.Title>Hello, {state.user.username}!</Card.Title>
+            <Card.Title>Hello, {state.user?.username}!</Card.Title>
             <div className="row">
               <div className="col-md-4 mb-4">
                 <img
@@ -79,17 +80,20 @@ function ProfilePage() {
                   <Card.Body>
                     <Card.Title>Family Member Info</Card.Title>
                     {userData && userData.dog && (
-                      <Card.Text>
-                        <span style={{ display: "block" }}>
-                          Dog Name: {userData.dog.name}
-                        </span>
-                        <span style={{ display: "block" }}>
-                          Breed: {userData.dog.breed}
-                        </span>
-                        <span style={{ display: "block" }}>
-                          Size: {userData.dog.size}
-                        </span>
-                      </Card.Text>
+                      <>
+                        <Card.Text>
+                          <span style={{ display: "block" }}>
+                            Dog Name: {userData.dog.name}
+                          </span>
+                          <span style={{ display: "block" }}>
+                            Breed: {userData.dog.breed}
+                          </span>
+                          <span style={{ display: "block" }}>
+                            Size: {userData.dog.size}
+                          </span>
+                        </Card.Text>
+                        <UploadFile />
+                      </>
                     )}
                   </Card.Body>
                 </Card>
