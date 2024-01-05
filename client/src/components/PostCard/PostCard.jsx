@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
-import { Card, Button, Form, Row, Col } from 'react-bootstrap';
-import { useProvideAuth } from '../../hooks/useAuth';
-import { formatDistanceToNow, parseISO } from 'date-fns';
-import api from '../../../utils/api.utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from "react";
+import { Card, Button, Form, Row, Col } from "react-bootstrap";
+import { useProvideAuth } from "../../hooks/useAuth";
+import { formatDistanceToNow, parseISO } from "date-fns";
+import api from "../../../utils/api.utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as filledHeart,
   faThumbsUp as solidThumbsUp,
   faComment as solidComment,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faComment as outlinedComment,
   faTrashCan,
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
   faPenToSquare as editIcon,
-} from '@fortawesome/free-regular-svg-icons';
-import styles from './PostCard.module.css';
-import CommentsModal from '../CommentsModal/CommentsModal';
+} from "@fortawesome/free-regular-svg-icons";
+import styles from "./PostCard.module.css";
+import CommentsModal from "../CommentsModal/CommentsModal";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
   const isAuthor = post?.author?._id === currentUser.uid;
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
   const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
     post.likes.some(like => like._id === currentUser.uid)
@@ -36,7 +37,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   );
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState('');
+  const [editedText, setEditedText] = useState("");
   const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
@@ -50,7 +51,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
         setPostState(res.data);
         setIsLiked(prevLiked => !prevLiked);
       } else {
-        console.log('Failed to like post:', res.status);
+        console.log("Failed to like post:", res.status);
       }
     } catch (err) {
       console.error(err);
@@ -58,15 +59,15 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   };
 
   const handleSubmitComment = async postId => {
-    if (commentText === '') return;
+    if (commentText === "") return;
     const responseData = {
       text: commentText,
       userId: currentUser.uid,
       postId: postId,
     };
     try {
-      const res = await api.put('/posts/comments', responseData);
-      setCommentText('');
+      const res = await api.put("/posts/comments", responseData);
+      setCommentText("");
       setHasCommented(true);
 
       if (res.data) {
@@ -78,7 +79,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   };
 
   const handleEditPost = async () => {
-    if (editedText === '') return;
+    if (editedText === "") return;
     const responseData = {
       text: editedText,
       userid: currentUser.uid,
@@ -89,7 +90,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
         setPostState(res.data);
         setIsEditing(false);
       } else {
-        console.error('Failed to update post:', res.status);
+        console.error("Failed to update post:", res.status);
       }
     } catch (err) {
       console.error(err);
@@ -111,24 +112,31 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
     <Card className="mb-4 text-dark pb-0">
       <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <div>
-            <Card.Text className="mb-1 fw-bold">
-              {post?.author?.username}
-            </Card.Text>
-            <Card.Text
-              className="text-muted small"
-              style={{ fontSize: '0.75em' }}
-            >
-              {timeAgo}
-            </Card.Text>
+          <div className="d-flex align-items-center">
+            <img
+              src={post?.author?.profile_image}
+              alt="Profile"
+              className="rounded-circle"
+              style={{ width: "40px", height: "40px", marginRight: "10px" }}
+            />
+            <div>
+              <Card.Text className="mb-1 fw-bold">
+                {post?.author?.username}
+              </Card.Text>
+              <Card.Text
+                className="text-muted small"
+                style={{ fontSize: "0.75em" }}
+              >
+                {timeAgo}
+              </Card.Text>
+            </div>
           </div>
-
           {isAuthor && (
             <div>
               <Button
                 variant="outline-secondary"
                 onClick={() => setIsEditing(true)}
-                style={{ marginRight: '0.2rem' }}
+                style={{ marginRight: "0.2rem" }}
               >
                 <FontAwesomeIcon icon={editIcon} />
               </Button>
@@ -157,7 +165,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
           <div className="d-flex align-items-center">
             <FontAwesomeIcon
               icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
-              style={{ color: '#0d6efd' }}
+              style={{ color: "#0d6efd" }}
               className="me-1"
             />
             <span className="ml-2">{postState.likes.length} Likes</span>
@@ -165,7 +173,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
           <div>
             <FontAwesomeIcon
               icon={hasCommented ? solidComment : outlinedComment}
-              style={{ color: '#0d6efd' }}
+              style={{ color: "#0d6efd" }}
               className="me-1"
             />
 
