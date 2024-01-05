@@ -94,6 +94,7 @@ function ProfilePage() {
                   </Card.Body>
                 </Card>
                 {console.log(state.user, params.uname)}
+                {console.log(userData)}
                 {params.uname && (
                   // state.user.username === params.uname &&
                   <>
