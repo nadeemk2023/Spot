@@ -108,14 +108,14 @@ const RegisterPage = () => {
 
     try {
       const res = await auth.signup(
-        formData.username.toLowerCase(),
-        formData.email.toLowerCase(),
+        formData.username,
+        formData.email,
         formData.password,
         formData.confirmPassword,
         formData.zipcode,
-        formData.dog.name.toLowerCase(),
-        formData.dog.breed.toLowerCase(),
-        formData.dog.size.toLowerCase(),
+        formData.dog.name,
+        formData.dog.breed,
+        formData.dog.size,
         formData.profile_image
       );
       console.log(res.data);
