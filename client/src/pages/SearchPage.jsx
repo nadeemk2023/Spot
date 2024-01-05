@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
 
@@ -9,6 +9,7 @@ const SearchPage = () => {
   const [username, setUsername] = useState("");
   const [size, setSize] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -32,18 +33,27 @@ const SearchPage = () => {
         });
 
         setSearchResults(response.data);
+
+        setZipcode("");
+        setBreed("");
+        setUsername("");
+        setSize("");
       } else {
-        setSearchResults([]);
+        setShowModal(true);
       }
     } catch (error) {
       console.error("Error handling search:", error.message);
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div>
-      <h2>Let's Find Some Friends!</h2>
-      <p>Enter a search field below:</p>
+      <h2>Let's Make Some Friends!</h2>
+      <p>Please enter one search field below</p>
 
       <input
         type="text"
@@ -86,13 +96,22 @@ const SearchPage = () => {
           const userProfileUrl = `/profile/u/${user.username}`;
           return (
             <Col key={index} xs={12} sm={6} md={3}>
-              <Card style={{ width: "18rem", margin: "1rem" }}>
+              <Card
+                style={{
+                  width: "18rem",
+                  margin: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 <Card.Img
                   variant="top"
                   src={user.profile_image}
                   alt={`Profile of ${user.username}`}
+                  style={{ height: "100px", width: "100px" }}
                 />
-                <Card.Body>
+                <Card.Body style={{ textAlign: "center" }}>
                   <Card.Title>
                     <Link to={userProfileUrl}>{user.username}</Link>
                   </Card.Title>
@@ -106,6 +125,19 @@ const SearchPage = () => {
           );
         })}
       </Row>
+
+      {/* Modal for empty search */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Whoa there!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>You won't find friends with an empty search!<br />Please enter at least one field.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Let's Try Again
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
