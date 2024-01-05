@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Button,
-  InputGroup,
-  Col,
-  Modal,
-} from "react-bootstrap";
+import { Form, Button, InputGroup, Col, Modal } from "react-bootstrap";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
@@ -46,7 +40,7 @@ const RegisterPage = () => {
     password: "Enter your password",
     confirmPassword: "Confirm your password",
     zipcode: "12345",
-    dogName: "Sir Barks-a-Lot",
+    dogName: "Obi-Pug Kenobi",
     dogBreed: "All breeds welcome!",
   });
 
@@ -98,7 +92,7 @@ const RegisterPage = () => {
       case "zipcode":
         return "12345";
       case "dogName":
-        return "Sir Barks-a-Lot";
+        return "Obi-Pug Kenobi";
       case "dogBreed":
         return "Enter your dog's breed";
       default:
@@ -274,7 +268,7 @@ const RegisterPage = () => {
             style={{ fontWeight: "bold" }}
             className="d-flex align-items-start"
           >
-            Their breed? If unsure, enter 'other' or 'mixed'!
+            Their breed? If unsure, just enter 'mixed'!
           </Form.Label>
           <Form.Control
             type="text"
@@ -308,10 +302,15 @@ const RegisterPage = () => {
           </Form.Control>
         </Form.Group>
 
-        {/* Conditional rendering based on whether an image is uploaded */}
+        {/* Conditional rendering based on whether an image is chosen */}
         {formData.profile_image ? (
           <div className="mt-3">
-            <p>Profile Image Chosen Successfully!</p>
+            <p style={{ fontWeight: "bold" }}>
+              Profile Image Chosen Successfully!
+            </p>
+            <p style={{ fontSize: "smaller" }}>
+              (Don't worry, you can change this later)
+            </p>
             <img
               src={formData.profile_image}
               alt="Chosen Avatar"
@@ -320,7 +319,6 @@ const RegisterPage = () => {
           </div>
         ) : (
           <>
-
             {/*Avatar Picker*/}
             <Form.Group controlId="formAvatar" className="mt-3">
               <Form.Label
