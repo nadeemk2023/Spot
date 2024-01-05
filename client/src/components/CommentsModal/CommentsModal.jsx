@@ -21,9 +21,9 @@ const CommentsModal = ({ post, showModal, onClose }) => {
           });
 
           return (
-            <Card key={comment._id} className="mb-3 text-dark pb-0">
+            <Card key={comment._id} className="mb-3 text-dark">
               <Card.Body>
-                <div className="d-flex justify-content-start align-items-center mb-2">
+                <div className="d-flex justify-content-start align-items-start mb-2">
                   <Link
                     to={`/profile/u/${comment?.author?.username}`}
                     className="text-decoration-none mr-3"
@@ -39,7 +39,7 @@ const CommentsModal = ({ post, showModal, onClose }) => {
                       }}
                     />
                   </Link>
-                  <div>
+                  <div style={{ flex: 1 }}>
                     <Link
                       to={`/profile/u/${comment?.author?.username}`}
                       className="text-decoration-none"
@@ -54,9 +54,9 @@ const CommentsModal = ({ post, showModal, onClose }) => {
                     >
                       {timeAgo}
                     </Card.Text>
+                    <Card.Text>{comment?.text}</Card.Text>
                   </div>
                 </div>
-                <Card.Text>{comment?.text}</Card.Text>
               </Card.Body>
             </Card>
           );
