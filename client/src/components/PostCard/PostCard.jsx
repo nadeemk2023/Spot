@@ -23,7 +23,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
-  const isAuthor = post.author._id === currentUser.uid;
+  const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState('');
   const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
@@ -113,7 +113,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div>
             <Card.Text className="mb-1 fw-bold">
-              {post.author.username}
+              {post?.author?.username}
             </Card.Text>
             <Card.Text
               className="text-muted small"

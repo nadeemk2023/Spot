@@ -1,13 +1,11 @@
 ## Karen's notes
 
--update server for multiple dogs
--park locator styling/conditional rendering
+-park locator styling
 -update pseudocode 
  -likes endpoint
  -edit endpoint
  -park locator
  -upload photo adjustments
- 
  
 
 # PSEUDOCODE
