@@ -113,16 +113,26 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
       <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div className="d-flex align-items-center">
-            <img
-              src={post?.author?.profile_image}
-              alt="Profile"
-              className="rounded-circle"
-              style={{ width: "40px", height: "40px", marginRight: "10px" }}
-            />
+            <Link
+              to={`/profile/u/${post?.author?.username}`}
+              className="text-decoration-none"
+            >
+              <img
+                src={post?.author?.profile_image}
+                alt="Profile"
+                className="rounded-circle"
+                style={{ width: "40px", height: "40px", marginRight: "10px" }}
+              />
+            </Link>
             <div>
-              <Card.Text className="mb-1 fw-bold">
-                {post?.author?.username}
-              </Card.Text>
+              <Link
+                to={`/profile/u/${post?.author?.username}`}
+                className="text-decoration-none"
+              >
+                <Card.Text className="mb-1 fw-bold">
+                  {post?.author?.username}
+                </Card.Text>
+              </Link>
               <Card.Text
                 className="text-muted small"
                 style={{ fontSize: "0.75em" }}
