@@ -115,10 +115,22 @@ const SearchPage = () => {
                   <Card.Title>
                     <Link to={userProfileUrl}>{user.username}</Link>
                   </Card.Title>
-                  <Card.Text>Pet's Name: {user.dog.name} </Card.Text>
-                  <Card.Text>Pet's Breed: {user.dog.breed}</Card.Text>
-                  <Card.Text>Pet's Size: {user.dog.size}</Card.Text>
-                  <Card.Text>Zip Code: {user.zipcode}</Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Pet's Name:</span>{" "}
+                    {user.dog.name}
+                  </Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Pet's Breed:</span>{" "}
+                    {user.dog.breed}
+                  </Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Pet's Size:</span>{" "}
+                    {user.dog.size}
+                  </Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Zip Code:</span>{" "}
+                    {user.zipcode}
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -131,7 +143,11 @@ const SearchPage = () => {
         <Modal.Header closeButton>
           <Modal.Title>Whoa there!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You won't find friends with an empty search!<br />Please enter at least one field.</Modal.Body>
+        <Modal.Body>
+          You won't find friends with an empty search!
+          <br />
+          Please enter at least one field.
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleCloseModal}>
             Let's Try Again
