@@ -47,7 +47,7 @@ const HomePage = () => {
         </Container>
       </div>
 
-      <ParkLocator />
+      <ParkLocator showResultsInModal={true} />
     </>
   );
 };

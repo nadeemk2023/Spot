@@ -162,7 +162,7 @@ const SearchPage = () => {
       </div>
 
       <div>
-        <ParkLocator />
+        <ParkLocator showResultsInModal={false} />
         {dogParks.length > 0 ? (
           dogParks.map((park, index) => (
             <Col key={index} xs={12} sm={6} md={4}>
