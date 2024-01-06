@@ -3,6 +3,7 @@ import Logo from "/logo.png";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useProvideAuth, useAuth } from "../../hooks/useAuth";
+import "./CustomNavbar.css";
 
 function CustomNavbar() {
   const {
@@ -15,7 +16,7 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar className="bg-light py-0" fixed="top">
+    <Navbar className="custom-nav bg-light py-0">
       <Container fluid>
         <Navbar.Brand as={Link} to="/home">
           <img
