@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import api from "../../../utils/api.utils";
 
-const UploadFile = () => {
+const UploadFile = ({ onUpload, handleClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
-
+  // const [userId, setUserId] = useState(userData?._id);
   const handleFileUpload = (event) => {
     setSelectedFiles([...selectedFiles, ...event.target.files]);
   };
@@ -16,23 +16,24 @@ const UploadFile = () => {
     setSelectedFiles([...selectedFiles, ...filesArray]);
   };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    selectedFiles.forEach((file) => {
-      formData.append("files", file);
+  const handleUpload = async () => {
+    // console.log(userId);
+    try {
+      const formData = new FormData();
+      selectedFiles.forEach((file) => {
+        formData.append("files", file);
+      });
 
-      api
-        .post("/files/images", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((res) => {
-          res.data;
-          console.log(res.data);
-        })
-        .catch((err) => {
-          err;
-        });
-    });
+      const response = await api.post(`/files/images`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      onUpload(response.data.path);
+
+      handleClose();
+      console.log(response.data);
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
   };
   const removeFile = (index) => {
     const newFiles = [...selectedFiles];

@@ -1,7 +1,6 @@
 #root {
   width: 100vw;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -42,6 +41,3 @@
 }
 
 /* this padding is needed because of the navbar so it won't overlap */
-body {
-  padding-top: 100px;
-}

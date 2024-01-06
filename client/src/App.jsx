@@ -17,12 +17,14 @@ function App() {
     state: { user },
   } = useProvideAuth();
 
+  const displayNav = window.location.pathname !== "/";
+
   return (
     <>
       {/* <CustomNavbar /> */}
       <ErrorBoundary>
         <ParkProvider>
-          {user && <CustomNavbar />}
+          {displayNav && <CustomNavbar />}
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<RegisterPage />} />
