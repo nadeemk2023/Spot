@@ -163,7 +163,7 @@ const SearchPage = () => {
       </div>
 
       <ParkResultsDisplay />
-      {dogParks.length > 0 && <ParkResultsDisplay />}
+      
     </>
   );
 };
