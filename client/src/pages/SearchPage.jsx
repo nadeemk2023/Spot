@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
+import CustomNavbar from "../components/CustomNavbar/CustomNavbar";
 
 const SearchPage = () => {
   const [zipcode, setZipcode] = useState("");
@@ -51,6 +52,8 @@ const SearchPage = () => {
   };
 
   return (
+    <>
+    <CustomNavbar/>
     <div>
       <h2>Let's Make Some Friends!</h2>
       <p>Please enter one search field below</p>
@@ -155,6 +158,7 @@ const SearchPage = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import { useRequireAuth } from "../hooks/useRequireAuth";
 import { Container, Card, Button, Modal } from "react-bootstrap";
 import Logo from "/logo.png";
 import { API_URL, API_TARGET } from "../../constants";
+import CustomNavbar from "../components/CustomNavbar/CustomNavbar";
 
 function ProfilePage() {
   const { state } = useProvideAuth();
@@ -47,6 +48,7 @@ function ProfilePage() {
 
   return (
     <>
+    <CustomNavbar/>
       <Container className="text-center">
         <Card>
           <Card.Body>

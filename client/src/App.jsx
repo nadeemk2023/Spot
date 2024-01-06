@@ -20,7 +20,7 @@ function App() {
     <>
       {/* <CustomNavbar /> */}
       <ErrorBoundary>
-        {user && <CustomNavbar />}
+        {/* {user && <CustomNavbar />} */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<RegisterPage />} />

@@ -3,6 +3,7 @@ import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import { useProvideAuth } from '../hooks/useAuth';
 import CreatePost from '../components/CreatePost/CreatePost';
 import HomeFeed from '../components/HomeFeed/HomeFeed';
+import CustomNavbar from '../components/CustomNavbar/CustomNavbar';
 
 const HomePage = () => {
   const {
@@ -16,6 +17,8 @@ const HomePage = () => {
   }, []);
 
   return (
+    <>
+    <CustomNavbar/>
     <div>
       {/* Main Content */}
       <Container className="mt-4">
@@ -41,6 +44,7 @@ const HomePage = () => {
         </Row>
       </Container>
     </div>
+    </>
   );
 };
 
