@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
 import ParkLocator from "../ParkLocator/ParkLocator";
+import { Col, Card } from "react-bootstrap";
 
 function ParkResultsDisplay() {
   const { dogParks } = useContext(ParkContext);
