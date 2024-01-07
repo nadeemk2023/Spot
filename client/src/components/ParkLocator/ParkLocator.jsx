@@ -20,8 +20,8 @@ const ParkLocator = ({ showResultsInModal }) => {
   };
 
   return (
-    <Container className="mt-5 mb-5" style={{ width: "50%" }}>
-      <Button onClick={handleClick}>Search Dog Parks</Button>
+    <Container className="mt-2" style={{ width: "50%" }}>
+      <Button onClick={handleClick}>Search</Button>
       {showResultsInModal && (
         <ParkResultsModal show={showModal} onHide={() => setShowModal(false)} />
       )}
