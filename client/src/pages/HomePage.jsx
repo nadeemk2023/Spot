@@ -4,8 +4,9 @@ import { useProvideAuth } from "../hooks/useAuth";
 import CreatePost from "../components/CreatePost/CreatePost";
 import HomeFeed from "../components/HomeFeed/HomeFeed";
 import { ParkContext } from "../components/ParkLocator/ParkLocatorContext";
-import ParkLocator from "../components/ParkLocator/ParkLocator";
+//import ParkLocator from "../components/ParkLocator/ParkLocator";
 import SearchBar from "../components/SearchBar/SearchBar";
+import ParkLocatorHome from "../components/ParkLocatorHome/ParkLocatorHome";
 
 const HomePage = () => {
   const {
@@ -45,7 +46,7 @@ const HomePage = () => {
             className="sticky-top"
             style={{ top: navbarHeight, marginTop: offsetTop }}
           >
-            <ParkLocator showResultsInModal={true} />
+            <ParkLocatorHome/>
           </div>
         </Col>
       </Row>
