@@ -26,7 +26,6 @@ const HomePage = () => {
     <Container fluid style={{ paddingTop: "20px" }}>
       <Row className="justify-content-center">
         <Col xs={12} md={4} lg={3} className="px-lg-5">
-          {/* Adjusted margin-top to align with HomeFeed */}
           <div
             className="sticky-top"
             style={{ top: "20px", marginTop: offsetTop }}
@@ -41,7 +40,6 @@ const HomePage = () => {
         </Col>
 
         <Col xs={12} md={4} lg={3} className="px-lg-5">
-          {/* Adjusted margin-top to align with HomeFeed */}
           <div
             className="sticky-top"
             style={{ top: "20px", marginTop: offsetTop }}
