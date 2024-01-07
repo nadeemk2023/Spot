@@ -21,6 +21,7 @@ const HomePage = () => {
   }, []);
 
   const offsetTop = "265px";
+  const navbarHeight = "100px";
 
   return (
     <Container fluid style={{ paddingTop: "20px" }}>
@@ -28,7 +29,7 @@ const HomePage = () => {
         <Col xs={12} md={4} lg={3} className="px-lg-5">
           <div
             className="sticky-top"
-            style={{ top: "20px", marginTop: offsetTop }}
+            style={{ top: navbarHeight, marginTop: offsetTop }}
           >
             <SearchBar />
           </div>
@@ -42,7 +43,7 @@ const HomePage = () => {
         <Col xs={12} md={4} lg={3} className="px-lg-5">
           <div
             className="sticky-top"
-            style={{ top: "20px", marginTop: offsetTop }}
+            style={{ top: navbarHeight, marginTop: offsetTop }}
           >
             <ParkLocator showResultsInModal={true} />
           </div>
