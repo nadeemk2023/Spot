@@ -3,7 +3,7 @@ import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
 
 const ParkResultsModal = ({ show, onHide }) => {
-  const { dogParks } = useContext(ParkContext);
+  const { dogParks, parkImages } = useContext(ParkContext);
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -25,17 +25,24 @@ const ParkResultsModal = ({ show, onHide }) => {
         {dogParks.length > 0 ? (
           <Container>
             <Row className="justify-content-center">
-              {dogParks.map((park, index) => (
-                <Col key={index} xs={12} sm={6} md={4} className="mb-3">
-                  <Card className="h-100 d-flex flex-column align-items-center">
-                    <Card.Body className="text-center">
-                      <Card.Title>
-                        {park.properties.name || "Dog Park Name Not Available"}
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+              {dogParks.map((park, index) => {
+                const randomImage =
+                  parkImages[Math.floor(Math.random() * parkImages.length)];
+                return (
+                  <Col key={index} xs={12} sm={6} md={4} className="mb-3">
+                    <Card className="h-100 d-flex flex-column align-items-center">
+                      <Card.Img variant="top" src={randomImage} />{" "}
+                      {/* Image displayed here */}
+                      <Card.Body className="text-center">
+                        <Card.Title>
+                          {park.properties.name ||
+                            "Dog Park Name Not Available"}
+                        </Card.Title>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
             </Row>
           </Container>
         ) : (
@@ -50,9 +57,7 @@ const ParkResultsModal = ({ show, onHide }) => {
               height: "400px",
               margin: "50px 0",
             }}
-          >
-            {/* Empty container styling for when there are no parks */}
-          </Container>
+          ></Container>
         )}
       </Modal.Body>
     </Modal>

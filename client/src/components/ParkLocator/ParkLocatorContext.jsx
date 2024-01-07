@@ -1,12 +1,12 @@
-
 import React, { createContext, useState } from "react";
 import axios from "axios";
-
 
 export const ParkContext = createContext();
 
 export const ParkProvider = ({ children }) => {
   const [dogParks, setDogParks] = useState([]);
+
+  const parkImages = ["dogs1.jpg", "dogs2.jpg", "dogs3.jpg"];
 
   function getCurrentLocation() {
     return new Promise((resolve, reject) => {
@@ -51,7 +51,7 @@ export const ParkProvider = ({ children }) => {
   };
 
   return (
-    <ParkContext.Provider value={{ dogParks, fetchParks }}>
+    <ParkContext.Provider value={{ dogParks, fetchParks, parkImages }}>
       {children}
     </ParkContext.Provider>
   );
