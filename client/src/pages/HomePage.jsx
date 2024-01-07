@@ -34,11 +34,11 @@ const HomePage = () => {
     >
       <div
         style={{
-          width: "250px",
+          width: "350px",
           position: "sticky",
           top: "35%",
           alignSelf: "flex-start",
-          marginLeft: "calc(20% - 125px)",
+          marginLeft: "calc(20% - 175px)",
         }}
       >
         <SearchBar />
