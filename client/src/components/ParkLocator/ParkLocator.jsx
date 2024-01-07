@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { ParkContext } from "./ParkLocatorContext";
 import { useNavigate } from "react-router-dom";
-import ParkResultsModal from "./ParkResultsModal";
+import ParkResultsModal from "../ParkResultsModal/ParkResultsModal";
 
 const ParkLocator = ({ showResultsInModal }) => {
   const { fetchParks } = useContext(ParkContext);
