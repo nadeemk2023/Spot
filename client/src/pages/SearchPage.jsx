@@ -12,28 +12,28 @@ const SearchPage = () => {
   const [zipcode, setZipcode] = useState("");
   const [breed, setBreed] = useState("");
   const [username, setUsername] = useState("");
-  const [size, setSize] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
 
   const handleSearch = async () => {
     try {
       const lowercaseUsername = username.toLowerCase();
       const lowercaseBreed = breed.toLowerCase();
-      const lowercaseSize = size.toLowerCase();
+      const formattedSize = selectedSize.toLowerCase();
 
       if (
         zipcode.trim() !== "" ||
         lowercaseBreed.trim() !== "" ||
         lowercaseUsername.trim() !== "" ||
-        lowercaseSize.trim() !== ""
+        formattedSize.trim() !== ""
       ) {
         const response = await api.get("/users/search", {
           params: {
             zipcode: zipcode,
             breed: lowercaseBreed,
             username: lowercaseUsername,
-            size: lowercaseSize,
+            size: formattedSize,
           },
         });
 
@@ -42,7 +42,7 @@ const SearchPage = () => {
         setZipcode("");
         setBreed("");
         setUsername("");
-        setSize("");
+        setSelectedSize("");
       } else {
         setShowModal(true);
       }
@@ -77,13 +77,18 @@ const SearchPage = () => {
           onChange={(e) => setBreed(e.target.value)}
         />
 
-        <input
-          type="text"
-          value={size}
-          placeholder="Size (Small, Medium, or Large)"
-          style={{ width: "250px", marginLeft: "5px" }}
-          onChange={(e) => setSize(e.target.value)}
-        />
+       {/* Dropdown menu for Size */}
+      <select
+        id="size"
+        value={selectedSize}
+        onChange={(e) => setSelectedSize(e.target.value)}
+        style={{ marginLeft: "5px", height: "30px" }}
+      >
+        <option value="">Select Size</option>
+        <option value="small">Small (22 lbs or less)</option>
+        <option value="medium">Medium (23 lbs - 57 lbs)</option>
+        <option value="large">Large (58 lbs or more)</option>
+      </select>
 
         <input
           type="text"
@@ -163,9 +168,10 @@ const SearchPage = () => {
       </div>
 
       <ParkResultsDisplay />
-      
+
     </>
   );
 };
 
 export default SearchPage;
+
