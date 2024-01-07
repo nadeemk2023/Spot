@@ -9,6 +9,7 @@ import UploadFile from "../UploadFile/UploadFile";
 
 function EditProfile({ userData, onSubmit }) {
   const [validated, setValidated] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
   const [userProfile, setUserProfile] = useState({
     name: userData.name,
     email: userData.email,
@@ -17,6 +18,7 @@ function EditProfile({ userData, onSubmit }) {
       name: userData.dog.name,
       breed: userData.dog.breed,
       size: userData.dog.size,
+      images: userData.dog.images || [],
     },
   });
 
@@ -161,12 +163,25 @@ function EditProfile({ userData, onSubmit }) {
     }
   };
 
+  const handleFileUpload = (path) => {
+    setUserProfile({
+      ...userProfile,
+      dog: {
+        ...userProfile.dog,
+        images: [...userProfile.dog.images, path],
+      },
+    });
+  };
+
   return (
     <Container className="h-100 d-flex justify-content-center align-items-center">
       <div className="text-center">
         <h2 className="text-center mb-4">Edit Profile</h2>
         <div className="mb-3">
-          <UploadFile />
+          {/* <UploadFile
+            onUpload={handleFileUpload}
+            handleClose={() => setShowUpload(false)}
+          /> */}
         </div>
         <form
           onSubmit={handleSubmit}

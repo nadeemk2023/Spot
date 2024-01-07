@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, InputGroup, Col, Modal } from "react-bootstrap";
+import { Form, Button, InputGroup, Col, Modal, Alert } from "react-bootstrap";
 import { useProvideAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import AvatarPicker from "../components/AvatarPicker/AvatarPicker";
@@ -20,20 +20,6 @@ const RegisterPage = () => {
     profile_image: "",
   });
 
-  const handleAvatarSelection = (avatar) => {
-    setFormData({
-      ...formData,
-      profile_image: avatar,
-    });
-  };
-
-  const handleImageUpload = (imageUrl) => {
-    setFormData({
-      ...formData,
-      profile_image: imageUrl,
-    });
-  };
-
   const [placeholders, setPlaceholders] = useState({
     username: "PuppyBreath4Lyfe",
     email: "DogzRule@gmail.com",
@@ -42,6 +28,16 @@ const RegisterPage = () => {
     zipcode: "12345",
     dogName: "Obi-Pug Kenobi",
     dogBreed: "All breeds welcome!",
+  });
+
+  const [validationErrors, setValidationErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    zipcode: "",
+    dogName: "",
+    dogBreed: "",
   });
 
   const handleInputChange = (e) => {
@@ -106,6 +102,13 @@ const RegisterPage = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const errors = validateForm();
+    setValidationErrors(errors);
+
+    if (Object.values(errors).some((error) => error !== "")) {
+      return;
+    }
+
     try {
       const res = await auth.signup(
         formData.username,
@@ -129,6 +132,67 @@ const RegisterPage = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const handleShowUploadModal = () => setShowUploadModal(true);
   const handleCloseUploadModal = () => setShowUploadModal(false);
+
+  const validateForm = () => {
+    const errors = {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      zipcode: "",
+      dogName: "",
+      dogBreed: "",
+      dogSize: "",
+    };
+
+    if (formData.username.trim() === "") {
+      errors.username = "Username is required";
+    }
+
+    if (formData.email.trim() === "") {
+      errors.email = "Email is required";
+    }
+
+    if (formData.password.length < 8) {
+      errors.password = "Password must contain at least 8 characters";
+    }
+
+    if (formData.confirmPassword !== formData.password) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+
+    if (formData.zipcode.length < 5) {
+      errors.zipcode = "Invalid Zipcode";
+    }
+
+    if (formData.dog.name.trim() === "") {
+      errors.dogName = "Please enter your dogs name";
+    }
+
+    if (formData.dog.breed.trim() === "") {
+      errors.dogBreed = "Please enter your dogs breed";
+    }
+
+    if (formData.dog.size === "") {
+      errors.dogSize = "Please choose your dogs size";
+    }
+
+    return errors;
+  };
+
+  const handleAvatarSelection = (avatar) => {
+    setFormData({
+      ...formData,
+      profile_image: avatar,
+    });
+  };
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({
+      ...formData,
+      profile_image: imageUrl,
+    });
+  };
 
   return (
     <section
@@ -166,6 +230,11 @@ const RegisterPage = () => {
               placeholder={placeholders.username}
             />
           </InputGroup>
+          {validationErrors.username !== "" && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.username}
+            </Alert>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formEmail" className="mt-3">
@@ -185,6 +254,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("email")}
             placeholder={placeholders.email}
           />
+          {validationErrors.email !== "" && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.email}
+            </Alert>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formPassword" className="mt-3">
@@ -204,6 +278,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("password")}
             placeholder={placeholders.password}
           />
+          {validationErrors.password && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.password}
+            </Alert>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formConfirmPassword" className="mt-3">
@@ -223,6 +302,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("confirmPassword")}
             placeholder={placeholders.confirmPassword}
           />
+          {validationErrors.confirmPassword && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.confirmPassword}
+            </Alert>
+          )}
         </Form.Group>
 
         <Form.Group controlId="zipcode" className="mt-3">
@@ -242,6 +326,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("zipcode")}
             placeholder={placeholders.zipcode}
           />
+          {validationErrors.zipcode && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.zipcode}
+            </Alert>
+          )}
         </Form.Group>
 
         {/* Dog details: */}
@@ -261,6 +350,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("dogName")}
             placeholder={placeholders.dogName}
           />
+          {validationErrors.dogName && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.dogName}
+            </Alert>
+          )}
         </Form.Group>
 
         <Form.Group controlId="formDogBreed" className="mt-3">
@@ -279,6 +373,11 @@ const RegisterPage = () => {
             onBlur={() => handleBlur("dogBreed")}
             placeholder={placeholders.dogBreed}
           />
+          {validationErrors.dogBreed && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.dogBreed}
+            </Alert>
+          )}
         </Form.Group>
 
         {/* Dropdown menu for dog's size: */}
@@ -300,6 +399,11 @@ const RegisterPage = () => {
             <option value="medium">Medium (23 lbs - 57 lbs)</option>
             <option value="large">Large (58 lbs or more)</option>
           </Form.Control>
+          {validationErrors.dogSize && (
+            <Alert variant="danger" className="mt-2">
+              {validationErrors.dogSize}
+            </Alert>
+          )}
         </Form.Group>
 
         {/* Conditional rendering based on whether an image is chosen */}
@@ -357,7 +461,10 @@ const RegisterPage = () => {
                 <Modal.Title>Upload File</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <UploadFile onUpload={handleImageUpload} />
+                <UploadFile
+                  onUpload={handleImageUpload}
+                  handleClose={handleCloseUploadModal}
+                />
               </Modal.Body>
             </Modal>
           </>
