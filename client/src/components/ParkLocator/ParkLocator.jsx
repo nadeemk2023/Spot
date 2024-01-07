@@ -29,4 +29,4 @@ const ParkLocator = ({ showResultsInModal }) => {
   );
 };
 
-export default ParkLocator
+export default ParkLocator;
