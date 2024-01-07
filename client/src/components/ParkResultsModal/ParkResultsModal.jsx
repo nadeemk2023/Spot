@@ -6,7 +6,7 @@ const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks } = useContext(ParkContext);
 
   return (
-    <Modal show={show} onHide={onHide} size="md">
+    <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>
           <div>
@@ -23,52 +23,35 @@ const ParkResultsModal = ({ show, onHide }) => {
       </Modal.Header>
       <Modal.Body>
         {dogParks.length > 0 ? (
-          <Row style={{ width: "80%", margin: "0 auto" }}>
-            {dogParks.map((park, index) => (
-              <Col key={index} xs={12} sm={6} md={4}>
-                <Card
-                  style={{
-                    width: "12rem",
-                    height: "13rem",
-                    margin: "10px",
-                    marginBottom: "40px",
-                    padding: "10px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Card.Body style={{ textAlign: "center", fontSize: "small" }}>
-                    <Card.Title style={{ fontSize: "medium" }}>
-                      {park.properties.name || "Dog Park Name Not Available"}
-                    </Card.Title>
-                    <Button variant="primary">Visit Park</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <Container>
+            <Row className="justify-content-center">
+              {dogParks.map((park, index) => (
+                <Col key={index} xs={12} sm={6} md={4} className="mb-3">
+                  <Card className="h-100 d-flex flex-column align-items-center">
+                    <Card.Body className="text-center">
+                      <Card.Title>
+                        {park.properties.name || "Dog Park Name Not Available"}
+                      </Card.Title>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </Container>
         ) : (
           <Container
+            className="d-flex flex-column align-items-center justify-content-end"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-end",
               border: "1px solid grey",
-              paddingLeft: "5px",
-              paddingRight: "5px",
-              paddingTop: "20px",
-              paddingBottom: "100px",
+              padding: "20px 5px 100px",
               backgroundImage: 'url("/lonelydog.jpg")',
               backgroundSize: "cover",
               borderRadius: "10px",
-              height:"400px",
-              marginTop: "50px",
-              marginBottom: "50px"
+              height: "400px",
+              margin: "50px 0",
             }}
           >
-            {" "}
+            {/* Empty container styling for when there are no parks */}
           </Container>
         )}
       </Modal.Body>
