@@ -16,14 +16,19 @@ router.get("/search", async (req, res) => {
         .json({ error: "At least one search parameter is required" });
     }
 
-    const users = await User.find({
+    const query = {
       $or: [
         { zipcode },
-        { "dog.breed": { $regex: new RegExp(`^${breed}$`, "i") } },
         { username: { $regex: new RegExp(`^${username}$`, "i") } },
         { "dog.size": { $regex: new RegExp(`^${size}$`, "i") } },
       ],
-    });
+    };
+
+    if (breed) {
+      query.$or.push({ "dog.breed": { $regex: new RegExp(breed, "i") } });
+    }
+
+    const users = await User.find(query);
 
     res.status(200).json(users);
   } catch (error) {
