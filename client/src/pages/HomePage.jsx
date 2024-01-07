@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useContext } from "react";
-import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useProvideAuth } from "../hooks/useAuth";
 import CreatePost from "../components/CreatePost/CreatePost";
 import HomeFeed from "../components/HomeFeed/HomeFeed";
