@@ -32,12 +32,14 @@ const ParkResultsModal = ({ show, onHide }) => {
                   <Col key={index} xs={12} sm={6} md={4} className="mb-3">
                     <Card className="h-100 d-flex flex-column align-items-center">
                       <Card.Img variant="top" src={randomImage} />{" "}
-                      {/* Image displayed here */}
                       <Card.Body className="text-center">
                         <Card.Title>
                           {park.properties.name ||
                             "Dog Park Name Not Available"}
                         </Card.Title>
+                        <Card.Text>
+                          {park.address || "Address Not Available"}
+                        </Card.Text>
                       </Card.Body>
                     </Card>
                   </Col>

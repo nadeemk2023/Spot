@@ -27,6 +27,9 @@ function ParkResultsDisplay() {
                   <Card.Title>
                     {park.properties.name || "Dog Park Name Not Available"}
                   </Card.Title>
+                  <Card.Text>
+                          {park.address || "Address Not Available"}
+                        </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
