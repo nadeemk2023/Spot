@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
+import { ParkContext } from "../components/ParkLocator/ParkLocatorContext";
+import ParkLocator from "../components/ParkLocator/ParkLocator";
 
 const SearchPage = () => {
+  const { dogParks } = useContext(ParkContext);
+
   const [zipcode, setZipcode] = useState("");
   const [breed, setBreed] = useState("");
   const [username, setUsername] = useState("");
@@ -51,7 +55,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div>
+    <>
       <h2>Let's Make Some Friends!</h2>
       <p>Please enter one search field below</p>
 
@@ -159,7 +163,26 @@ const SearchPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+
+      {/* ParkLocator component */}
+      <ParkLocator showResultsInModal={false} />
+        {dogParks.length > 0 ? (
+          dogParks.map((park, index) => (
+            <Col key={index} xs={12} sm={6} md={4}>
+              <Card className="mb-4">
+                <Card.Body>
+                  <Card.Title>
+                    {park.properties.name || "Dog Park Name Not Available"}
+                  </Card.Title>
+                  <Button variant="primary">Visit Park</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        ) : (
+          <p>No Parks found</p>
+        )}
+    </>
   );
 };
 
