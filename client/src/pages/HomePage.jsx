@@ -20,55 +20,35 @@ const HomePage = () => {
     setRefreshKey(prevKey => prevKey + 1);
   }, []);
 
+  const offsetTop = "265px";
+  const navbarHeight = "100px";
+
   return (
-    <Container
-      fluid
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        paddingTop: "20px",
-        position: "relative",
-        height: "fit-content",
-      }}
-    >
-      <div
-        style={{
-          width: "350px",
-          position: "sticky",
-          top: "35%",
-          alignSelf: "flex-start",
-          marginLeft: "calc(20% - 175px)",
-        }}
-      >
-        <SearchBar />
-      </div>
+    <Container fluid style={{ paddingTop: "20px" }}>
+      <Row className="justify-content-center">
+        <Col xs={12} md={4} lg={3} className="px-lg-5">
+          <div
+            className="sticky-top"
+            style={{ top: navbarHeight, marginTop: offsetTop }}
+          >
+            <SearchBar />
+          </div>
+        </Col>
 
-      <div style={{ flex: "0 1 800px", margin: "0 auto" }}>
-        {" "}
-        <Row className="justify-content-center mb-4">
-          <Col>
-            <CreatePost onPostCreated={refreshPosts} />
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col>
-            <HomeFeed key={refreshKey} />
-          </Col>
-        </Row>
-      </div>
+        <Col xs={12} md={4} lg={6}>
+          <CreatePost onPostCreated={refreshPosts} />
+          <HomeFeed key={refreshKey} />
+        </Col>
 
-      <div
-        style={{
-          width: "250px",
-          position: "sticky",
-          top: "35%",
-          alignSelf: "flex-start",
-          marginRight: "calc(20% - 125px)",
-        }}
-      >
-        <ParkLocator showResultsInModal={true} />
-      </div>
+        <Col xs={12} md={4} lg={3} className="px-lg-5">
+          <div
+            className="sticky-top"
+            style={{ top: navbarHeight, marginTop: offsetTop }}
+          >
+            <ParkLocator showResultsInModal={true} />
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };
