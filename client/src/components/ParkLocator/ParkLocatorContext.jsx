@@ -23,14 +23,48 @@ export const ParkProvider = ({ children }) => {
           lng: position.coords.longitude,
         };
         resolve(coords);
+        console.log("coords:", coords)
       }, reject);
     });
   }
 
+  // const fetchParks = async () => {
+  //   try {
+  //     // const userCoords = await getCurrentLocation();
+  //     const userCoords = {lat: 37.9083713, lng: -122.0041679}
+  //     console.log("userCoords:", userCoords)
+  //     const options = {
+  //       method: "POST",
+  //       url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
+  //       headers: {
+  //         "content-type": "application/json",
+  //         "X-RapidAPI-Key":
+  //           "a8cae885b6msha39d1a7a8eccfd1p1759bajsn2ffd7e679a1f",
+  //         "X-RapidAPI-Host":
+  //           "pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com",
+  //       },
+  //       data: {
+  //         coords: userCoords,
+  //         radius: 5,
+  //         leisure: "dog_park",
+  //       },
+  //     };
+
+  //     const response = await axios.request(options);
+  //     console.log("API response", response.data);
+  //     setDogParks(response.data.result || []);
+  //     console.log("dog parks", response.data.result);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setDogParks([]);
+  //   }
+  // };
+
   const fetchParks = async () => {
     try {
-      const userCoords = await getCurrentLocation();
-      const options = {
+      //const userCoords = await getCurrentLocation();
+      const userCoords = {lat: 37.9083713, lng: -122.0041679}
+      const pipicanOptions = {
         method: "POST",
         url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
         headers: {
@@ -47,15 +81,32 @@ export const ParkProvider = ({ children }) => {
         },
       };
 
-      const response = await axios.request(options);
-      console.log("API response", response.data);
-      setDogParks(response.data.result || []);
-      console.log("dog parks", response.data.result);
+      const pipicanResponse = await axios.request(pipicanOptions);
+      const parks = pipicanResponse.data.result || [];
+
+      const parksWithAddress = await Promise.all(
+        parks.map(async (park) => {
+          console.log(park)
+          const lat = park.center_coord.coordinates[0];
+          const lon = park.center_coord.coordinates[1];
+
+          const nominatimResponse = await axios.get(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+          );
+          const address = nominatimResponse.data.display_name;
+          return { ...park, address };
+        })
+      );
+
+
+      setDogParks(parksWithAddress);
     } catch (error) {
       console.error(error);
       setDogParks([]);
     }
   };
+
+
 
   return (
     <ParkContext.Provider value={{ dogParks, fetchParks, parkImages }}>

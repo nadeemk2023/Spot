@@ -25,7 +25,7 @@ function ParkResultsDisplay() {
                 <Card.Img variant="top" src={randomImage} />
                 <Card.Body>
                   <Card.Title>
-                    {park.properties.name || "Dog Park Name Not Available"}
+                    {/* {park.properties.name || "Dog Park Name Not Available"} */}
                   </Card.Title>
                   <Card.Text>
                           {park.address || "Address Not Available"}
