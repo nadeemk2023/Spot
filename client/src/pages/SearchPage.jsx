@@ -1,12 +1,19 @@
 import React, { useState, useContext } from "react";
-import { Card, Row, Col, Modal, Button } from "react-bootstrap";
+import {
+  Card,
+  Row,
+  Col,
+  Modal,
+  Button,
+  Container,
+  Carousel,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
 import ParkResultsDisplay from "../components/ParkResultsDisplay/ParkResultsDisplay";
 import { ParkContext } from "../components/ParkLocator/ParkLocatorContext";
 
 const SearchPage = () => {
-
   const { dogParks } = useContext(ParkContext);
 
   const [zipcode, setZipcode] = useState("");
@@ -57,50 +64,127 @@ const SearchPage = () => {
 
   return (
     <>
-      <div>
-        <h2>Let's Make Some Friends!</h2>
-        <p>Please enter one search field below</p>
+      <div style={{ marginTop: "60px" }}>
+        <Carousel>
+          <Carousel.Item>
+            <img
+              src="/dogplay1.jpg"
+              alt=""
+              style={{ height: "300px", borderRadius: "10px" }}
+            />
+            <Carousel.Caption style={{ marginTop: "100px" }}>
+              <p className="fs-5 text-uppercase mt-3">
+                <img
+                  src="logo.png"
+                  alt="Spot Logo"
+                  style={{ marginRight: "2px", height: "70px", width: "70px" }}
+                />
+                Life is better with friends
+              </p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              src="/dogplay2.jpg"
+              alt=""
+              style={{ height: "300px", borderRadius: "10px" }}
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              src="/dogplay3.jpg"
+              alt=""
+              style={{ height: "300px", borderRadius: "10px" }}
+            />
+          </Carousel.Item>
+        </Carousel>
 
-        <input
-          type="text"
-          value={username}
-          placeholder="Username"
-          style={{ width: "200px", marginLeft: "5px" }}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <Col md={6} style={{ display: "flex", flexDirection: "row" }}>
+          <Container
+            id="searchBox"
+            style={{
+              width: "500px",
+              height: "400px",
+              marginLeft: "200px",
+            }}
+          >
+            <Container
+              style={{
+                paddingTop: "2px",
+                backgroundColor: "lightgray",
+                height: "42px",
+                width: "350px",
+                borderRadius: "5px",
+                marginTop: "50px",
+                marginBottom: "10px",
+              }}
+            >
+              <p style={{ fontWeight: "bold" }}>
+                <img
+                  src="/logo.png"
+                  alt="Spot Logo"
+                  style={{ marginRight: "5px", height: "40px", width: "40px" }}
+                />
+                Find A Friend!
+              </p>
+            </Container>
+            <Container
+              style={{
+                paddingTop: "8px",
+                backgroundColor: "lightgray",
+                height: "42px",
+                width: "350px",
+                borderRadius: "5px",
+                marginBottom: "10px",
+              }}
+            >
+              Please enter one search field below:
+            </Container>
+            <input
+              type="text"
+              value={username}
+              placeholder="Username"
+              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              onChange={(e) => setUsername(e.target.value)}
+            />
 
-        <input
-          type="text"
-          value={breed}
-          placeholder="Breed"
-          style={{ width: "200px", marginLeft: "5px" }}
-          onChange={(e) => setBreed(e.target.value)}
-        />
+            <input
+              type="text"
+              value={breed}
+              placeholder="Breed"
+              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              onChange={(e) => setBreed(e.target.value)}
+            />
 
-       {/* Dropdown menu for Size */}
-      <select
-        id="size"
-        value={selectedSize}
-        onChange={(e) => setSelectedSize(e.target.value)}
-        style={{ marginLeft: "5px", height: "30px" }}
-      >
-        <option value="">Select Size</option>
-        <option value="small">Small (22 lbs or less)</option>
-        <option value="medium">Medium (23 lbs - 57 lbs)</option>
-        <option value="large">Large (58 lbs or more)</option>
-      </select>
+            {/* Dropdown menu for Size */}
+            <select
+              id="size"
+              value={selectedSize}
+              onChange={(e) => setSelectedSize(e.target.value)}
+              style={{ marginBottom: "10px", height: "42px", width: "350px" }}
+            >
+              <option value="">Select Size</option>
+              <option value="small">Small (22 lbs or less)</option>
+              <option value="medium">Medium (23 lbs - 57 lbs)</option>
+              <option value="large">Large (58 lbs or more)</option>
+            </select>
 
-        <input
-          type="text"
-          value={zipcode}
-          placeholder="Zipcode"
-          style={{ width: "150px", marginLeft: "5px" }}
-          onChange={(e) => setZipcode(e.target.value)}
-        />
+            <input
+              type="text"
+              value={zipcode}
+              placeholder="Zipcode"
+              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              onChange={(e) => setZipcode(e.target.value)}
+            />
 
-        <button style={{ margin: "2px" }} onClick={handleSearch}>
-          Search
-        </button>
+            <Button variant="primary" onClick={handleSearch}>
+              Search
+            </Button>
+          </Container>
+          <Container id="parkSearchContainer" x>
+            <ParkResultsDisplay />
+          </Container>
+        </Col>
 
         <Row>
           {searchResults.map((user, index) => {
@@ -109,7 +193,8 @@ const SearchPage = () => {
               <Col key={index} xs={12} sm={6} md={3}>
                 <Card
                   style={{
-                    width: "18rem",
+                    maxWidth: "18rem",
+                    maxHeight: "23rem",
                     margin: "1rem",
                     display: "flex",
                     flexDirection: "column",
@@ -152,7 +237,14 @@ const SearchPage = () => {
         {/* Modal for empty search */}
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Whoa there!</Modal.Title>
+            <Modal.Title>
+              <img
+                src="logo.png"
+                alt="Spot Logo"
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
+              />
+              Whoa there!
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             You won't find friends with an empty search!
@@ -166,12 +258,8 @@ const SearchPage = () => {
           </Modal.Footer>
         </Modal>
       </div>
-
-      <ParkResultsDisplay />
-
     </>
   );
 };
 
 export default SearchPage;
-
