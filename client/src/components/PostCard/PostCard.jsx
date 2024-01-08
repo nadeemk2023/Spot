@@ -25,6 +25,7 @@ const PostCard = ({ postId, isInModal = false }) => {
     state: { user: currentUser },
   } = useProvideAuth();
   const { posts, deletePost, likePost } = usePosts();
+
   const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState("");
