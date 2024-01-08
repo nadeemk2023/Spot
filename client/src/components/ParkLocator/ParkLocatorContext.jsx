@@ -28,42 +28,12 @@ export const ParkProvider = ({ children }) => {
     });
   }
 
-  // const fetchParks = async () => {
-  //   try {
-  //     // const userCoords = await getCurrentLocation();
-  //     const userCoords = {lat: 37.9083713, lng: -122.0041679}
-  //     console.log("userCoords:", userCoords)
-  //     const options = {
-  //       method: "POST",
-  //       url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
-  //       headers: {
-  //         "content-type": "application/json",
-  //         "X-RapidAPI-Key":
-  //           "a8cae885b6msha39d1a7a8eccfd1p1759bajsn2ffd7e679a1f",
-  //         "X-RapidAPI-Host":
-  //           "pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com",
-  //       },
-  //       data: {
-  //         coords: userCoords,
-  //         radius: 5,
-  //         leisure: "dog_park",
-  //       },
-  //     };
-
-  //     const response = await axios.request(options);
-  //     console.log("API response", response.data);
-  //     setDogParks(response.data.result || []);
-  //     console.log("dog parks", response.data.result);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setDogParks([]);
-  //   }
-  // };
+  
 
   const fetchParks = async () => {
     try {
-      //const userCoords = await getCurrentLocation();
-      const userCoords = {lat: 37.9083713, lng: -122.0041679}
+      const userCoords = await getCurrentLocation();
+      //const userCoords = {lat: 37.9083713, lng: -122.0041679}
       const pipicanOptions = {
         method: "POST",
         url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
