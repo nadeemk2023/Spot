@@ -45,9 +45,13 @@ const PostCard = ({ postId, isInModal = false }) => {
     addSuffix: true,
   });
 
-  const handleLike = async (postId) => {
+  const handleLikePost = async (postId) => {
     await likePost(postId);
     setIsLiked((prevLiked) => !prevLiked);
+  };
+
+  const handleDeletePost = async (postId) => {
+    await deletePost(postId);
   };
 
   const handleSubmitComment = async (postId) => {
@@ -78,10 +82,6 @@ const PostCard = ({ postId, isInModal = false }) => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleDeletePost = async (postId) => {
-    await deletePost(postId);
   };
 
   return (
@@ -172,7 +172,7 @@ const PostCard = ({ postId, isInModal = false }) => {
             <Button
               variant="outline-primary"
               className={`text-primary py-2 px-3 ${styles.heartIconButton}`}
-              onClick={() => handleLike(post._id)}
+              onClick={() => handleLikePost(post._id)}
               onMouseEnter={() => setHoverHeart(true)}
               onMouseLeave={() => setHoverHeart(false)}
             >
