@@ -16,24 +16,26 @@ const HomePage = () => {
 
   return (
     <Container fluid style={{ paddingTop: "20px" }}>
-      <Row className="justify-content-center">
-        <Col xs={12} md={4} lg={3} className="px-lg-5">
-          <div
-            className="sticky-top"
-            style={{ top: navbarHeight, marginTop: offsetTop }}
-          >
-            <SearchBar />
-          </div>
+      <Row className="justify-content-center feed-flex">
+        <Col as={Row} xs={12} md={8} lg={9} classname="px-0">
+          <Col xs={12} md={6} lg={4} className="px-lg-5">
+            <div
+              className="sticky-top feed-sticky-top"
+              style={{ top: navbarHeight, marginTop: offsetTop }}
+            >
+              <SearchBar />
+            </div>
+          </Col>
+
+          <Col xs={12} md={6} lg={8}>
+            <CreatePost />
+            <HomeFeed />
+          </Col>
         </Col>
 
-        <Col xs={12} md={4} lg={6}>
-          <CreatePost />
-          <HomeFeed />
-        </Col>
-
         <Col xs={12} md={4} lg={3} className="px-lg-5">
           <div
-            className="sticky-top"
+            className="sticky-top feed-sticky-top"
             style={{ top: navbarHeight, marginTop: offsetTop }}
           >
             <ParkLocatorHome />
