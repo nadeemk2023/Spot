@@ -20,10 +20,12 @@ import CommentsModal from "../CommentsModal/CommentsModal";
 import { Link } from "react-router-dom";
 import { usePosts } from "./PostsContext";
 
-const PostCard = ({ post, isInModal = false }) => {
+const PostCard = ({ postId, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
+  const { posts, deletePost, likePost } = usePosts();
+  const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState("");
   const [postState, setPostState] = useState(post);
@@ -43,20 +45,10 @@ const PostCard = ({ post, isInModal = false }) => {
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
   });
-  const { deletePost } = usePosts();
 
   const handleLike = async (postId) => {
-    try {
-      const res = await api.post(`/posts/like/${postId}`);
-      if (res.status === 200) {
-        setPostState(res.data);
-        setIsLiked((prevLiked) => !prevLiked);
-      } else {
-        console.log("Failed to like post:", res.status);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await likePost(postId);
+    setIsLiked((prevLiked) => !prevLiked);
   };
 
   const handleSubmitComment = async (postId) => {
@@ -172,7 +164,7 @@ const PostCard = ({ post, isInModal = false }) => {
               style={{ color: "#0d6efd" }}
               className="me-1"
             />
-            <span className="ml-2">{postState.likes.length} Likes</span>
+            <span className="ml-2">{post.likes.length} Likes</span>
           </div>
           <div>
             <FontAwesomeIcon

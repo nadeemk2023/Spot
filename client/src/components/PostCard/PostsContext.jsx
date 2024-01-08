@@ -45,8 +45,29 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
+  const likePost = async (postId) => {
+    try {
+      const res = await api.post(`/posts/like/${postId}`);
+      if (res.status === 200) {
+        const updatedPosts = posts.map((post) => {
+          if (post._id === postId) {
+            return res.data;
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
+      } else {
+        console.error("Failed to like post:", res.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <PostsContext.Provider value={{ posts, fetchPosts, addPost, deletePost }}>
+    <PostsContext.Provider
+      value={{ posts, fetchPosts, addPost, deletePost, likePost }}
+    >
       {children}
     </PostsContext.Provider>
   );
