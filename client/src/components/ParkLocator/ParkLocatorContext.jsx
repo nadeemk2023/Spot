@@ -8,7 +8,6 @@ export const ParkProvider = ({ children }) => {
 
   const parkImages = [
     "park1.jpg",
-    "park2.jpg",
     "park3.jpg",
     "park4.jpg",
     "park5.jpg",
