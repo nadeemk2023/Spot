@@ -17,9 +17,9 @@ const HomeFeed = () => {
 
   return (
     <Row>
-      {posts.map(post => (
+      {posts.map((post) => (
         <Col key={post._id} xs={12}>
-          <PostCard post={post} />
+          <PostCard postId={post._id} />
         </Col>
       ))}
     </Row>
