@@ -69,9 +69,7 @@ export const PostsProvider = ({ children }) => {
       const res = await api.put("/posts/comments", commentData);
       if (res.data) {
         setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === postId ? { ...post, ...res.data } : post
-          )
+          prevPosts.map((post) => (post._id === postId ? res.data : post))
         );
       }
     } catch (err) {
