@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import styles from "./CreatePost.module.css";
 import { useProvideAuth } from "../../hooks/useAuth";

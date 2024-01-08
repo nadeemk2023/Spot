@@ -11,8 +11,6 @@ const HomePage = () => {
     state: { user },
   } = useProvideAuth();
 
-  const [refreshKey, setRefreshKey] = useState(0);
-
   const offsetTop = "265px";
   const navbarHeight = "100px";
 
@@ -30,7 +28,7 @@ const HomePage = () => {
 
         <Col xs={12} md={4} lg={6}>
           <CreatePost />
-          <HomeFeed key={refreshKey} />
+          <HomeFeed />
         </Col>
 
         <Col xs={12} md={4} lg={3} className="px-lg-5">

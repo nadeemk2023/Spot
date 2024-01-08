@@ -30,8 +30,6 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
-  // Define other functions like handleLike, handleComment, deletePost here...
-
   return (
     <PostsContext.Provider value={{ posts, fetchPosts, addPost }}>
       {children}
