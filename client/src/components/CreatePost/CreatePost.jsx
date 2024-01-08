@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
-import styles from './CreatePost.module.css';
-import { useProvideAuth } from '../../hooks/useAuth';
-import api from '../../../utils/api.utils';
+import React, { useEffect, useState } from "react";
+import { Form, Button, Container } from "react-bootstrap";
+import styles from "./CreatePost.module.css";
+import { useProvideAuth } from "../../hooks/useAuth";
+import { usePosts } from "../PostCard/PostsContext";
 
 const CreatePost = ({ onPostCreated }) => {
   const {
     state: { user: userObj },
   } = useProvideAuth();
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const maxChars = 500;
+  const { addPost } = usePosts();
 
   const handleTextChange = e => {
     if (e.target.value.length <= maxChars) {
@@ -19,14 +20,14 @@ const CreatePost = ({ onPostCreated }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const responseData = {
+    const postData = {
       user: userObj,
       text: text,
     };
+
     try {
-      const res = await api.post('/posts', responseData);
-      console.log(res.data);
-      setText('');
+      await addPost(postData);
+      setText("");
       if (onPostCreated) {
         onPostCreated();
       }
@@ -41,7 +42,7 @@ const CreatePost = ({ onPostCreated }) => {
         <Form.Group className="mb-3" controlId="postText">
           <Form.Label>
             What's on your mind
-            {userObj?.username ? `, ${userObj.username}` : ''}?
+            {userObj?.username ? `, ${userObj.username}` : ""}?
           </Form.Label>
           <Form.Control
             as="textarea"
