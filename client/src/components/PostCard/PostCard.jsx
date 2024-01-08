@@ -20,19 +20,22 @@ import CommentsModal from "../CommentsModal/CommentsModal";
 import { Link } from "react-router-dom";
 import { usePosts } from "./PostsContext";
 
-const PostCard = ({ post, isInModal = false }) => {
+const PostCard = ({ postId, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
+  const { posts, deletePost, likePost } = usePosts();
+
+  const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState("");
   const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
-    post.likes.some(like => like._id === currentUser.uid)
+    post.likes.some((like) => like._id === currentUser.uid)
   );
   const [hasCommented, setHasCommented] = useState(
     post.comments.some(
-      comment => comment.author && comment?.author?._id === currentUser.uid
+      (comment) => comment.author && comment?.author?._id === currentUser.uid
     )
   );
   const [showCommentsModal, setShowCommentsModal] = useState(false);
@@ -43,23 +46,13 @@ const PostCard = ({ post, isInModal = false }) => {
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
   });
-  const { handleDeletePost } = usePosts();
 
-  const handleLike = async postId => {
-    try {
-      const res = await api.post(`/posts/like/${postId}`);
-      if (res.status === 200) {
-        setPostState(res.data);
-        setIsLiked(prevLiked => !prevLiked);
-      } else {
-        console.log("Failed to like post:", res.status);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  const handleLike = async (postId) => {
+    await likePost(postId);
+    setIsLiked((prevLiked) => !prevLiked);
   };
 
-  const handleSubmitComment = async postId => {
+  const handleSubmitComment = async (postId) => {
     if (commentText === "") return;
     const responseData = {
       text: commentText,
@@ -98,8 +91,8 @@ const PostCard = ({ post, isInModal = false }) => {
     }
   };
 
-  const deletePost = async postId => {
-    await handleDeletePost(postId);
+  const handleDeletePost = async (postId) => {
+    await deletePost(postId);
   };
 
   return (
@@ -146,7 +139,7 @@ const PostCard = ({ post, isInModal = false }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => deletePost(post._id)}
+                onClick={() => handleDeletePost(post._id)}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
@@ -159,7 +152,7 @@ const PostCard = ({ post, isInModal = false }) => {
           <>
             <input
               value={editedText}
-              onChange={e => setEditedText(e.target.value)}
+              onChange={(e) => setEditedText(e.target.value)}
             ></input>
             <Button onClick={() => handleEditPost()}>Save Change</Button>
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
@@ -172,7 +165,7 @@ const PostCard = ({ post, isInModal = false }) => {
               style={{ color: "#0d6efd" }}
               className="me-1"
             />
-            <span className="ml-2">{postState.likes.length} Likes</span>
+            <span className="ml-2">{post.likes.length} Likes</span>
           </div>
           <div>
             <FontAwesomeIcon
@@ -228,7 +221,7 @@ const PostCard = ({ post, isInModal = false }) => {
             <Form.Control
               type="text"
               placeholder="Write a comment..."
-              onChange={e => setCommentText(e.target.value)}
+              onChange={(e) => setCommentText(e.target.value)}
               value={commentText}
               className="mb-3 p-2 "
             />

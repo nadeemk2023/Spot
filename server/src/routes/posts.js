@@ -73,6 +73,30 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
   }
 });
 
+//! Original router.all without the ".populate() adjustments"
+// router.all("/like/:postId", requireAuth, async (req, res) => {
+//   const { postId } = req.params;
+//   const { user } = req;
+//   const post = await Post.findById(postId);
+//
+//   if (!post) {
+//     return res.status(422).json({ error: "Cannot find post" });
+//   }
+//   try {
+//     const updatedPost = await Post.findByIdAndUpdate(
+//       postId,
+//       post.likes.includes(user.id)
+//         ? { $pull: { likes: user.id } }
+//         : { $push: { likes: user.id } },
+//       { new: true }
+//     ).populate("author", "comments");
+//
+//     res.json(updatedPost);
+//   } catch (err) {
+//     return res.status(422).json({ error: err.message });
+//   }
+// });
+
 router.all("/like/:postId", requireAuth, async (req, res) => {
   const { postId } = req.params;
   const { user } = req;
@@ -81,6 +105,7 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
   if (!post) {
     return res.status(422).json({ error: "Cannot find post" });
   }
+
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
@@ -88,7 +113,9 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
         ? { $pull: { likes: user.id } }
         : { $push: { likes: user.id } },
       { new: true }
-    ).populate("author", "comments");
+    )
+      .populate("author", "username profile_image")
+      .populate("comments");
 
     res.json(updatedPost);
   } catch (err) {
