@@ -7,13 +7,62 @@ function ParkResultsDisplay() {
   const { dogParks, parkImages } = useContext(ParkContext);
 
   return (
-    <Container style={{ width: "50%", marginTop: "100px" }}>
-      <div style={{ marginBottom: "50px" }}>Find A Dog Park!</div>
+    <Container
+      style={{
+        width: "500px",
+        height: "400px",
+        marginLeft: "200px",
+      }}
+    >
+      <Container
+        style={{
+          paddingTop: "2px",
+          backgroundColor: "lightgray",
+          height: "42px",
+          width: "350px",
+          borderRadius: "5px",
+          marginTop: "50px",
+          marginBottom: "2px",
+        }}
+      >
+        <p style={{ fontWeight: "bold" }}>
+          <img
+            src="/logo.png"
+            alt="Spot Logo"
+            style={{ marginRight: "5px", height: "40px", width: "40px" }}
+          />
+          Find A Dog Park!
+        </p>
+      </Container>
       <ParkLocator showResultsInModal={false} />
-      <div style={{ marginTop: "50px" }}>
-        {dogParks.length < 1
-          ? "Sorry, No Parks Near You"
-          : "Dog Parks Near You!"}
+      <div style={{ marginTop: "5px" }}>
+        {dogParks.length < 1 ? (
+          <Container
+            style={{
+              paddingTop: "8px",
+              backgroundColor: "lightgray",
+              height: "42px",
+              width: "350px",
+              borderRadius: "5px",
+              marginBottom: "2px",
+            }}
+          >
+            Sorry, No Parks Near You
+          </Container>
+        ) : (
+          <Container
+            style={{
+              paddingTop: "8px",
+              backgroundColor: "lightgray",
+              height: "42px",
+              width: "350px",
+              borderRadius: "5px",
+              marginBottom: "2px",
+            }}
+          >
+            Dog Parks Near You!
+          </Container>
+        )}
       </div>
       {dogParks.length > 0 ? (
         dogParks.map((park, index) => {
@@ -28,8 +77,8 @@ function ParkResultsDisplay() {
                     {park.properties.name || "Dog Park Name Not Available"}
                   </Card.Title>
                   <Card.Text>
-                          {park.address || "Address Not Available"}
-                        </Card.Text>
+                    {park.address || "Address Not Available"}
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -44,8 +93,9 @@ function ParkResultsDisplay() {
             backgroundImage: 'url("/lonelydog.jpg")',
             backgroundSize: "cover",
             borderRadius: "10px",
-            height: "400px",
-            margin: "50px 0", 
+            height: "200px",
+            width: "350px",
+            margin: "10px 0 0 65px",
           }}
         >
           {/* Empty container styling for when there are no parks */}
