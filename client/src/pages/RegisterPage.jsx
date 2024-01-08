@@ -199,15 +199,22 @@ const RegisterPage = () => {
       id="register"
       className="container mt-5"
       style={{
-        backgroundColor: "rgba(129, 195, 215, 0.3)",
-        border: "3px solid #16425B",
-        borderRadius: "5px",
+        backgroundColor: "#eeeeee",
+
+        borderRadius: "10px",
         padding: "15px",
         margin: "50px auto",
         maxWidth: "600px",
       }}
     >
-      <h2>Adventures Await You!</h2>
+      <h2>
+        <img
+          src="logo.png"
+          alt="Spot Logo"
+          style={{ marginRight: "2px", height: "70px", width: "70px" }}
+        />
+        Adventures Await You!
+      </h2>
       <Form onSubmit={handleFormSubmit} className="mt-3">
         {/* Users info: */}
         <Form.Group controlId="formUsername" className="mt-3">
