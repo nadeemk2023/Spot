@@ -145,7 +145,7 @@ router.put("/:username/dog/images", requireAuth, async (req, res) => {
 
   const user = await User.findOneAndUpdate(
     { username },
-    { $push: { "dog.images": { $each: imgUrls } } },
+    { $addToSet: { "dog.images": { $each: imgUrls } } },
     { new: true }
   );
   if (!user) {

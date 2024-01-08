@@ -16,10 +16,11 @@ function ProfilePage() {
   const [cardcontent, setCardContent] = useState("");
   const [userData, setuserData] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   let params = useParams();
   console.log(params);
   const {
-    state: { isAuthenticated },
+    state: { user, isAuthenticated },
   } = useRequireAuth();
 
   const handleEditProfile = () => {
@@ -32,6 +33,29 @@ function ProfilePage() {
     // setCardContent("Update card content");
     setIsEditing(false);
     setShowModal(false);
+  };
+
+  const handleShowUploadModal = () => {
+    setShowUploadModal(true);
+  };
+
+  const handleCloseUploadModal = () => {
+    setShowUploadModal(false);
+  };
+
+  const handleUpload = async (path) => {
+    try {
+      const updatedUserData = { ...userData };
+      updatedUserData.dog.images = [...updatedUserData.dog.images, path];
+
+      await api.put(`/users/${params.uname}/dog/images`, {
+        imgUrls: updatedUserData.dog.images,
+      });
+      setuserData(updatedUserData);
+      handleCloseUploadModal();
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
   };
 
   useEffect(() => {
@@ -66,9 +90,9 @@ function ProfilePage() {
                     <Card.Title>My Info</Card.Title>
                     {userData && userData.zipcode && (
                       <Card.Text>
-                        <span style={{ display: "block" }}>
+                        {/* <span style={{ display: "block" }}>
                           Name: {userData.name}
-                        </span>
+                        </span> */}
                         <span style={{ display: "block" }}>
                           Zip Code: {userData.zipcode}
                         </span>
@@ -78,8 +102,18 @@ function ProfilePage() {
                 </Card>
                 <Card className="mt-3">
                   <Card.Body>
-                    <Card.Title>Family Member Info</Card.Title>
-                    {userData && userData.dog && (
+                    <div>
+                      {userData?.dog?.images && (
+                        <img
+                          src={userData.dog.images}
+                          alt="Profile Picture of Dog"
+                          className="img-fluid rounded-circle"
+                          style={{ marginBottom: "10px" }}
+                        />
+                      )}
+                    </div>
+                    <Card.Title>Doggo Info</Card.Title>
+                    {userData?.dog && (
                       <>
                         <Card.Text>
                           <span style={{ display: "block" }}>
@@ -92,14 +126,21 @@ function ProfilePage() {
                             Size: {userData.dog.size}
                           </span>
                         </Card.Text>
-                        <UploadFile />
+                        {user?.username === params.uname && (
+                          <Button
+                            className="mt-3"
+                            onClick={handleShowUploadModal}
+                          >
+                            Upload Doggo Photo
+                          </Button>
+                        )}
                       </>
                     )}
                   </Card.Body>
                 </Card>
                 {console.log(state.user, params.uname)}
                 {console.log(userData)}
-                {params.uname && (
+                {user?.username === params.uname && (
                   // state.user.username === params.uname &&
                   <>
                     <Button className="mt-3" onClick={handleEditProfile}>
@@ -118,6 +159,21 @@ function ProfilePage() {
                         onSubmit={handleSaveChanges}
                       />
                     )}
+                  </Modal.Body>
+                </Modal>
+                <Modal
+                  show={showUploadModal}
+                  onHide={handleCloseUploadModal}
+                  centered
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Upload Doggo Photo</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <UploadFile
+                      handleClose={handleCloseUploadModal}
+                      onUpload={handleUpload}
+                    />
                   </Modal.Body>
                 </Modal>
               </div>
