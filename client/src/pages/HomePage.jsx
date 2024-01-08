@@ -17,7 +17,7 @@ const HomePage = () => {
   return (
     <Container fluid style={{ paddingTop: "20px" }}>
       <Row className="justify-content-center feed-flex">
-        <Col as={Row} xs={12} md={8} lg={9} classname="px-0">
+        <Col as={Row} xs={12} md={8} lg={9} className="px-0">
           <Col xs={12} md={6} lg={4} className="px-lg-5">
             <div
               className="sticky-top feed-sticky-top"
