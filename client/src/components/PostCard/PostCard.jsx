@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./PostCard.module.css";
 import CommentsModal from "../CommentsModal/CommentsModal";
+import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import { Link } from "react-router-dom";
 import { usePosts } from "./PostsContext";
 
@@ -35,7 +36,8 @@ const PostCard = ({ postId, isInModal = false }) => {
   const hasCommented = post.comments.some(
     (comment) => comment.author && comment.author._id === currentUser.uid
   );
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState("");
@@ -48,10 +50,6 @@ const PostCard = ({ postId, isInModal = false }) => {
   const handleLikePost = async (postId) => {
     await likePost(postId);
     setIsLiked((prevLiked) => !prevLiked);
-  };
-
-  const handleDeletePost = async (postId) => {
-    await deletePost(postId);
   };
 
   const handleSubmitComment = async (postId) => {
@@ -73,6 +71,23 @@ const PostCard = ({ postId, isInModal = false }) => {
     };
     await editPost(post._id, editedData);
     setIsEditing(false);
+  };
+
+  const handleOpenDeleteModal = (postId) => {
+    setPostIdToDelete(postId);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setPostIdToDelete(null);
+  };
+
+  const handleDeletePost = async () => {
+    if (postIdToDelete) {
+      await deletePost(postIdToDelete);
+      handleCloseDeleteModal();
+    }
   };
 
   return (
@@ -119,12 +134,17 @@ const PostCard = ({ postId, isInModal = false }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => handleDeletePost(post._id)}
+                onClick={() => handleOpenDeleteModal(post._id)}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
             </div>
           )}
+          <ConfirmDeleteModal
+            show={showDeleteModal}
+            handleClose={handleCloseDeleteModal}
+            handleConfirm={handleDeletePost}
+          />
         </div>
         {!isEditing ? (
           <Card.Text className="m-5">{post.text}</Card.Text>
