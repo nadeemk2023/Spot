@@ -6,7 +6,15 @@ export const ParkContext = createContext();
 export const ParkProvider = ({ children }) => {
   const [dogParks, setDogParks] = useState([]);
 
-  const parkImages = ["dogs1.jpg", "dogs2.jpg", "dogs3.jpg"];
+  const parkImages = [
+    "park1.jpg",
+    "park2.jpg",
+    "park3.jpg",
+    "park4.jpg",
+    "park5.jpg",
+    "park6.jpg",
+    "park7.jpg",
+  ];
 
   function getCurrentLocation() {
     return new Promise((resolve, reject) => {
