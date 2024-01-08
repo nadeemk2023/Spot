@@ -123,26 +123,52 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
   }
 });
 
+//! Original router.put without the ".populate() adjustments"
+// router.put("/comments", async (req, res, next) => {
+//   const { text, userId, postId } = req.body;
+//   const comment = {
+//     text: text,
+//     author: userId,
+//   };
+//   const populateQuery = [
+//     { path: "comments.author", select: ["username", "profile_image"] },
+//   ];
+//
+//   const post = await Post.findByIdAndUpdate(
+//     postId,
+//     {
+//       $push: { comments: comment },
+//     },
+//     {
+//       new: true,
+//     }
+//   ).populate(populateQuery);
+//   res.json(post);
+// });
+
 router.put("/comments", async (req, res, next) => {
   const { text, userId, postId } = req.body;
   const comment = {
     text: text,
     author: userId,
   };
-  const populateQuery = [
-    { path: "comments.author", select: ["username", "profile_image"] },
-  ];
 
-  const post = await Post.findByIdAndUpdate(
-    postId,
-    {
-      $push: { comments: comment },
-    },
-    {
-      new: true,
-    }
-  ).populate(populateQuery);
-  res.json(post);
+  try {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $push: { comments: comment } },
+      { new: true }
+    )
+      .populate({
+        path: "comments.author",
+        select: ["username", "profile_image"],
+      })
+      .populate("author", "username profile_image"); // Make sure the main author is also populated
+
+    res.json(post);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.put("/:id", requireAuth, async (req, res, next) => {

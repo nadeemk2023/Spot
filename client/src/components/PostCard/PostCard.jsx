@@ -24,20 +24,18 @@ const PostCard = ({ postId, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
-  const { posts, deletePost, likePost } = usePosts();
+  const { posts, deletePost, likePost, submitComment } = usePosts();
 
   const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState("");
-  const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
     post.likes.some((like) => like._id === currentUser.uid)
   );
-  const [hasCommented, setHasCommented] = useState(
-    post.comments.some(
-      (comment) => comment.author && comment?.author?._id === currentUser.uid
-    )
+  const hasCommented = post.comments.some(
+    (comment) => comment.author && comment.author._id === currentUser.uid
   );
+
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState("");
@@ -54,22 +52,13 @@ const PostCard = ({ postId, isInModal = false }) => {
 
   const handleSubmitComment = async (postId) => {
     if (commentText === "") return;
-    const responseData = {
+    const commentData = {
       text: commentText,
       userId: currentUser.uid,
       postId: postId,
     };
-    try {
-      const res = await api.put("/posts/comments", responseData);
-      setCommentText("");
-      setHasCommented(true);
-
-      if (res.data) {
-        setPostState(res.data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await submitComment(postId, commentData);
+    setCommentText("");
   };
 
   const handleEditPost = async () => {
@@ -147,7 +136,7 @@ const PostCard = ({ postId, isInModal = false }) => {
           )}
         </div>
         {!isEditing ? (
-          <Card.Text className="m-5">{postState.text}</Card.Text>
+          <Card.Text className="m-5">{post.text}</Card.Text>
         ) : (
           <>
             <input
@@ -174,7 +163,7 @@ const PostCard = ({ postId, isInModal = false }) => {
               className="me-1"
             />
 
-            <span>{postState.comments.length} comments</span>
+            <span>{post.comments.length} comments</span>
           </div>
         </div>
 
