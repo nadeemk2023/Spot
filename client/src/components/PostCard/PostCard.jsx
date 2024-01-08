@@ -24,7 +24,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
-  const { posts, deletePost, likePost, submitComment } = usePosts();
+  const { posts, editPost, deletePost, likePost, submitComment } = usePosts();
 
   const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
@@ -67,21 +67,12 @@ const PostCard = ({ postId, isInModal = false }) => {
 
   const handleEditPost = async () => {
     if (editedText === "") return;
-    const responseData = {
+    const editedData = {
       text: editedText,
       userid: currentUser.uid,
     };
-    try {
-      const res = await api.put(`/posts/${post._id}`, responseData);
-      if (res.status === 200) {
-        setPostState(res.data);
-        setIsEditing(false);
-      } else {
-        console.error("Failed to update post:", res.status);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await editPost(post._id, editedData);
+    setIsEditing(false);
   };
 
   return (

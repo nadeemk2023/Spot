@@ -163,8 +163,7 @@ router.put("/comments", async (req, res, next) => {
         path: "comments.author",
         select: ["username", "profile_image"],
       })
-      .populate("author", "username profile_image"); // Make sure the main author is also populated
-
+      .populate("author", "username profile_image");
     res.json(post);
   } catch (error) {
     next(error);
