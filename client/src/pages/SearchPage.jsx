@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
 import ParkResultsDisplay from "../components/ParkResultsDisplay/ParkResultsDisplay";
 import { ParkContext } from "../components/ParkLocator/ParkLocatorContext";
+import ParkLocatorHome from "../components/ParkLocatorHome/ParkLocatorHome";
 
 const SearchPage = () => {
   const { dogParks } = useContext(ParkContext);
@@ -181,9 +182,12 @@ const SearchPage = () => {
               Search
             </Button>
           </Container>
-          <Container id="parkSearchContainer" x>
-            <ParkResultsDisplay />
-          </Container>
+          
+          <ParkLocatorHome/>
+          
+          
+            
+          
         </Col>
 
         <Row>
