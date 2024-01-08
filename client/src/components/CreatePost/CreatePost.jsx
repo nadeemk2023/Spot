@@ -4,13 +4,13 @@ import styles from "./CreatePost.module.css";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { usePosts } from "../PostCard/PostsContext";
 
-const CreatePost = ({ onPostCreated }) => {
+const CreatePost = () => {
   const {
     state: { user: userObj },
   } = useProvideAuth();
   const [text, setText] = useState("");
   const maxChars = 500;
-  const { addPost } = usePosts();
+  const { addPost, fetchPosts } = usePosts();
 
   const handleTextChange = e => {
     if (e.target.value.length <= maxChars) {
@@ -28,9 +28,7 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       await addPost(postData);
       setText("");
-      if (onPostCreated) {
-        onPostCreated();
-      }
+      fetchPosts();
     } catch (err) {
       console.error(err);
     }

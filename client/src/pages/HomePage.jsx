@@ -13,10 +13,6 @@ const HomePage = () => {
 
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const refreshPosts = useCallback(() => {
-    setRefreshKey(prevKey => prevKey + 1);
-  }, []);
-
   const offsetTop = "265px";
   const navbarHeight = "100px";
 
@@ -33,7 +29,7 @@ const HomePage = () => {
         </Col>
 
         <Col xs={12} md={4} lg={6}>
-          <CreatePost onPostCreated={refreshPosts} />
+          <CreatePost />
           <HomeFeed key={refreshKey} />
         </Col>
 
