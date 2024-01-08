@@ -20,7 +20,7 @@ import CommentsModal from "../CommentsModal/CommentsModal";
 import { Link } from "react-router-dom";
 import { usePosts } from "./PostsContext";
 
-const PostCard = ({ post, posts, isInModal = false }) => {
+const PostCard = ({ post, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
