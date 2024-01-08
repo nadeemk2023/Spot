@@ -9,7 +9,7 @@ const HomeFeed = () => {
     state: { user: userObj },
   } = useProvideAuth();
 
-  const { posts, fetchPosts, setPosts } = usePosts();
+  const { posts, fetchPosts } = usePosts();
 
   useEffect(() => {
     fetchPosts();
@@ -19,7 +19,7 @@ const HomeFeed = () => {
     <Row>
       {posts.map(post => (
         <Col key={post._id} xs={12}>
-          <PostCard post={post} posts={posts} setPosts={setPosts} />
+          <PostCard post={post} posts={posts} />
         </Col>
       ))}
     </Row>
