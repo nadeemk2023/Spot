@@ -82,11 +82,10 @@ export const PostsProvider = ({ children }) => {
   const editPost = async (postId, editedData) => {
     try {
       const response = await api.put(`/posts/${postId}`, editedData);
-      console.log(response.data);
       if (response.status === 200) {
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
-            post._id === postId ? { ...post, ...response.data } : post
+            post._id === postId ? { ...post, text: response.data.text } : post
           )
         );
       } else {
