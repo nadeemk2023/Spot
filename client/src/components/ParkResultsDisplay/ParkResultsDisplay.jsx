@@ -45,7 +45,7 @@ function ParkResultsDisplay() {
             backgroundSize: "cover",
             borderRadius: "10px",
             height: "400px",
-            margin: "50px 0",
+            margin: "50px 0", 
           }}
         >
           {/* Empty container styling for when there are no parks */}
