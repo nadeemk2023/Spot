@@ -12,13 +12,13 @@ const CreatePost = () => {
   const maxChars = 500;
   const { addPost, fetchPosts } = usePosts();
 
-  const handleTextChange = e => {
+  const handleTextChange = (e) => {
     if (e.target.value.length <= maxChars) {
       setText(e.target.value);
     }
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = {
       user: userObj,
@@ -40,7 +40,15 @@ const CreatePost = () => {
         <Form.Group className="mb-3" controlId="postText">
           <Form.Label>
             What's on your mind
-            {userObj?.username ? `, ${userObj.username}` : ""}?
+            {userObj?.username ? (
+              <span style={{ color: "#646cff", fontWeight: "bold" }}>
+                {" "}
+                {userObj.username}
+              </span>
+            ) : (
+              ""
+            )}
+            ?
           </Form.Label>
           <Form.Control
             as="textarea"

@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./PostCard.module.css";
 import CommentsModal from "../CommentsModal/CommentsModal";
+import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import { Link } from "react-router-dom";
 import { usePosts } from "./PostsContext";
 
@@ -24,20 +25,19 @@ const PostCard = ({ postId, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
-  const { posts, deletePost, likePost } = usePosts();
+  const { posts, editPost, deletePost, likePost, submitComment } = usePosts();
 
   const post = posts.find((p) => p._id === postId);
   const isAuthor = post?.author?._id === currentUser.uid;
   const [commentText, setCommentText] = useState("");
-  const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
     post.likes.some((like) => like._id === currentUser.uid)
   );
-  const [hasCommented, setHasCommented] = useState(
-    post.comments.some(
-      (comment) => comment.author && comment?.author?._id === currentUser.uid
-    )
+  const hasCommented = post.comments.some(
+    (comment) => comment.author && comment.author._id === currentUser.uid
   );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState("");
@@ -47,52 +47,47 @@ const PostCard = ({ postId, isInModal = false }) => {
     addSuffix: true,
   });
 
-  const handleLike = async (postId) => {
+  const handleLikePost = async (postId) => {
     await likePost(postId);
     setIsLiked((prevLiked) => !prevLiked);
   };
 
   const handleSubmitComment = async (postId) => {
     if (commentText === "") return;
-    const responseData = {
+    const commentData = {
       text: commentText,
       userId: currentUser.uid,
       postId: postId,
     };
-    try {
-      const res = await api.put("/posts/comments", responseData);
-      setCommentText("");
-      setHasCommented(true);
-
-      if (res.data) {
-        setPostState(res.data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await submitComment(postId, commentData);
+    setCommentText("");
   };
 
   const handleEditPost = async () => {
     if (editedText === "") return;
-    const responseData = {
+    const editedData = {
       text: editedText,
       userid: currentUser.uid,
     };
-    try {
-      const res = await api.put(`/posts/${post._id}`, responseData);
-      if (res.status === 200) {
-        setPostState(res.data);
-        setIsEditing(false);
-      } else {
-        console.error("Failed to update post:", res.status);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await editPost(post._id, editedData);
+    setIsEditing(false);
   };
 
-  const handleDeletePost = async (postId) => {
-    await deletePost(postId);
+  const handleOpenDeleteModal = (postId) => {
+    setPostIdToDelete(postId);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setPostIdToDelete(null);
+  };
+
+  const handleDeletePost = async () => {
+    if (postIdToDelete) {
+      await deletePost(postIdToDelete);
+      handleCloseDeleteModal();
+    }
   };
 
   return (
@@ -139,15 +134,20 @@ const PostCard = ({ postId, isInModal = false }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => handleDeletePost(post._id)}
+                onClick={() => handleOpenDeleteModal(post._id)}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
             </div>
           )}
+          <ConfirmDeleteModal
+            show={showDeleteModal}
+            handleClose={handleCloseDeleteModal}
+            handleConfirm={handleDeletePost}
+          />
         </div>
         {!isEditing ? (
-          <Card.Text className="m-5">{postState.text}</Card.Text>
+          <Card.Text className="m-5">{post.text}</Card.Text>
         ) : (
           <>
             <input
@@ -174,7 +174,7 @@ const PostCard = ({ postId, isInModal = false }) => {
               className="me-1"
             />
 
-            <span>{postState.comments.length} comments</span>
+            <span>{post.comments.length} comments</span>
           </div>
         </div>
 
@@ -183,7 +183,7 @@ const PostCard = ({ postId, isInModal = false }) => {
             <Button
               variant="outline-primary"
               className={`text-primary py-2 px-3 ${styles.heartIconButton}`}
-              onClick={() => handleLike(post._id)}
+              onClick={() => handleLikePost(post._id)}
               onMouseEnter={() => setHoverHeart(true)}
               onMouseLeave={() => setHoverHeart(false)}
             >

@@ -51,7 +51,7 @@ export const PostsProvider = ({ children }) => {
       if (res.status === 200) {
         const updatedPosts = posts.map((post) => {
           if (post._id === postId) {
-            return res.data;
+            return { ...post, likes: res.data.likes };
           }
           return post;
         });
@@ -64,9 +64,47 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
+  const submitComment = async (postId, commentData) => {
+    try {
+      const res = await api.put("/posts/comments", commentData);
+      if (res.data) {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) => (post._id === postId ? res.data : post))
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const editPost = async (postId, editedData) => {
+    try {
+      const response = await api.put(`/posts/${postId}`, editedData);
+      if (response.status === 200) {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === postId ? { ...post, text: response.data.text } : post
+          )
+        );
+      } else {
+        console.error("Failed to update post:", response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostsContext.Provider
-      value={{ posts, fetchPosts, addPost, deletePost, likePost }}
+      value={{
+        posts,
+        fetchPosts,
+        addPost,
+        editPost,
+        deletePost,
+        likePost,
+        submitComment,
+      }}
     >
       {children}
     </PostsContext.Provider>

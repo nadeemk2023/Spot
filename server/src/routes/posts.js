@@ -74,29 +74,6 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 });
 
 //! Original router.all without the ".populate() adjustments"
-// router.all("/like/:postId", requireAuth, async (req, res) => {
-//   const { postId } = req.params;
-//   const { user } = req;
-//   const post = await Post.findById(postId);
-//
-//   if (!post) {
-//     return res.status(422).json({ error: "Cannot find post" });
-//   }
-//   try {
-//     const updatedPost = await Post.findByIdAndUpdate(
-//       postId,
-//       post.likes.includes(user.id)
-//         ? { $pull: { likes: user.id } }
-//         : { $push: { likes: user.id } },
-//       { new: true }
-//     ).populate("author", "comments");
-//
-//     res.json(updatedPost);
-//   } catch (err) {
-//     return res.status(422).json({ error: err.message });
-//   }
-// });
-
 router.all("/like/:postId", requireAuth, async (req, res) => {
   const { postId } = req.params;
   const { user } = req;
@@ -105,7 +82,6 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
   if (!post) {
     return res.status(422).json({ error: "Cannot find post" });
   }
-
   try {
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
@@ -113,9 +89,7 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
         ? { $pull: { likes: user.id } }
         : { $push: { likes: user.id } },
       { new: true }
-    )
-      .populate("author", "username profile_image")
-      .populate("comments");
+    ).populate("author", "comments");
 
     res.json(updatedPost);
   } catch (err) {
@@ -123,26 +97,77 @@ router.all("/like/:postId", requireAuth, async (req, res) => {
   }
 });
 
+// router.all("/like/:postId", requireAuth, async (req, res) => {
+//   const { postId } = req.params;
+//   const { user } = req;
+//   const post = await Post.findById(postId);
+//
+//   if (!post) {
+//     return res.status(422).json({ error: "Cannot find post" });
+//   }
+//
+//   try {
+//     const updatedPost = await Post.findByIdAndUpdate(
+//       postId,
+//       post.likes.includes(user.id)
+//         ? { $pull: { likes: user.id } }
+//         : { $push: { likes: user.id } },
+//       { new: true }
+//     )
+//       .populate("author", "username profile_image")
+//       .populate("comments");
+//
+//     res.json(updatedPost);
+//   } catch (err) {
+//     return res.status(422).json({ error: err.message });
+//   }
+// });
+
+//! Original router.put without the ".populate() adjustments"
+// router.put("/comments", async (req, res, next) => {
+//   const { text, userId, postId } = req.body;
+//   const comment = {
+//     text: text,
+//     author: userId,
+//   };
+//   const populateQuery = [
+//     { path: "comments.author", select: ["username", "profile_image"] },
+//   ];
+//
+//   const post = await Post.findByIdAndUpdate(
+//     postId,
+//     {
+//       $push: { comments: comment },
+//     },
+//     {
+//       new: true,
+//     }
+//   ).populate(populateQuery);
+//   res.json(post);
+// });
+
 router.put("/comments", async (req, res, next) => {
   const { text, userId, postId } = req.body;
   const comment = {
     text: text,
     author: userId,
   };
-  const populateQuery = [
-    { path: "comments.author", select: ["username", "profile_image"] },
-  ];
 
-  const post = await Post.findByIdAndUpdate(
-    postId,
-    {
-      $push: { comments: comment },
-    },
-    {
-      new: true,
-    }
-  ).populate(populateQuery);
-  res.json(post);
+  try {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $push: { comments: comment } },
+      { new: true }
+    )
+      .populate({
+        path: "comments.author",
+        select: ["username", "profile_image"],
+      })
+      .populate("author", "username profile_image");
+    res.json(post);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.put("/:id", requireAuth, async (req, res, next) => {
