@@ -10,8 +10,8 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../../utils/api.utils";
-import ParkResultsDisplay from "../components/ParkResultsDisplay/ParkResultsDisplay";
 import { ParkContext } from "../components/ParkLocator/ParkLocatorContext";
+import ParkLocator from "../components/ParkLocator/ParkLocator";
 
 const SearchPage = () => {
   const { dogParks } = useContext(ParkContext);
@@ -181,9 +181,14 @@ const SearchPage = () => {
               Search
             </Button>
           </Container>
+          
           <Container id="parkSearchContainer" x>
-            <ParkResultsDisplay />
+          <ParkLocator showResultsInModal={true} />
           </Container>
+          
+          
+            
+          
         </Col>
 
         <Row>

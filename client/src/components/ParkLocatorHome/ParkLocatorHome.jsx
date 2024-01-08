@@ -9,7 +9,7 @@ const ParkLocatorHome = () => {
     <>
       <Container
         style={{
-          position: "relative", // Added relative positioning
+          position: "relative", 
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -23,7 +23,6 @@ const ParkLocatorHome = () => {
           borderRadius: "10px",
         }}
       >
-        {/* Background Image Div */}
         <div
           style={{
             position: "absolute",
@@ -34,8 +33,8 @@ const ParkLocatorHome = () => {
             backgroundImage: 'url("/frisbeedog.jpg")',
             backgroundSize: "cover",
             borderRadius: "10px",
-            opacity: 0.8, // Set opacity to 80%
-            zIndex: -1, // Place it behind the content
+            opacity: 0.8, 
+            zIndex: -1, 
           }}
         />
         <div
