@@ -64,9 +64,31 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
+  const submitComment = async (postId, commentData) => {
+    try {
+      const res = await api.put("/posts/comments", commentData);
+      if (res.data) {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === postId ? { ...post, ...res.data } : post
+          )
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <PostsContext.Provider
-      value={{ posts, fetchPosts, addPost, deletePost, likePost }}
+      value={{
+        posts,
+        fetchPosts,
+        addPost,
+        deletePost,
+        likePost,
+        submitComment,
+      }}
     >
       {children}
     </PostsContext.Provider>
