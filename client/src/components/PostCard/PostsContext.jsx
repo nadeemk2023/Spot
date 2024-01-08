@@ -19,22 +19,24 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
-  const addPost = async postData => {
+  const addPost = async (postData) => {
     try {
       const response = await api.post("/posts", postData);
       if (response.data) {
-        setPosts(prevPosts => [response.data, ...prevPosts]);
+        setPosts((prevPosts) => [response.data, ...prevPosts]);
       }
     } catch (error) {
       console.error(`Error creating post:`, error);
     }
   };
 
-  const handleDeletePost = async postId => {
+  const deletePost = async (postId) => {
     try {
       const res = await api.delete(`/posts/${postId}`);
       if (res.status === 200) {
-        setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
       } else {
         console.error("Failed to delete post:", res.status);
       }
@@ -44,9 +46,7 @@ export const PostsProvider = ({ children }) => {
   };
 
   return (
-    <PostsContext.Provider
-      value={{ posts, fetchPosts, addPost, handleDeletePost }}
-    >
+    <PostsContext.Provider value={{ posts, fetchPosts, addPost, deletePost }}>
       {children}
     </PostsContext.Provider>
   );

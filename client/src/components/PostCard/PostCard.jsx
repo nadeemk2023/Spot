@@ -28,11 +28,11 @@ const PostCard = ({ post, isInModal = false }) => {
   const [commentText, setCommentText] = useState("");
   const [postState, setPostState] = useState(post);
   const [isLiked, setIsLiked] = useState(
-    post.likes.some(like => like._id === currentUser.uid)
+    post.likes.some((like) => like._id === currentUser.uid)
   );
   const [hasCommented, setHasCommented] = useState(
     post.comments.some(
-      comment => comment.author && comment?.author?._id === currentUser.uid
+      (comment) => comment.author && comment?.author?._id === currentUser.uid
     )
   );
   const [showCommentsModal, setShowCommentsModal] = useState(false);
@@ -43,14 +43,14 @@ const PostCard = ({ post, isInModal = false }) => {
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
   });
-  const { handleDeletePost } = usePosts();
+  const { deletePost } = usePosts();
 
-  const handleLike = async postId => {
+  const handleLike = async (postId) => {
     try {
       const res = await api.post(`/posts/like/${postId}`);
       if (res.status === 200) {
         setPostState(res.data);
-        setIsLiked(prevLiked => !prevLiked);
+        setIsLiked((prevLiked) => !prevLiked);
       } else {
         console.log("Failed to like post:", res.status);
       }
@@ -59,7 +59,7 @@ const PostCard = ({ post, isInModal = false }) => {
     }
   };
 
-  const handleSubmitComment = async postId => {
+  const handleSubmitComment = async (postId) => {
     if (commentText === "") return;
     const responseData = {
       text: commentText,
@@ -98,8 +98,8 @@ const PostCard = ({ post, isInModal = false }) => {
     }
   };
 
-  const deletePost = async postId => {
-    await handleDeletePost(postId);
+  const handleDeletePost = async (postId) => {
+    await deletePost(postId);
   };
 
   return (
@@ -146,7 +146,7 @@ const PostCard = ({ post, isInModal = false }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => deletePost(post._id)}
+                onClick={() => handleDeletePost(post._id)}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
@@ -159,7 +159,7 @@ const PostCard = ({ post, isInModal = false }) => {
           <>
             <input
               value={editedText}
-              onChange={e => setEditedText(e.target.value)}
+              onChange={(e) => setEditedText(e.target.value)}
             ></input>
             <Button onClick={() => handleEditPost()}>Save Change</Button>
             <Button onClick={() => setIsEditing(false)}>Cancel</Button>
@@ -228,7 +228,7 @@ const PostCard = ({ post, isInModal = false }) => {
             <Form.Control
               type="text"
               placeholder="Write a comment..."
-              onChange={e => setCommentText(e.target.value)}
+              onChange={(e) => setCommentText(e.target.value)}
               value={commentText}
               className="mb-3 p-2 "
             />
