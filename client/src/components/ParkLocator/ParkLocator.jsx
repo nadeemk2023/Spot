@@ -23,12 +23,12 @@ const ParkLocator = ({ showResultsInModal }) => {
   };
 
   return (
-    <Container className="mt-2" style={{ width: "50%" }}>
+    <>
       <Button onClick={handleClick} disabled={isLoading}>{isLoading ? "please wait..." : "Search"}</Button>
       {showResultsInModal && (
         <ParkResultsModal show={showModal} onHide={() => setShowModal(false)} />
       )}
-    </Container>
+    </>
   );
 };
 

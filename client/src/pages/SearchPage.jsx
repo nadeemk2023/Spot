@@ -64,16 +64,26 @@ const SearchPage = () => {
 
   return (
     <>
-      <div style={{ marginTop: "60px" }}>
+      <div
+        style={{
+          marginTop: "60px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Carousel>
           <Carousel.Item>
             <img
               src="/dogplay1.jpg"
               alt=""
-              style={{ height: "300px", borderRadius: "10px" }}
+              style={{ width: "500px", borderRadius: "10px" }}
             />
             <Carousel.Caption style={{ marginTop: "100px" }}>
-              <p className="fs-5 text-uppercase mt-3">
+              <p
+                className="fs-5 text-uppercase mt-3"
+                style={{ color: "black" }}
+              >
                 <img
                   src="logo.png"
                   alt="Spot Logo"
@@ -87,34 +97,41 @@ const SearchPage = () => {
             <img
               src="/dogplay2.jpg"
               alt=""
-              style={{ height: "300px", borderRadius: "10px" }}
+              style={{ width: "500px", borderRadius: "10px" }}
             />
           </Carousel.Item>
           <Carousel.Item>
             <img
               src="/dogplay3.jpg"
               alt=""
-              style={{ height: "300px", borderRadius: "10px" }}
+              style={{ width: "500px", borderRadius: "10px" }}
             />
           </Carousel.Item>
         </Carousel>
 
-        <Col md={6} style={{ display: "flex", flexDirection: "row" }}>
+        <Row md={6}>
           <Container
             id="searchBox"
             style={{
-              width: "500px",
-              height: "400px",
-              marginLeft: "200px",
+              margin: "50px 100px 50px 50px",
+              width: "400px",
+              height: "425px",
+              backgroundImage: 'url("/dogsPlaying.jpg")',
+              backgroundSize: "cover",
+              borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Container
               style={{
                 paddingTop: "2px",
-                backgroundColor: "lightgray",
+                backgroundColor: "#eeeeee",
                 height: "42px",
                 width: "350px",
-                borderRadius: "5px",
+                borderRadius: "10px",
                 marginTop: "50px",
                 marginBottom: "10px",
               }}
@@ -131,10 +148,10 @@ const SearchPage = () => {
             <Container
               style={{
                 paddingTop: "8px",
-                backgroundColor: "lightgray",
+                backgroundColor: "#eeeeee",
                 height: "42px",
                 width: "350px",
-                borderRadius: "5px",
+                borderRadius: "10px",
                 marginBottom: "10px",
               }}
             >
@@ -144,7 +161,13 @@ const SearchPage = () => {
               type="text"
               value={username}
               placeholder="Username"
-              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              style={{
+                width: "350px",
+                height: "42px",
+                marginBottom: "10px",
+                borderRadius: "10px",
+                opacity: "0.7",
+              }}
               onChange={(e) => setUsername(e.target.value)}
             />
 
@@ -152,7 +175,13 @@ const SearchPage = () => {
               type="text"
               value={breed}
               placeholder="Breed"
-              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              style={{
+                width: "350px",
+                height: "42px",
+                marginBottom: "10px",
+                borderRadius: "10px",
+                opacity: "0.7",
+              }}
               onChange={(e) => setBreed(e.target.value)}
             />
 
@@ -161,7 +190,13 @@ const SearchPage = () => {
               id="size"
               value={selectedSize}
               onChange={(e) => setSelectedSize(e.target.value)}
-              style={{ marginBottom: "10px", height: "42px", width: "350px" }}
+              style={{
+                marginBottom: "10px",
+                height: "42px",
+                width: "350px",
+                borderRadius: "10px",
+                opacity: "0.7",
+              }}
             >
               <option value="">Select Size</option>
               <option value="small">Small (22 lbs or less)</option>
@@ -173,7 +208,13 @@ const SearchPage = () => {
               type="text"
               value={zipcode}
               placeholder="Zipcode"
-              style={{ width: "350px", height: "42px", marginBottom: "10px" }}
+              style={{
+                width: "350px",
+                height: "42px",
+                marginBottom: "10px",
+                borderRadius: "10px",
+                opacity: "0.7",
+              }}
               onChange={(e) => setZipcode(e.target.value)}
             />
 
@@ -181,17 +222,47 @@ const SearchPage = () => {
               Search
             </Button>
           </Container>
-          
-          <Container id="parkSearchContainer" x>
-          <ParkLocator showResultsInModal={true} />
-          </Container>
-          
-          
-            
-          
-        </Col>
 
-        <Row>
+          <Container
+            id="parkSearchBox"
+            style={{
+              margin: "50px 100px 50px 50px",
+              width: "400px",
+              height: "425px",
+              backgroundImage: 'url("/dogInPark.jpg")',
+              backgroundSize: "cover",
+              borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Container
+              style={{
+                paddingTop: "2px",
+                backgroundColor: "#eeeeee",
+                height: "42px",
+                width: "350px",
+                borderRadius: "10px",
+                marginTop: "50px",
+                marginBottom: "270px",
+              }}
+            >
+              <p style={{ fontWeight: "bold" }}>
+                <img
+                  src="/logo.png"
+                  alt="Spot Logo"
+                  style={{ marginRight: "5px", height: "40px", width: "40px" }}
+                />
+                Find A Dog Park!
+              </p>
+            </Container>
+            <ParkLocator showResultsInModal={true} />
+          </Container>
+        </Row>
+
+        <Row style={{ marginLeft: "40px", marginRight: "40px" }}>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
             return (
