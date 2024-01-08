@@ -51,7 +51,7 @@ export const PostsProvider = ({ children }) => {
       if (res.status === 200) {
         const updatedPosts = posts.map((post) => {
           if (post._id === postId) {
-            return res.data;
+            return { ...post, likes: res.data.likes };
           }
           return post;
         });
