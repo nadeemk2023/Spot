@@ -23,7 +23,7 @@ export const ParkProvider = ({ children }) => {
   const fetchParks = async () => {
     try {
       const userCoords = await getCurrentLocation();
-      const pipicanOptions = {
+      const options = {
         method: "POST",
         url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
         headers: {
@@ -40,23 +40,10 @@ export const ParkProvider = ({ children }) => {
         },
       };
 
-      const pipicanResponse = await axios.request(pipicanOptions);
-      const parks = pipicanResponse.data.result || [];
-
-      const parksWithAddress = await Promise.all(
-        parks.map(async (park) => {
-          const lat = park.coords.lat;
-          const lon = park.coords.lon;
-
-          const nominatimResponse = await axios.get(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-          );
-          const address = nominatimResponse.data.display_name;
-          return { ...park, address };
-        })
-      );
-
-      setDogParks(parksWithAddress);
+      const response = await axios.request(options);
+      console.log("API response", response.data);
+      setDogParks(response.data.result || []);
+      console.log("dog parks", response.data.result);
     } catch (error) {
       console.error(error);
       setDogParks([]);
