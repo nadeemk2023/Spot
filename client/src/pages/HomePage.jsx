@@ -12,7 +12,7 @@ const HomePage = () => {
   } = useProvideAuth();
 
   const offsetTop = "265px";
-  const navbarHeight = "175px";
+  const navbarHeight = "10rem";
 
   return (
     <Container fluid style={{ paddingTop: "20px" }}>
