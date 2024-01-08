@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Button, Form, Row, Col } from "react-bootstrap";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import api from "../../../utils/api.utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as filledHeart,
@@ -19,8 +18,9 @@ import {
 import styles from "./PostCard.module.css";
 import CommentsModal from "../CommentsModal/CommentsModal";
 import { Link } from "react-router-dom";
+import { usePosts } from "./PostsContext";
 
-const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
+const PostCard = ({ post, posts, isInModal = false }) => {
   const {
     state: { user: currentUser },
   } = useProvideAuth();
@@ -43,6 +43,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
   });
+  const { handleDeletePost } = usePosts();
 
   const handleLike = async postId => {
     try {
@@ -97,15 +98,8 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
     }
   };
 
-  const handleDeletePost = async postId => {
-    try {
-      const res = await api.delete(`/posts/${postId}`);
-      console.log(res.data);
-      const updatedPosts = posts.filter(post => post._id !== postId);
-      setPosts(updatedPosts);
-    } catch (err) {
-      console.error(err);
-    }
+  const deletePost = async postId => {
+    await handleDeletePost(postId);
   };
 
   return (
@@ -152,7 +146,7 @@ const PostCard = ({ post, posts, setPosts, isInModal = false }) => {
               </Button>
               <Button
                 variant="outline-danger"
-                onClick={() => handleDeletePost(post._id)}
+                onClick={() => deletePost(post._id)}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>

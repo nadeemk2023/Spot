@@ -30,8 +30,23 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
+  const handleDeletePost = async postId => {
+    try {
+      const res = await api.delete(`/posts/${postId}`);
+      if (res.status === 200) {
+        setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+      } else {
+        console.error("Failed to delete post:", res.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <PostsContext.Provider value={{ posts, fetchPosts, addPost }}>
+    <PostsContext.Provider
+      value={{ posts, fetchPosts, addPost, handleDeletePost }}
+    >
       {children}
     </PostsContext.Provider>
   );
