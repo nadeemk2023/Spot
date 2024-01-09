@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api.utils";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import UploadFile from "../UploadFile/UploadFile";
@@ -144,12 +144,14 @@ function EditProfile({ userData, onSubmit }) {
     });
   };
 
-  const handleDogChange = (e, index, field) => {
-    const updateDog = [...userProfile.dog];
-    updateDog[index][field] = e.target.value;
+  const handleDogChange = (e) => {
+    const { name, value } = e.target;
     setUserProfile({
       ...userProfile,
-      dog: updateDog,
+      dog: {
+        ...userProfile.dog,
+        [name]: value,
+      },
     });
   };
 
@@ -183,11 +185,11 @@ function EditProfile({ userData, onSubmit }) {
             handleClose={() => setShowUpload(false)}
           /> */}
         </div>
-        <form
+        <Form
           onSubmit={handleSubmit}
           className="d-flex flex-column align-items-center"
         >
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label className="form-control">
               Name:
               <input
@@ -198,8 +200,8 @@ function EditProfile({ userData, onSubmit }) {
                 onChange={handleInputChange}
               />
             </label>
-          </div>
-          <div className="mb-3">
+          </div> */}
+          {/* <div className="mb-3">
             <label className="form-control">
               Email:
               <input
@@ -210,9 +212,9 @@ function EditProfile({ userData, onSubmit }) {
                 onChange={handleInputChange}
               />
             </label>
-          </div>
-          <div className="mb-3">
-            <label className="form-control">
+          </div> */}
+          <div className="mb-2">
+            <Form.Label className="form-control">
               Zipcode:
               <input
                 type="number"
@@ -221,50 +223,74 @@ function EditProfile({ userData, onSubmit }) {
                 value={userProfile.zipcode}
                 onChange={handleInputChange}
               />
-            </label>
+            </Form.Label>
           </div>
+          {/* {userProfile.dog.map((dog, index) => ( */}
           <div>
-            <h3>Family Members</h3>
+            <h3>Doggo Info</h3>
 
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Dog Name"
-                value={userProfile.dog.name}
-                onChange={(e) => handleDogChange(e, index, "name")}
-              />
-              <input
-                type="text"
-                className="form-control mt-2"
-                placeholder="Breed"
-                value={userProfile.dog.breed}
-                onChange={(e) => handleDogChange(e, index, "breed")}
-              />
-              <input
-                type="text"
-                className="form-control mt-2"
-                placeholder="Size"
-                value={userProfile.dog.size}
-                onChange={(e) => handleDogChange(e, index, "size")}
-              />
+            <div className="mb-3 mt-3">
+              <Form.Label className="form-control">
+                Doggo Name
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Dog Name"
+                  value={userProfile.dog.name}
+                  onChange={handleDogChange}
+                  name="name"
+                />
+              </Form.Label>
+              <Form.Label className="form-control">
+                Breed
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Breed"
+                  value={userProfile.dog.breed}
+                  onChange={handleDogChange}
+                  name="breed"
+                />
+              </Form.Label>
+              <Form.Label className="form-control">
+                Select Size:
+                {/* <input
+                  as="select"
+                  className="form-control"
+                  placeholder="Size"
+                  value={userProfile.dog.size}
+                  onChange={(e) => handleDogChange(e, index, "size")}
+                /> */}
+                <Form.Control
+                  as="select"
+                  name="size"
+                  value={userProfile.dog.size}
+                  onChange={handleDogChange}
+                >
+                  <option value="">Select Size</option>
+                  <option value="small">Small (22 lbs or less)</option>
+                  <option value="medium">Medium (23 lbs - 57 lbs)</option>
+                  <option value="large">Large (58 lbs or more)</option>
+                </Form.Control>
+              </Form.Label>
               <button
                 type="button"
-                className="btn btn-danger ms-2 mt-2"
+                className="btn btn-danger ms-2 mt-3"
                 onClick={() => deleteDog(index)}
               >
                 Delete
               </button>
             </div>
 
-            <button type="button" className="btn btn-primary" onClick={addDog}>
+            {/* <button type="button" className="btn btn-primary" onClick={addDog}>
               Add Family Member
-            </button>
+            </button> */}
           </div>
-          <button type="submit" className="btn btn-success mt-3">
+          {/* ))} */}
+          <button type="submit" className="btn btn-success mt-2">
             Save Changes
           </button>
-        </form>
+        </Form>
       </div>
     </Container>
   );
