@@ -278,7 +278,7 @@ const SearchPage = () => {
                 <Card
                   style={{
                     maxWidth: "18rem",
-                    maxHeight: "23rem",
+                    height: "27rem",
                     margin: "1rem",
                     display: "flex",
                     flexDirection: "column",
@@ -289,7 +289,7 @@ const SearchPage = () => {
                     variant="top"
                     src={user.profile_image}
                     alt={`Profile of ${user.username}`}
-                    style={{ height: "100px", width: "100px" }}
+                    style={{ maxWidth: "100px"}}
                   />
                   <Card.Body style={{ textAlign: "center" }}>
                     <Card.Title>
