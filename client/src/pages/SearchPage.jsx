@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   Card,
   Row,
@@ -22,6 +22,7 @@ const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
+  const resultsRef = useRef(null);
 
   const handleSearch = async () => {
     try {
@@ -43,8 +44,14 @@ const SearchPage = () => {
             size: formattedSize,
           },
         });
-
-        setSearchResults(response.data);
+        if (response.data.length > 0) {
+          setSearchResults(response.data);
+          setTimeout(() => {
+            if (resultsRef.current) {
+              resultsRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+          }, 100);
+        }
 
         setZipcode("");
         setBreed("");
@@ -263,7 +270,7 @@ const SearchPage = () => {
           </Container>
         </Row>
 
-        <Row>
+        <Row ref={resultsRef}>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
             return (
