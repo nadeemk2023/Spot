@@ -13,6 +13,7 @@ import {
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { usePosts } from "../PostCard/PostsContext";
 import { useProvideAuth } from "../../hooks/useAuth";
+import styles from "./ModalPostCard.module.css";
 
 const SimplePostCard = ({ post }) => {
   const { editPost, deletePost, likePost, submitComment } = usePosts();
@@ -116,7 +117,7 @@ const SimplePostCard = ({ post }) => {
 
       <Card.Footer className="border-top text-center">
         <Button variant="link" onClick={handleLikePost} className="mb-2">
-          <FontAwesomeIcon icon={outlinedHeart} className="text-danger" />
+          <FontAwesomeIcon icon={isLiked ? filledHeart : outlinedHeart} />
         </Button>
 
         <Form>
