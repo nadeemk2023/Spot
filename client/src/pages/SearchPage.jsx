@@ -64,14 +64,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <div
-        style={{
-          marginTop: "60px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div>
         <Carousel>
           <Carousel.Item>
             <img
@@ -109,7 +102,15 @@ const SearchPage = () => {
           </Carousel.Item>
         </Carousel>
 
-        <Row md={6}>
+        <Row
+          md={6}
+          style={{
+            marginTop: "60px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
           <Container
             id="searchBox"
             style={{
@@ -262,7 +263,7 @@ const SearchPage = () => {
           </Container>
         </Row>
 
-        <Row style={{ marginLeft: "40px", marginRight: "40px" }}>
+        <Row>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
             return (
