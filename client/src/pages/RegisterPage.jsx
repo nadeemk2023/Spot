@@ -40,6 +40,9 @@ const RegisterPage = () => {
     dogBreed: "",
   });
 
+  const [showAvatarOptions, setShowAvatarOptions] = useState(true);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -129,7 +132,22 @@ const RegisterPage = () => {
     }
   };
 
-  const [showUploadModal, setShowUploadModal] = useState(false);
+  const handleAvatarSelection = (avatar) => {
+    setFormData({
+      ...formData,
+      profile_image: avatar,
+    });
+    setShowAvatarOptions(false);
+  };
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({
+      ...formData,
+      profile_image: imageUrl,
+    });
+    setShowAvatarOptions(false);
+  };
+
   const handleShowUploadModal = () => setShowUploadModal(true);
   const handleCloseUploadModal = () => setShowUploadModal(false);
 
@@ -166,32 +184,22 @@ const RegisterPage = () => {
     }
 
     if (formData.dog.name.trim() === "") {
-      errors.dogName = "Please enter your dogs name";
+      errors.dogName = "Please enter your dog's name";
     }
 
     if (formData.dog.breed.trim() === "") {
-      errors.dogBreed = "Please enter your dogs breed";
+      errors.dogBreed = "Please enter your dog's breed";
     }
 
     if (formData.dog.size === "") {
-      errors.dogSize = "Please choose your dogs size";
+      errors.dogSize = "Please choose your dog's size";
     }
 
     return errors;
   };
 
-  const handleAvatarSelection = (avatar) => {
-    setFormData({
-      ...formData,
-      profile_image: avatar,
-    });
-  };
-
-  const handleImageUpload = (imageUrl) => {
-    setFormData({
-      ...formData,
-      profile_image: imageUrl,
-    });
+  const handleBackToAvatarOptions = () => {
+    setShowAvatarOptions(true);
   };
 
   return (
@@ -200,7 +208,6 @@ const RegisterPage = () => {
       className="container mt-5"
       style={{
         backgroundColor: "#eeeeee",
-
         borderRadius: "10px",
         padding: "15px",
         margin: "50px auto",
@@ -414,23 +421,9 @@ const RegisterPage = () => {
         </Form.Group>
 
         {/* Conditional rendering based on whether an image is chosen */}
-        {formData.profile_image ? (
-          <div className="mt-3">
-            <p style={{ fontWeight: "bold" }}>
-              Profile Image Chosen Successfully!
-            </p>
-            <p style={{ fontSize: "smaller" }}>
-              (Don't worry, you can change this later)
-            </p>
-            <img
-              src={formData.profile_image}
-              alt="Chosen Avatar"
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-            />
-          </div>
-        ) : (
+        {showAvatarOptions ? (
           <>
-            {/*Avatar Picker*/}
+            {/* Avatar Picker */}
             <Form.Group controlId="formAvatar" className="mt-3">
               <Form.Label
                 style={{ fontWeight: "bold" }}
@@ -454,6 +447,7 @@ const RegisterPage = () => {
                 Or you can upload your own images here:
               </Form.Label>
               <Button
+                style={{ marginBottom: "20px" }}
                 variant="primary"
                 onClick={handleShowUploadModal}
                 className="mt-3"
@@ -475,8 +469,32 @@ const RegisterPage = () => {
               </Modal.Body>
             </Modal>
           </>
-        )}
+        ) : (
+          <div className="mt-3">
+            <p style={{ fontWeight: "bold" }}>
+              Profile Image Chosen Successfully!
+            </p>
+            <img
+              src={formData.profile_image}
+              alt="Chosen Avatar"
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+            <br />
+            <p style={{ fontWeight: "bold", marginTop: "20px" }}>
+              Want to choose a different image?
+            </p>
 
+            {/* Button to go back to avatar options */}
+            <Button
+              style={{ marginBottom: "20px" }}
+              variant="primary"
+              onClick={handleBackToAvatarOptions}
+            >
+              Edit Profile Image
+            </Button>
+          </div>
+        )}
+        <p style={{ fontWeight: "bold" }}>Ready to complete sign up?</p>
         {/* "Let's Go!" button */}
         <div className="mt-3">
           <Button variant="primary" type="submit">
