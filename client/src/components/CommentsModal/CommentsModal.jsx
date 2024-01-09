@@ -1,10 +1,16 @@
 import React from "react";
 import { Modal, Card } from "react-bootstrap";
-import PostCard from "../PostCard/PostCard";
+import ModalPostCard from "../ModalPostCard/ModalPostCard";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { usePosts } from "../PostCard/PostsContext";
 
-const CommentsModal = ({ post, showModal, onClose }) => {
+const CommentsModal = ({ postId, showModal, onClose }) => {
+  const { posts } = usePosts();
+  const post = posts.find((p) => p._id === postId);
+
+  if (!post) return <div>Loading post...</div>;
+
   return (
     <Modal show={showModal} onHide={onClose} size="lg">
       <Modal.Header closeButton>
@@ -13,9 +19,9 @@ const CommentsModal = ({ post, showModal, onClose }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <PostCard post={post} isInModal={true} />
+        <ModalPostCard post={post} />
 
-        {post.comments.map(comment => {
+        {post.comments.map((comment) => {
           const timeAgo = formatDistanceToNow(parseISO(comment.created), {
             addSuffix: true,
           });

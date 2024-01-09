@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Form, Row, Col } from "react-bootstrap";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { formatDistanceToNow, parseISO } from "date-fns";
@@ -36,11 +36,12 @@ const PostCard = ({ postId, isInModal = false }) => {
   const hasCommented = post.comments.some(
     (comment) => comment.author && comment.author._id === currentUser.uid
   );
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState("");
+  const [editedText, setEditedText] = useState(post.text);
   const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
@@ -53,7 +54,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   };
 
   const handleSubmitComment = async (postId) => {
-    if (commentText === "") return;
+    if (!commentText.trim()) return;
     const commentData = {
       text: commentText,
       userId: currentUser.uid,
@@ -89,6 +90,10 @@ const PostCard = ({ postId, isInModal = false }) => {
       handleCloseDeleteModal();
     }
   };
+
+  if (!post) {
+    return <div>Loading post...</div>;
+  }
 
   return (
     <Card className="mb-4 text-dark pb-0">
@@ -146,17 +151,30 @@ const PostCard = ({ postId, isInModal = false }) => {
             handleConfirm={handleDeletePost}
           />
         </div>
-        {!isEditing ? (
-          <Card.Text className="m-5">{post.text}</Card.Text>
-        ) : (
+        {isEditing ? (
           <>
-            <input
+            <Form.Control
+              as="textarea"
+              rows={3}
               value={editedText}
               onChange={(e) => setEditedText(e.target.value)}
-            ></input>
-            <Button onClick={() => handleEditPost()}>Save Change</Button>
-            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+              className="mt-3"
+            />
+            <div className="d-flex justify-content-center mt-3">
+              <Button variant="primary" onClick={handleEditPost}>
+                Save
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setIsEditing(false)}
+                className="ml-2"
+              >
+                Cancel
+              </Button>
+            </div>
           </>
+        ) : (
+          <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
         )}
         <div className="d-flex justify-content-between mb-1 m-3">
           <div className="d-flex align-items-center">
@@ -206,7 +224,7 @@ const PostCard = ({ postId, isInModal = false }) => {
         </Row>
         {!isInModal && showCommentsModal && (
           <CommentsModal
-            post={post}
+            postId={post._id}
             showModal={showCommentsModal}
             onClose={() => {
               setShowCommentsModal(false);
