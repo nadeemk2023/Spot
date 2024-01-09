@@ -82,6 +82,11 @@ function ProfilePage() {
                   src={userData ? userData.profile_image : Logo}
                   alt="Profile Picture"
                   className="img-fluid rounded-circle"
+                  style={{
+                    marginBottom: "10px",
+                    height: "250px",
+                    width: "200px",
+                  }}
                 />
               </div>
               <div className="col-md-8">
@@ -93,6 +98,9 @@ function ProfilePage() {
                         {/* <span style={{ display: "block" }}>
                           Name: {userData.name}
                         </span> */}
+                        <span style={{ fontWeight: "bold" }}>
+                          {userData.username}
+                        </span>
                         <span style={{ display: "block" }}>
                           Zip Code: {userData.zipcode}
                         </span>
@@ -108,7 +116,11 @@ function ProfilePage() {
                           src={userData.dog.images}
                           alt="Profile Picture of Dog"
                           className="img-fluid rounded-circle"
-                          style={{ marginBottom: "10px" }}
+                          style={{
+                            marginBottom: "10px",
+                            height: "250px",
+                            width: "200px",
+                          }}
                         />
                       )}
                     </div>
