@@ -3,13 +3,16 @@ import { Card, Button, Form, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as filledHeart,
-  faThumbsUp as solidThumbsUp,
   faComment as solidComment,
   faTrashAlt as solidTrash,
   faPen as solidPen,
+  faThumbsUp as solidThumbsUp,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faComment as outlinedComment,
   faHeart as outlinedHeart,
   faThumbsUp as outlinedThumbsUp,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-regular-svg-icons";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { usePosts } from "../PostCard/PostsContext";
 import { useProvideAuth } from "../../hooks/useAuth";
@@ -28,6 +31,9 @@ const SimplePostCard = ({ post }) => {
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
   });
+  const hasCommented = post.comments.some(
+    (comment) => comment.author && comment.author._id === currentUser.uid
+  );
   const isAuthor = post.author._id === currentUser.uid;
   const handleLikePost = async () => {
     await likePost(post._id);
@@ -101,13 +107,19 @@ const SimplePostCard = ({ post }) => {
 
         <Row className="justify-content-between align-items-center mt-3">
           <Col>
-            <FontAwesomeIcon icon={outlinedThumbsUp} className="text-primary" />
+            <FontAwesomeIcon
+              icon={isLiked ? solidThumbsUp : outlinedThumbsUp}
+              className="text-primary"
+            />
             <span style={{ marginLeft: "0.2rem" }}>
               {post.likes.length} Likes
             </span>
           </Col>
           <Col className="text-end">
-            <FontAwesomeIcon icon={solidComment} className="text-primary" />
+            <FontAwesomeIcon
+              icon={hasCommented ? solidComment : outlinedComment}
+              className="text-primary"
+            />
             <span style={{ marginLeft: "0.2rem" }}>
               {post.comments.length} comments
             </span>
