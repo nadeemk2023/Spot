@@ -7,12 +7,14 @@ export const ParkProvider = ({ children }) => {
   const [dogParks, setDogParks] = useState([]);
 
   const parkImages = [
-    "park1.jpg",
+    "park1.jpg",   
     "park3.jpg",
     "park4.jpg",
     "park5.jpg",
     "park6.jpg",
     "park7.jpg",
+    "park8.jpg",
+    "park9.jpg",
   ];
 
   function getCurrentLocation() {
@@ -32,8 +34,8 @@ export const ParkProvider = ({ children }) => {
 
   const fetchParks = async () => {
     try {
-      const userCoords = await getCurrentLocation();
-      
+      //const userCoords = await getCurrentLocation();
+      const userCoords = {lat: 37.9083713, lng: -122.0041679}
       const pipicanOptions = {
         method: "POST",
         url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
@@ -64,6 +66,7 @@ export const ParkProvider = ({ children }) => {
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
           );
           const address = nominatimResponse.data.display_name;
+          console.log("address:", address)
           return { ...park, address };
         })
       );

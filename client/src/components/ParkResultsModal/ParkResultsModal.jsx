@@ -1,19 +1,24 @@
 import React, { useContext } from "react";
 import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
+import "./parkresultsmodal.css"
 
 const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks, parkImages } = useContext(ParkContext);
 
+  const formatAddress = (address) => {
+    return address.split(/,|-/).join("<br>");
+  };
+
   return (
-    <Modal show={show} onHide={onHide} size="lg">
+    <Modal show={show} onHide={onHide} size={dogParks.length > 0 ? "xl" : "lg"}>
       <Modal.Header closeButton>
         <Modal.Title>
           <div>
             <img
               src="/logo.png"
               alt="Spot Logo"
-              style={{ marginRight: "25px", height: "70px", width: "70px" }}
+              style={{ marginRight: "25px", height: "70px", borderRadius: "5px",width: "70px" }}
             />
             {dogParks.length < 1
               ? "Sorry, No Parks Near You"
@@ -31,15 +36,19 @@ const ParkResultsModal = ({ show, onHide }) => {
                 return (
                   <Col key={index} xs={12} sm={6} md={4} className="mb-3">
                     <Card className="h-100 d-flex flex-column align-items-center">
-                      <Card.Img variant="top" src={randomImage} />{" "}
+                      <Card.Img variant="top"  className="park-image"src={randomImage} />{" "}
                       <Card.Body className="text-center">
                         <Card.Title>
                           {park.properties.name ||
                             "Dog Park Name Not Available"}
                         </Card.Title>
-                        <Card.Text>
-                          {park.address || "Address Not Available"}
-                        </Card.Text>
+                        <Card.Text
+                          dangerouslySetInnerHTML={{
+                            __html: formatAddress(
+                              park.address || "Address Not Available"
+                            ),
+                          }}
+                        />
                       </Card.Body>
                     </Card>
                   </Col>
