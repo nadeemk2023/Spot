@@ -41,7 +41,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState("");
+  const [editedText, setEditedText] = useState(post.text);
   const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
@@ -151,17 +151,30 @@ const PostCard = ({ postId, isInModal = false }) => {
             handleConfirm={handleDeletePost}
           />
         </div>
-        {!isEditing ? (
-          <Card.Text className="m-5">{post.text}</Card.Text>
-        ) : (
+        {isEditing ? (
           <>
-            <input
+            <Form.Control
+              as="textarea"
+              rows={3}
               value={editedText}
               onChange={(e) => setEditedText(e.target.value)}
-            ></input>
-            <Button onClick={() => handleEditPost()}>Save Change</Button>
-            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+              className="mt-3"
+            />
+            <div className="d-flex justify-content-center mt-3">
+              <Button variant="primary" onClick={handleEditPost}>
+                Save
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setIsEditing(false)}
+                className="ml-2"
+              >
+                Cancel
+              </Button>
+            </div>
           </>
+        ) : (
+          <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
         )}
         <div className="d-flex justify-content-between mb-1 m-3">
           <div className="d-flex align-items-center">
