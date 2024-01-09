@@ -35,9 +35,9 @@ const CreatePost = () => {
   };
 
   return (
-    <Container className="createPostContainer">
+    <Container className="createPostContainer mb-3">
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="postText">
+        <Form.Group className="mb-1" controlId="postText">
           <Form.Label>
             What's on your mind
             {userObj?.username ? (
