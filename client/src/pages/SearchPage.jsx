@@ -97,7 +97,7 @@ const SearchPage = () => {
             <img
               src="/dogplay2.jpg"
               alt=""
-              style={{ width: "500px", borderRadius: "10px" }}
+              style={{ width: "470px", borderRadius: "10px" }}
             />
           </Carousel.Item>
           <Carousel.Item>
@@ -121,7 +121,7 @@ const SearchPage = () => {
           <Container
             id="searchBox"
             style={{
-              margin: "50px 100px 50px 50px",
+              margin: "10px 100px 50px 50px",
               width: "400px",
               height: "425px",
               backgroundImage: 'url("/dogsPlaying.jpg")',
@@ -234,7 +234,7 @@ const SearchPage = () => {
           <Container
             id="parkSearchBox"
             style={{
-              margin: "50px 100px 50px 50px",
+              margin: "10px 100px 50px 50px",
               width: "400px",
               height: "425px",
               backgroundImage: 'url("/dogInPark.jpg")',
