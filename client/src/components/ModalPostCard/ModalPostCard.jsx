@@ -50,11 +50,12 @@ const SimplePostCard = ({ post }) => {
     await deletePost(post._id);
   };
 
-  const handleSubmitComment = async () => {
+  const handleSubmitComment = async (postId) => {
     if (!commentText.trim()) return;
-    await submitComment(post._id, {
+    await submitComment(postId, {
       text: commentText,
       userId: currentUser.uid,
+      postId: postId,
     });
     setCommentText("");
   };
@@ -153,7 +154,7 @@ const SimplePostCard = ({ post }) => {
             <div className="d-flex justify-content-center">
               <Button
                 variant="outline-primary"
-                onClick={handleSubmitComment}
+                onClick={() => handleSubmitComment(post._id)}
                 className="mt-1"
               >
                 Submit

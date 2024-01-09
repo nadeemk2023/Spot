@@ -54,7 +54,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   };
 
   const handleSubmitComment = async (postId) => {
-    if (commentText === "") return;
+    if (!commentText.trim()) return;
     const commentData = {
       text: commentText,
       userId: currentUser.uid,
