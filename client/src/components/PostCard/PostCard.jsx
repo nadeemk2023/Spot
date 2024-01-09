@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Form, Row, Col } from "react-bootstrap";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { formatDistanceToNow, parseISO } from "date-fns";
@@ -36,6 +36,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   const hasCommented = post.comments.some(
     (comment) => comment.author && comment.author._id === currentUser.uid
   );
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
@@ -89,6 +90,10 @@ const PostCard = ({ postId, isInModal = false }) => {
       handleCloseDeleteModal();
     }
   };
+
+  if (!post) {
+    return <div>Loading post...</div>;
+  }
 
   return (
     <Card className="mb-4 text-dark pb-0">
@@ -206,7 +211,7 @@ const PostCard = ({ postId, isInModal = false }) => {
         </Row>
         {!isInModal && showCommentsModal && (
           <CommentsModal
-            post={post}
+            postId={post._id}
             showModal={showCommentsModal}
             onClose={() => {
               setShowCommentsModal(false);
