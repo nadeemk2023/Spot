@@ -27,6 +27,7 @@ const SimplePostCard = ({ post }) => {
   const [isLiked, setIsLiked] = useState(post.likes.includes(currentUser.uid));
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(post.text);
+  const [hoverHeart, setHoverHeart] = useState(false);
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -128,8 +129,17 @@ const SimplePostCard = ({ post }) => {
       </Card.Body>
 
       <Card.Footer className="border-top text-center">
-        <Button variant="link" onClick={handleLikePost} className="mb-2">
-          <FontAwesomeIcon icon={isLiked ? filledHeart : outlinedHeart} />
+        <Button
+          variant="outline-primary"
+          className={`text-primary py-2 px-3 ${styles.heartIconButton}`}
+          style={{ marginBottom: "0.5rem" }}
+          onClick={() => handleLikePost(post._id)}
+          onMouseEnter={() => setHoverHeart(true)}
+          onMouseLeave={() => setHoverHeart(false)}
+        >
+          <FontAwesomeIcon
+            icon={isLiked || hoverHeart ? filledHeart : outlinedHeart}
+          />
         </Button>
 
         <Form>
