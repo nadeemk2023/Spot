@@ -51,13 +51,12 @@ const SimplePostCard = ({ post }) => {
   };
 
   const handleSubmitComment = async () => {
-    if (commentText.trim()) {
-      await submitComment(post._id, {
-        text: commentText,
-        userId: currentUser.uid,
-      });
-      setCommentText("");
-    }
+    if (!commentText.trim()) return;
+    await submitComment(post._id, {
+      text: commentText,
+      userId: currentUser.uid,
+    });
+    setCommentText("");
   };
 
   return (
