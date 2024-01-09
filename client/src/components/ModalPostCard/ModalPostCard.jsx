@@ -42,7 +42,12 @@ const SimplePostCard = ({ post }) => {
   };
 
   const handleEditPost = async () => {
-    await editPost(post._id, { text: editedText });
+    if (!editedText.trim()) return;
+    const editedData = {
+      text: editedText,
+      userid: currentUser.uid,
+    };
+    await editPost(post._id, editedData);
     setIsEditing(false);
   };
 
@@ -104,7 +109,31 @@ const SimplePostCard = ({ post }) => {
           )}
         </Row>
 
-        <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
+        {isEditing ? (
+          <>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              className="mt-3"
+            />
+            <div className="d-flex justify-content-center mt-3">
+              <Button variant="primary" onClick={handleEditPost}>
+                Save
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setIsEditing(false)}
+                className="ml-2"
+              >
+                Cancel
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
+        )}
 
         <Row className="justify-content-between align-items-center mt-3">
           <Col>
