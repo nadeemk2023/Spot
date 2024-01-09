@@ -50,10 +50,10 @@ function CustomNavbar() {
             </Nav.Link>
             <Nav.Link
               as={Link}
-              to="/feed"
+              to="/about"
               className="text-decoration-none fs-5"
             >
-              Feed
+              About
             </Nav.Link>
             <Nav.Link
               as={Link}

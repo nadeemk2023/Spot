@@ -1,0 +1,18 @@
+#fade_out {
+  position: relative;
+  height: 100%;
+  width: auto;
+  margin: 0 auto;
+}
+
+#fade_out img {
+  position: absolute;
+  left: 0;
+  -webkit-transition: opacity 2s linear;
+  -moz-transition: opacity 2s linear;
+  transition: opacity 2s linear;
+}
+
+#fade_out img.top:hover {
+  opacity: 0;
+}
