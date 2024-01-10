@@ -1,16 +1,18 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { API_TARGET, API_URL } from "../constants.js";
+import { API_TARGET, API_URL, VITE_NODE_ENV } from "../constants.js";
 
 const getUserToken = () => {
   const savedUser = JSON.parse(localStorage.getItem("MernAppUser"));
   return savedUser ? savedUser.token : "";
 };
 
+console.log("VITE_NODE_ENV:", VITE_NODE_ENV);
+
 const api = axios.create({
   // baseURL: `${API_TARGET}/${API_URL}`,
   baseURL:
-    import.meta.env.VITE_NODE_ENV === "production"
+    VITE_NODE_ENV === "production"
       ? `${API_TARGET}/${API_URL}`
       : "http://localhost:3001/api",
 });
