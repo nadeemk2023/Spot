@@ -6,7 +6,8 @@
   "scripts": {
     "client:dev": "npm run dev --workspace=client",
     "server:dev": "npm run dev --workspace=server",
-    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
+    "build": "npm run build --workspace=client && npm run build --workspace=server"
   },
   "keywords": [],
   "author": "",
