@@ -49,14 +49,14 @@ app.use((req, res, next) => {
   next(createError(404, "NotFound"));
 });
 
-app.use(API_URL, apiRoutes);
-// add the following
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
-  app.all("*", (req, res, next) => {
-    res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
-  });
-}
+// app.use(API_URL, apiRoutes);
+// // add the following
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../client/dist")));
+//   app.all("*", (req, res, next) => {
+//     res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
+//   });
+// }
 
 // error handler
 app.use(errorHandler);
