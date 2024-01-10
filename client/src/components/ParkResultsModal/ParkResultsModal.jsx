@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
-import "./ParkResultsModal.css";
+// import "./ParkResultsModal.css";
 
 const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks, parkImages } = useContext(ParkContext);
