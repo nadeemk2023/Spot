@@ -45,9 +45,6 @@ app.use(fileUpload());
 app.use(keys.app.apiEndpoint, router);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404, "NotFound"));
-});
 
 // add the following
 if (process.env.NODE_ENV === "production") {
@@ -56,6 +53,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../../client/dist/index.html"));
   });
 }
+app.use((req, res, next) => {
+  next(createError(404, "NotFound"));
+});
 
 // error handler
 app.use(errorHandler);
