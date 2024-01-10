@@ -34,8 +34,8 @@ export const ParkProvider = ({ children }) => {
 
   const fetchParks = async () => {
     try {
-      const userCoords = await getCurrentLocation();
-      
+      //const userCoords = await getCurrentLocation();
+      const userCoords = {lat: 37.9083713, lng: -122.0041679}
       const pipicanOptions = {
         method: "POST",
         url: "https://pipican-dog-park-and-dog-beach-locator-api.p.rapidapi.com/nearby-basic",
