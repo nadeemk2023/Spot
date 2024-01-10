@@ -51,9 +51,9 @@ app.use((req, res, next) => {
 
 // add the following
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.use(express.static(path.join(__dirname, "../../client/dist")));
   app.all("*", (req, res, next) => {
-    res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
+    res.sendFile(path.resolve(__dirname, "../../client/dist/index.html"));
   });
 }
 
