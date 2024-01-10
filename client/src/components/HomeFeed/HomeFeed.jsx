@@ -10,6 +10,7 @@ const HomeFeed = () => {
   } = useProvideAuth();
 
   const { posts, fetchPosts } = usePosts();
+  console.log("posts:", posts);
 
   useEffect(() => {
     fetchPosts();
@@ -17,7 +18,7 @@ const HomeFeed = () => {
 
   return (
     <Row>
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <Col key={post._id} xs={12}>
           <PostCard postId={post._id} />
         </Col>
