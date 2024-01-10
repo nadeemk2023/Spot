@@ -5,7 +5,7 @@ module.exports = {
   },
   database: {
     url: process.env.MONGODB_URI,
-    name: process.env.MONGODB_NAME,
+    // name: process.env.MONGODB_NAME,
   },
   jwt: {
     secret: process.env.JWT_SECRET,
