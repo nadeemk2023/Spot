@@ -8,7 +8,11 @@ const getUserToken = () => {
 };
 
 const api = axios.create({
-  baseURL: `${API_TARGET}/${API_URL}`,
+  // baseURL: `${API_TARGET}/${API_URL}`,
+  baseURL:
+    import.meta.env.VITE_NODE_ENV === "production"
+      ? `${API_TARGET}/${API_URL}`
+      : "http://localhost:3001/api",
 });
 
 api.defaults.headers.post["Content-Type"] = "application/json";

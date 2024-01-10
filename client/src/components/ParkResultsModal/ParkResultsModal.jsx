@@ -3,6 +3,7 @@ import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
 //import "./ParkResultsModal.css";
 
+
 const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks, parkImages } = useContext(ParkContext);
 
