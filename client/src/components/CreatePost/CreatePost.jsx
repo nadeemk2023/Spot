@@ -41,7 +41,7 @@ const CreatePost = () => {
           <Form.Label>
             What's on your mind
             {userObj?.username ? (
-              <span style={{ color: "#646cff", fontWeight: "bold" }}>
+              <span style={{ color: "rgb(13, 110, 253)", fontWeight: "bold" }}>
                 {" "}
                 {userObj.username}
               </span>
