@@ -115,6 +115,7 @@ const PostCard = ({ postId, isInModal = false }) => {
               <Link
                 to={`/profile/u/${post?.author?.username}`}
                 className="text-decoration-none"
+                style={{ color: "rgb(13, 110, 253)" }}
               >
                 <Card.Text className="mb-1 fw-bold">
                   {post?.author?.username}
