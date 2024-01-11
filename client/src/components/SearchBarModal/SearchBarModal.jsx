@@ -12,16 +12,16 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
               <img
                 src="/logo.png"
                 alt="Spot Logo"
-                style={{ marginRight: "5px", height: "70px", width: "70px" }} 
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
               />
               Pawsible Future Friends!
             </div>
           ) : (
             <div>
               <img
-                src="logo.png" 
+                src="logo.png"
                 alt="Spot Logo"
-                style={{ marginRight: "5px", height: "70px", width: "70px" }} 
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
               />
               Whoa there!
             </div>
@@ -38,27 +38,46 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                   <Card
                     style={{
                       width: "12rem",
-                      height: "13rem",
+                      height: "14rem",
                       margin: "10px",
                       marginBottom: "40px",
-                      padding: "10px",
+                      padding: "5px",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
+                      backgroundImage: `url("/chewing-bones.jpg")`, 
+                      backgroundSize: "cover"
                     }}
                   >
                     <Card.Img
                       variant="top"
                       src={user.profile_image}
                       alt={`Profile of ${user.username}`}
-                      style={{ height: "40px", width: "40px" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
                     />
-                    <Card.Body
-                      style={{ textAlign: "center", fontSize: "small" }}
+
+                    <div style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      borderRadius: "10px",
+                      marginTop: "1px",
+                      paddingBottom: "0",
+                    }}>
+                    <Card.Title
+                      style={{
+                        fontSize: "medium",
+                        marginTop: "5px",
+                        marginBottom: "0px",
+                        textAlign: "center"
+                      }}
                     >
-                      <Card.Title style={{ fontSize: "medium" }}>
-                        <Link to={userProfileUrl}>{user.username}</Link>
-                      </Card.Title>
+                      <Link to={userProfileUrl}>{user.username}</Link>
+                    </Card.Title>
+                    <Card.Body style={{ textAlign: "left", fontSize: "small", height: "8rem", width: "11rem"}}>
                       <Card.Text>
                         <p style={{ marginBottom: "1px" }}>
                           <span
@@ -97,6 +116,7 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                       <Card.Text></Card.Text>
                       <Card.Text></Card.Text>
                     </Card.Body>
+                    </div>
                   </Card>
                 </Col>
               );

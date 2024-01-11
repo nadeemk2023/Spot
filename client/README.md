@@ -11,4 +11,7 @@ Alexis resources (https://v5.reactrouter.com/web/api/Switch)
 
 
 # Ev's Resources: 
-  - Dog Avatars: https://www.freepik.com/author/freepik/icons/kawaii-flat_45?t=f&query=dog%20avatar
+
+## Would like to put these in a "credits" section at the bottom of our about us page later on: 
+  - Dog Avatars: <a href="https://www.freepik.com/icon/beagle_1820785#fromView=search&term=dog+avatar&track=ais&page=1&position=0">Icon by Freepik</a>
+  - Dog bone pattern used on search results cards: Image by <a href="https://www.freepik.com/free-photo/from-chewing-bones_2209695.htm#page=2&query=paw%20print%20pattern&position=28&from_view=search&track=ais&uuid=656fd0e1-ace1-46c5-89d2-26cd40e6910a">Freepik</a>
