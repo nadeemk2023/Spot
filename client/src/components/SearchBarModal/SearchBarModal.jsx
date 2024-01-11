@@ -12,16 +12,16 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
               <img
                 src="/logo.png"
                 alt="Spot Logo"
-                style={{ marginRight: "5px", height: "70px", width: "70px" }} 
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
               />
               Pawsible Future Friends!
             </div>
           ) : (
             <div>
               <img
-                src="logo.png" 
+                src="logo.png"
                 alt="Spot Logo"
-                style={{ marginRight: "5px", height: "70px", width: "70px" }} 
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
               />
               Whoa there!
             </div>
@@ -51,7 +51,12 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                       variant="top"
                       src={user.profile_image}
                       alt={`Profile of ${user.username}`}
-                      style={{ height: "40px", width: "40px" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
                     />
                     <Card.Body
                       style={{ textAlign: "center", fontSize: "small" }}

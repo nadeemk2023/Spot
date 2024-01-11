@@ -270,6 +270,19 @@ const SearchPage = () => {
           </Container>
         </Row>
 
+        {searchResults.length > 0 && (
+          <div>
+            <h2>
+              <img
+                src="/logo.png"
+                alt="Spot Logo"
+                style={{ marginRight: "5px", height: "70px", width: "70px" }}
+              />
+              Pawsible Future Friends!
+            </h2>
+          </div>
+        )}
+
         <Row ref={resultsRef}>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
@@ -289,7 +302,13 @@ const SearchPage = () => {
                     variant="top"
                     src={user.profile_image}
                     alt={`Profile of ${user.username}`}
-                    style={{ maxWidth: "100px"}}
+                    title={`Profile of ${user.username}`}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                    }}
                   />
                   <Card.Body style={{ textAlign: "center" }}>
                     <Card.Title>
