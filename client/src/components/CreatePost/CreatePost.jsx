@@ -26,16 +26,37 @@ const CreatePost = () => {
     }
   };
 
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     const postData = {
+  //       user: userObj,
+  //       text: text,
+  //     };
+  //
+  //     try {
+  //       await addPost(postData);
+  //       setText("");
+  //       fetchPosts();
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const postData = {
-      user: userObj,
-      text: text,
-    };
+    const formData = new FormData();
+    formData.append("text", text);
+    formData.append("userId", userObj.uid); // Append user ID to FormData
+
+    if (image) {
+      formData.append("imgUrl", image);
+    }
 
     try {
-      await addPost(postData);
+      await addPost(formData); // Ensure addPost can handle FormData
       setText("");
+      setImage(null);
+      setShowModal(false);
       fetchPosts();
     } catch (err) {
       console.error(err);
