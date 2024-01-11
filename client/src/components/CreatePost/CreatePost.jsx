@@ -3,6 +3,7 @@ import { Form, Button, Container, Modal } from "react-bootstrap";
 import styles from "./CreatePost.module.css";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { usePosts } from "../PostCard/PostsContext";
+import axios from "axios";
 
 const CreatePost = () => {
   const {
@@ -21,9 +22,7 @@ const CreatePost = () => {
   };
 
   const handleImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(event.target.files[0]);
-    }
+    setImage(event.target.files[0]);
   };
 
   const handleCloseModal = () => {
@@ -51,15 +50,27 @@ const CreatePost = () => {
     const formData = new FormData();
     formData.append("text", text);
     formData.append("userId", userObj.uid);
-
-    console.log("image in handleSubmit:", image);
-
     if (image) {
-      formData.append("imgUrl", image);
+      formData.append("files", image);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/files/images",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        if (response.data) {
+          formData.append("imgUrl", response.data.path);
+        }
+      } catch (error) {
+        console.error(`Error creating post:`, error);
+      }
     }
 
     try {
-      // await addPost(formData);
+      await addPost(formData);
       setText("");
       setImage(null);
       setShowModal(false);
@@ -68,6 +79,7 @@ const CreatePost = () => {
       console.error(err);
     }
   };
+
   const handleShowModal = () => {
     setShowModal(true);
   };
