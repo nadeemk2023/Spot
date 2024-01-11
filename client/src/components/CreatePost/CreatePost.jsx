@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Modal } from "react-bootstrap";
 import styles from "./CreatePost.module.css";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { usePosts } from "../PostCard/PostsContext";
@@ -11,10 +11,18 @@ const CreatePost = () => {
   const [text, setText] = useState("");
   const maxChars = 500;
   const { addPost, fetchPosts } = usePosts();
+  const [image, setImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleTextChange = (e) => {
     if (e.target.value.length <= maxChars) {
       setText(e.target.value);
+    }
+  };
+
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(event.target.files[0]);
     }
   };
 
@@ -62,10 +70,37 @@ const CreatePost = () => {
             {text.length} / {maxChars}
           </div>
         </Form.Group>
-        <Button variant="primary" type="submit" className="px-3 py-2">
+        <Button
+          variant="outline-primary"
+          className="me-2"
+          onClick={() => setShowModal(true)}
+        >
+          Upload a Photo
+        </Button>
+        <Button variant="primary" type="submit" className="px-3 py-2 ">
           Post
         </Button>
       </Form>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
+            Upload
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
