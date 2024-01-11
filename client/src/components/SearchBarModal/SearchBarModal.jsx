@@ -46,7 +46,8 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                       flexDirection: "column",
                       alignItems: "center",
                       backgroundImage: `url("/chewing-bones.jpg")`, 
-                      backgroundSize: "cover"
+                      backgroundSize: "cover", 
+                      backgroundRepeat: "no-repeat"
                     }}
                   >
                     <Card.Img

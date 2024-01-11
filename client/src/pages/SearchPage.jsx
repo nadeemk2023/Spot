@@ -298,6 +298,7 @@ const SearchPage = () => {
                     alignItems: "center",
                     backgroundImage: `url("/chewing-bones.jpg")`,
                     backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat"
                   }}
                 >
                   <Card.Img
