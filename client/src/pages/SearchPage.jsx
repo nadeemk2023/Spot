@@ -325,7 +325,7 @@ const SearchPage = () => {
                   <Card.Title
                     style={{ marginTop: "10px", marginBottom: "5px" }}
                   >
-                    <Link to={userProfileUrl}>{user.username}</Link>
+                    <Link style={{color: "rgb(13, 110, 253)"}} to={userProfileUrl}>{user.username}</Link>
                   </Card.Title>
                   <div
                     style={{

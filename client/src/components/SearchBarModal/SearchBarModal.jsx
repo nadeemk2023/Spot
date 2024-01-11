@@ -72,7 +72,7 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                         textAlign: "center",
                       }}
                     >
-                      <Link to={userProfileUrl}>{user.username}</Link>
+                      <Link style={{color: "rgb(13, 110, 253)"}} to={userProfileUrl}>{user.username}</Link>
                     </Card.Title>
                     <div
                       style={{
