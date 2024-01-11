@@ -28,7 +28,6 @@ const CreatePost = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setImage(null);
   };
 
   //   const handleSubmit = async (e) => {
@@ -53,12 +52,14 @@ const CreatePost = () => {
     formData.append("text", text);
     formData.append("userId", userObj.uid);
 
+    console.log("image in handleSubmit:", image);
+
     if (image) {
       formData.append("imgUrl", image);
     }
 
     try {
-      await addPost(formData);
+      // await addPost(formData);
       setText("");
       setImage(null);
       setShowModal(false);
@@ -66,6 +67,12 @@ const CreatePost = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+  const removeSelectedImage = () => {
+    setImage(null);
   };
 
   return (
@@ -96,13 +103,23 @@ const CreatePost = () => {
             {text.length} / {maxChars}
           </div>
         </Form.Group>
+
         <Button
           variant="outline-primary"
           className="me-2"
-          onClick={() => setShowModal(true)}
+          onClick={handleShowModal}
         >
-          Upload a Photo
+          {image ? "Change Photo" : "Upload a Photo"}
         </Button>
+        {image && (
+          <Button
+            variant="outline-danger"
+            className="me-2"
+            onClick={removeSelectedImage}
+          >
+            Remove Photo
+          </Button>
+        )}
         <Button variant="primary" type="submit" className="px-3 py-2 ">
           Post
         </Button>
