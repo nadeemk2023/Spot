@@ -271,14 +271,14 @@ const SearchPage = () => {
         </Row>
 
         {searchResults.length > 0 && (
-          <div>
+          <div style={{ backgroundColor: "lightgray", paddingTop: "7px" }}>
             <h2>
               <img
                 src="/logo.png"
                 alt="Spot Logo"
                 style={{ marginRight: "5px", height: "70px", width: "70px" }}
               />
-              Pawsible Future Friends!
+              Pawsible Future Friends
             </h2>
           </div>
         )}
@@ -290,12 +290,14 @@ const SearchPage = () => {
               <Col key={index} xs={12} sm={6} md={3}>
                 <Card
                   style={{
-                    maxWidth: "18rem",
-                    height: "27rem",
-                    margin: "1rem",
+                    width: "18rem",
+                    height: "25rem",
+                    margin: "2rem",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    backgroundImage: `url("/chewing-bones.jpg")`,
+                    backgroundSize: "cover",
                   }}
                 >
                   <Card.Img
@@ -308,29 +310,47 @@ const SearchPage = () => {
                       height: "100px",
                       objectFit: "cover",
                       borderRadius: "50%",
+                      marginBottom: "5px",
                     }}
                   />
-                  <Card.Body style={{ textAlign: "center" }}>
-                    <Card.Title>
+                  <div
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      borderRadius: "10px",
+                      marginTop: "1px",
+                      paddingBottom: "0",
+                    }}
+                  >
+                    <Card.Title
+                      style={{ marginTop: "10px", marginBottom: "0" }}
+                    >
                       <Link to={userProfileUrl}>{user.username}</Link>
                     </Card.Title>
-                    <Card.Text>
-                      <span style={{ fontWeight: "bold" }}>Pet's Name:</span>{" "}
-                      {user.dog.name}
-                    </Card.Text>
-                    <Card.Text>
-                      <span style={{ fontWeight: "bold" }}>Pet's Breed:</span>{" "}
-                      {user.dog.breed}
-                    </Card.Text>
-                    <Card.Text>
-                      <span style={{ fontWeight: "bold" }}>Pet's Size:</span>{" "}
-                      {user.dog.size}
-                    </Card.Text>
-                    <Card.Text>
-                      <span style={{ fontWeight: "bold" }}>Zip Code:</span>{" "}
-                      {user.zipcode}
-                    </Card.Text>
-                  </Card.Body>
+                    <Card.Body
+                      style={{
+                        textAlign: "left",
+                        width: "16rem",
+                        height: "12rem",
+                      }}
+                    >
+                      <Card.Text>
+                        <span style={{ fontWeight: "bold" }}>Pet's Name:</span>{" "}
+                        {user.dog.name}
+                      </Card.Text>
+                      <Card.Text>
+                        <span style={{ fontWeight: "bold" }}>Pet's Breed:</span>{" "}
+                        {user.dog.breed}
+                      </Card.Text>
+                      <Card.Text>
+                        <span style={{ fontWeight: "bold" }}>Pet's Size:</span>{" "}
+                        {user.dog.size}
+                      </Card.Text>
+                      <Card.Text>
+                        <span style={{ fontWeight: "bold" }}>Zip Code:</span>{" "}
+                        {user.zipcode}
+                      </Card.Text>
+                    </Card.Body>
+                  </div>
                 </Card>
               </Col>
             );
