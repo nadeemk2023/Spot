@@ -147,9 +147,11 @@ const CreatePost = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Upload
-          </Button>
+          {image && (
+            <Button variant="primary" onClick={handleCloseModal}>
+              Done
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </Container>
