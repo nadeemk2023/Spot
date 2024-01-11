@@ -24,7 +24,7 @@ const ParkLocator = ({ showResultsInModal }) => {
 
   return (
     <>
-      <Button onClick={handleClick} disabled={isLoading}>{isLoading ? "please wait..." : "Search"}</Button>
+      <Button style={{marginTop:"2px"}} onClick={handleClick} disabled={isLoading}>{isLoading ? "please wait..." : "Search"}</Button>
       {showResultsInModal && (
         <ParkResultsModal show={showModal} onHide={() => setShowModal(false)} />
       )}

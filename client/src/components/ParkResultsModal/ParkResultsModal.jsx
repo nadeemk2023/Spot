@@ -3,7 +3,6 @@ import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
 //import "./ParkResultsModal.css";
 
-
 const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks, parkImages } = useContext(ParkContext);
 
@@ -41,7 +40,14 @@ const ParkResultsModal = ({ show, onHide }) => {
                   parkImages[Math.floor(Math.random() * parkImages.length)];
                 return (
                   <Col key={index} xs={12} sm={6} md={4} className="mb-3">
-                    <Card className="h-100 d-flex flex-column align-items-center">
+                    <Card
+                      style={{
+                        backgroundImage: `url("/chewing-bones.jpg")`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                      className="h-100 d-flex flex-column align-items-center"
+                    >
                       <Card.Img
                         variant="top"
                         className="park-image"
@@ -52,13 +58,22 @@ const ParkResultsModal = ({ show, onHide }) => {
                           {park.properties.name ||
                             "Dog Park Name Not Available"}
                         </Card.Title>
-                        <Card.Text
-                          dangerouslySetInnerHTML={{
-                            __html: formatAddress(
-                              park.address || "Address Not Available"
-                            ),
+                        <div
+                          style={{
+                            backgroundColor: "rgba(255, 255, 255, 0.8)",
+                            borderRadius: "10px",
+                            marginTop: "1px",
+                            paddingBottom: "0",
                           }}
-                        />
+                        >
+                          <Card.Text
+                            dangerouslySetInnerHTML={{
+                              __html: formatAddress(
+                                park.address || "Address Not Available"
+                              ),
+                            }}
+                          />
+                        </div>
                       </Card.Body>
                     </Card>
                   </Col>
