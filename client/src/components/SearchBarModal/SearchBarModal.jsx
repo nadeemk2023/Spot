@@ -38,15 +38,17 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                   <Card
                     style={{
                       width: "12rem",
-                      height: "14rem",
+                      height: "15rem",
                       margin: "10px",
+                      borderRadius: "10px",
                       marginBottom: "40px",
                       padding: "5px",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      backgroundImage: `url("/chewing-bones.jpg")`, 
-                      backgroundSize: "cover"
+                      backgroundImage: `url("/chewing-bones.jpg")`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
                     }}
                   >
                     <Card.Img
@@ -57,65 +59,80 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                         width: "50px",
                         height: "50px",
                         objectFit: "cover",
-                        borderRadius: "50%",
+                        borderRadius: "10px",
+                        marginBottom: "2px",
+                        marginTop: "5px",
                       }}
                     />
-
-                    <div style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.8)",
-                      borderRadius: "10px",
-                      marginTop: "1px",
-                      paddingBottom: "0",
-                    }}>
                     <Card.Title
                       style={{
                         fontSize: "medium",
-                        marginTop: "5px",
+                        marginTop: "10px",
                         marginBottom: "0px",
-                        textAlign: "center"
+                        textAlign: "center",
                       }}
                     >
                       <Link to={userProfileUrl}>{user.username}</Link>
                     </Card.Title>
-                    <Card.Body style={{ textAlign: "left", fontSize: "small", height: "8rem", width: "11rem"}}>
-                      <Card.Text>
-                        <p style={{ marginBottom: "1px" }}>
-                          <span
-                            style={{ fontWeight: "bold", fontSize: "small" }}
-                          >
-                            Pet's Name:
-                          </span>{" "}
-                          {user.dog.name}
-                        </p>
-                        <p style={{ marginBottom: "1px" }}>
-                          <span
-                            style={{ fontWeight: "bold", fontSize: "small" }}
-                          >
-                            Pet's Breed:
-                          </span>{" "}
-                          {user.dog.breed}
-                        </p>
-                        <p style={{ marginBottom: "1px" }}>
-                          <span
-                            style={{ fontWeight: "bold", fontSize: "small" }}
-                          >
-                            Pet's Size:
-                          </span>{" "}
-                          {user.dog.size}
-                        </p>
-                        <p style={{ marginBottom: "1px" }}>
-                          <span
-                            style={{ fontWeight: "bold", fontSize: "small" }}
-                          >
-                            Zip Code:
-                          </span>{" "}
-                          {user.zipcode}
-                        </p>
-                      </Card.Text>
-                      <Card.Text></Card.Text>
-                      <Card.Text></Card.Text>
-                      <Card.Text></Card.Text>
-                    </Card.Body>
+                    <div
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "10px",
+                        marginTop: "7px",
+                        marginBottom: "5px",
+                        paddingBottom: "0",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Card.Body
+                        style={{
+                          textAlign: "left",
+                          fontSize: "small",
+                          height: "8rem",
+                          width: "11rem",
+                        }}
+                      >
+                        <Card.Text>
+                          <p style={{ marginBottom: "1px" }}>
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "small" }}
+                            >
+                              Pet's Name:
+                            </span>{" "}
+                            {user.dog.name}
+                          </p>
+                          <p style={{ marginBottom: "1px" }}>
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "small" }}
+                            >
+                              Pet's Breed:
+                            </span>{" "}
+                            {user.dog.breed}
+                          </p>
+                          <p style={{ marginBottom: "1px" }}>
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "small" }}
+                            >
+                              Pet's Size:
+                            </span>{" "}
+                            {user.dog.size}
+                          </p>
+                          <p style={{ marginBottom: "1px" }}>
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "small" }}
+                            >
+                              Zip Code:
+                            </span>{" "}
+                            {user.zipcode}
+                          </p>
+                        </Card.Text>
+                        <Card.Text></Card.Text>
+                        <Card.Text></Card.Text>
+                        <Card.Text></Card.Text>
+                      </Card.Body>
                     </div>
                   </Card>
                 </Col>

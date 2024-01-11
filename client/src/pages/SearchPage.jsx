@@ -23,6 +23,7 @@ const SearchPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const resultsRef = useRef(null);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -46,6 +47,7 @@ const SearchPage = () => {
         });
         if (response.data.length > 0) {
           setSearchResults(response.data);
+          setSearchPerformed(true);
           setTimeout(() => {
             if (resultsRef.current) {
               resultsRef.current.scrollIntoView({ behavior: "smooth" });
@@ -63,6 +65,11 @@ const SearchPage = () => {
     } catch (error) {
       console.error("Error handling search:", error.message);
     }
+  };
+
+  const handleBackToSearch = () => {
+    setSearchPerformed(false);
+    window.scrollTo({ top: 250, behavior: "smooth" });
   };
 
   const handleCloseModal = () => {
@@ -226,7 +233,7 @@ const SearchPage = () => {
               onChange={(e) => setZipcode(e.target.value)}
             />
 
-            <Button variant="primary" onClick={handleSearch}>
+            <Button ref={resultsRef} variant="primary" onClick={handleSearch}>
               Search
             </Button>
           </Container>
@@ -246,7 +253,7 @@ const SearchPage = () => {
               alignItems: "center",
             }}
           >
-            <Container
+            <Container 
               style={{
                 paddingTop: "2px",
                 backgroundColor: "#eeeeee",
@@ -283,7 +290,7 @@ const SearchPage = () => {
           </div>
         )}
 
-        <Row ref={resultsRef}>
+        <Row>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
             return (
@@ -293,11 +300,13 @@ const SearchPage = () => {
                     width: "18rem",
                     height: "25rem",
                     margin: "2rem",
+                    borderRadius: "10px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     backgroundImage: `url("/chewing-bones.jpg")`,
                     backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
                   }}
                 >
                   <Card.Img
@@ -309,10 +318,15 @@ const SearchPage = () => {
                       width: "100px",
                       height: "100px",
                       objectFit: "cover",
-                      borderRadius: "50%",
+                      borderRadius: "10px",
                       marginBottom: "5px",
                     }}
                   />
+                  <Card.Title
+                    style={{ marginTop: "10px", marginBottom: "5px" }}
+                  >
+                    <Link to={userProfileUrl}>{user.username}</Link>
+                  </Card.Title>
                   <div
                     style={{
                       backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -321,11 +335,6 @@ const SearchPage = () => {
                       paddingBottom: "0",
                     }}
                   >
-                    <Card.Title
-                      style={{ marginTop: "10px", marginBottom: "0" }}
-                    >
-                      <Link to={userProfileUrl}>{user.username}</Link>
-                    </Card.Title>
                     <Card.Body
                       style={{
                         textAlign: "left",
@@ -356,6 +365,17 @@ const SearchPage = () => {
             );
           })}
         </Row>
+
+        {/* "Back To Search" button */}
+        {searchPerformed && (
+          <Button
+            variant="primary"
+            onClick={handleBackToSearch}
+            style={{ marginTop: "20px", marginBottom: "20px" }}
+          >
+            Back To Search
+          </Button>
+        )}
 
         {/* Modal for empty search */}
         <Modal show={showModal} onHide={handleCloseModal}>
