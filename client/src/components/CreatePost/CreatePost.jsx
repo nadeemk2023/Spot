@@ -98,6 +98,7 @@ const CreatePost = () => {
             onChange={handleTextChange}
             placeholder="Write your post here..."
             className={styles.fixedSizeTextarea}
+            style={{ borderRadius: "10px" }}
           />
           <div className="text-right">
             {text.length} / {maxChars}

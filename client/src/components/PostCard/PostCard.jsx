@@ -96,7 +96,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   }
 
   return (
-    <Card className="mb-4 text-dark pb-0">
+    <Card className="mb-4 text-dark pb-0" style={{ borderRadius: "10px" }}>
       <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div className="d-flex align-items-center">
