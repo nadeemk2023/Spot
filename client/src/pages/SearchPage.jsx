@@ -233,7 +233,7 @@ const SearchPage = () => {
               onChange={(e) => setZipcode(e.target.value)}
             />
 
-            <Button variant="primary" onClick={handleSearch}>
+            <Button ref={resultsRef} variant="primary" onClick={handleSearch}>
               Search
             </Button>
           </Container>
@@ -253,7 +253,7 @@ const SearchPage = () => {
               alignItems: "center",
             }}
           >
-            <Container
+            <Container 
               style={{
                 paddingTop: "2px",
                 backgroundColor: "#eeeeee",
@@ -290,7 +290,7 @@ const SearchPage = () => {
           </div>
         )}
 
-        <Row ref={resultsRef}>
+        <Row>
           {searchResults.map((user, index) => {
             const userProfileUrl = `/profile/u/${user.username}`;
             return (
