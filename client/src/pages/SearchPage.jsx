@@ -293,6 +293,7 @@ const SearchPage = () => {
                     width: "18rem",
                     height: "25rem",
                     margin: "2rem",
+                    borderRadius: "10px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",

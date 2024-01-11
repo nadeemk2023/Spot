@@ -40,6 +40,7 @@ const SearchBarModal = ({ searchResults, showModal, closeModal }) => {
                       width: "12rem",
                       height: "14rem",
                       margin: "10px",
+                      borderRadius: "10px",
                       marginBottom: "40px",
                       padding: "5px",
                       display: "flex",
