@@ -299,7 +299,7 @@ const SearchPage = () => {
                     alignItems: "center",
                     backgroundImage: `url("/chewing-bones.jpg")`,
                     backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat"
+                    backgroundRepeat: "no-repeat",
                   }}
                 >
                   <Card.Img
@@ -311,10 +311,13 @@ const SearchPage = () => {
                       width: "100px",
                       height: "100px",
                       objectFit: "cover",
-                      borderRadius: "50%",
+                      borderRadius: "10px",
                       marginBottom: "5px",
                     }}
                   />
+                  <Card.Title style={{ marginTop: "10px", marginBottom: "5px" }}>
+                    <Link to={userProfileUrl}>{user.username}</Link>
+                  </Card.Title>
                   <div
                     style={{
                       backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -323,11 +326,6 @@ const SearchPage = () => {
                       paddingBottom: "0",
                     }}
                   >
-                    <Card.Title
-                      style={{ marginTop: "10px", marginBottom: "0" }}
-                    >
-                      <Link to={userProfileUrl}>{user.username}</Link>
-                    </Card.Title>
                     <Card.Body
                       style={{
                         textAlign: "left",
