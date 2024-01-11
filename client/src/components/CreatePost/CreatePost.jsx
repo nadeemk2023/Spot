@@ -46,14 +46,14 @@ const CreatePost = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("text", text);
-    formData.append("userId", userObj.uid); // Append user ID to FormData
+    formData.append("userId", userObj.uid);
 
     if (image) {
       formData.append("imgUrl", image);
     }
 
     try {
-      await addPost(formData); // Ensure addPost can handle FormData
+      await addPost(formData);
       setText("");
       setImage(null);
       setShowModal(false);
