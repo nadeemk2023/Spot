@@ -1,7 +1,5 @@
 .park-image {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
+    max-height: 110px;
     border-radius: 5px;
   }
   
