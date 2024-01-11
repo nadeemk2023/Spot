@@ -26,6 +26,11 @@ const CreatePost = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setImage(null);
+  };
+
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
   //     const postData = {
@@ -102,22 +107,47 @@ const CreatePost = () => {
           Post
         </Button>
       </Form>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Upload Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            {image ? (
+              <div>
+                <p>Selected file: {image.name}</p>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected"
+                  className="img-thumbnail me-1"
+                  style={{ height: "15rem" }} // Added margin-bottom for spacing
+                />
+                <Button variant="danger" onClick={() => setImage(null)}>
+                  Remove
+                </Button>
+              </div>
+            ) : (
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            )}
+          </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => setShowModal(false)}>
+          <Button variant="primary" onClick={handleCloseModal}>
             Upload
           </Button>
         </Modal.Footer>
