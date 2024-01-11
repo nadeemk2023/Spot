@@ -23,6 +23,7 @@ const SearchPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const resultsRef = useRef(null);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -46,6 +47,7 @@ const SearchPage = () => {
         });
         if (response.data.length > 0) {
           setSearchResults(response.data);
+          setSearchPerformed(true);
           setTimeout(() => {
             if (resultsRef.current) {
               resultsRef.current.scrollIntoView({ behavior: "smooth" });
@@ -63,6 +65,11 @@ const SearchPage = () => {
     } catch (error) {
       console.error("Error handling search:", error.message);
     }
+  };
+
+  const handleBackToSearch = () => {
+    setSearchPerformed(false);
+    window.scrollTo({ top: 250, behavior: "smooth" });
   };
 
   const handleCloseModal = () => {
@@ -315,7 +322,9 @@ const SearchPage = () => {
                       marginBottom: "5px",
                     }}
                   />
-                  <Card.Title style={{ marginTop: "10px", marginBottom: "5px" }}>
+                  <Card.Title
+                    style={{ marginTop: "10px", marginBottom: "5px" }}
+                  >
                     <Link to={userProfileUrl}>{user.username}</Link>
                   </Card.Title>
                   <div
@@ -356,6 +365,17 @@ const SearchPage = () => {
             );
           })}
         </Row>
+
+        {/* "Back To Search" button */}
+        {searchPerformed && (
+          <Button
+            variant="primary"
+            onClick={handleBackToSearch}
+            style={{ marginTop: "20px", marginBottom: "20px" }}
+          >
+            Back To Search
+          </Button>
+        )}
 
         {/* Modal for empty search */}
         <Modal show={showModal} onHide={handleCloseModal}>
