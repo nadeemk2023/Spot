@@ -93,13 +93,12 @@ const PostCard = ({ postId, isInModal = false }) => {
   };
 
   useEffect(() => {
-    // Check if post has a custom image and it's not the default image
     const imageNotDefault =
       post.image && post.image !== "/images/default-post.jpg";
     const imageExists = imageNotDefault && Boolean(post.image.trim());
 
     setImageSrc(imageExists ? post.image : "");
-  }, [post.image]); // This effect should run whenever the post's image changes
+  }, [post.image]);
 
   if (!post) {
     return <div>Loading post...</div>;
@@ -125,7 +124,7 @@ const PostCard = ({ postId, isInModal = false }) => {
               <Link
                 to={`/profile/u/${post?.author?.username}`}
                 className="text-decoration-none"
-                style={{ color: "rgb(13, 110, 253)" }}
+                style={{ color: "rgb(13, 110, 253)", fontSize: "1.1rem" }}
               >
                 <Card.Text className="mb-1 fw-bold">
                   {post?.author?.username}

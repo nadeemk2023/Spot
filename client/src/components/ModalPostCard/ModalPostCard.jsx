@@ -81,7 +81,7 @@ const ModalPostCard = ({ post }) => {
 
   return (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4" style={{ borderRadius: "10px" }}>
         <Card.Body>
           <Row className="align-items-center justify-content-between">
             <Col xs="auto">
@@ -95,7 +95,11 @@ const ModalPostCard = ({ post }) => {
             <Col>
               <Card.Title
                 className="text-start"
-                style={{ color: "#646cff", fontWeight: "bold" }}
+                style={{
+                  color: "rgb(13, 110, 253)",
+                  fontWeight: "bold",
+                  fontSize: "1.1rem",
+                }}
               >
                 {post.author.username}
               </Card.Title>
