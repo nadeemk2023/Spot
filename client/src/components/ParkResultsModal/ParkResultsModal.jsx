@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
-import { Modal, Row, Col, Card, Button, Container } from "react-bootstrap";
+import { Modal, Row, Col, Card, Container } from "react-bootstrap";
 import { ParkContext } from "../ParkLocator/ParkLocatorContext";
-//import "./ParkResultsModal.css";
+import "./ParkResultsModal.css";
 
 const ParkResultsModal = ({ show, onHide }) => {
   const { dogParks, parkImages } = useContext(ParkContext);
+
+  const shuffledParkImages = [...parkImages].sort(() => 0.5 - Math.random());
 
   const formatAddress = (address) => {
     return address.split(/,|-/).join("<br>");
   };
 
   return (
-    <Modal show={show} onHide={onHide} size={dogParks.length > 0 ? "xl" : "lg"}>
+    <Modal show={show} onHide={onHide} size={"lg"}>
       <Modal.Header closeButton>
         <Modal.Title>
           <div>
@@ -36,8 +38,8 @@ const ParkResultsModal = ({ show, onHide }) => {
           <Container>
             <Row className="justify-content-center">
               {dogParks.map((park, index) => {
-                const randomImage =
-                  parkImages[Math.floor(Math.random() * parkImages.length)];
+                const imageIndex = index % shuffledParkImages.length;
+                const parkImage = shuffledParkImages[imageIndex];
                 return (
                   <Col key={index} xs={12} sm={6} md={4} className="mb-3">
                     <Card
@@ -51,9 +53,16 @@ const ParkResultsModal = ({ show, onHide }) => {
                       <Card.Img
                         variant="top"
                         className="park-image"
-                        src={randomImage}
+                        src={parkImage}
                       />{" "}
-                      <Card.Body className="text-center">
+                      <Card.Body
+                        className="text-center"
+                        style={{
+                          padding: "0px",
+                          paddingTop: "15px",
+                          width: "100%",
+                        }}
+                      >
                         <Card.Title>
                           {park.properties.name ||
                             "Dog Park Name Not Available"}
@@ -63,10 +72,11 @@ const ParkResultsModal = ({ show, onHide }) => {
                             backgroundColor: "rgba(255, 255, 255, 0.8)",
                             borderRadius: "10px",
                             marginTop: "1px",
-                            paddingBottom: "0",
+                            padding: "10px",
                           }}
                         >
                           <Card.Text
+                            style={{ padding: "0px" }}
                             dangerouslySetInnerHTML={{
                               __html: formatAddress(
                                 park.address || "Address Not Available"
