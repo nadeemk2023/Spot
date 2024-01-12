@@ -43,6 +43,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(post.text);
   const [hoverHeart, setHoverHeart] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -90,6 +91,15 @@ const PostCard = ({ postId, isInModal = false }) => {
       handleCloseDeleteModal();
     }
   };
+
+  useEffect(() => {
+    // Check if post has a custom image and it's not the default image
+    const imageNotDefault =
+      post.image && post.image !== "/images/default-post.jpg";
+    const imageExists = imageNotDefault && Boolean(post.image.trim());
+
+    setImageSrc(imageExists ? post.image : "");
+  }, [post.image]); // This effect should run whenever the post's image changes
 
   if (!post) {
     return <div>Loading post...</div>;
@@ -176,6 +186,19 @@ const PostCard = ({ postId, isInModal = false }) => {
           </>
         ) : (
           <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
+        )}
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt={`post from ${post?.author.username}`}
+            className="img-fluid"
+            style={{
+              maxWidth: "40%",
+              height: "auto",
+              display: "block",
+              margin: "0 auto",
+            }}
+          />
         )}
         <div className="d-flex justify-content-between mb-1 m-3">
           <div className="d-flex align-items-center">
