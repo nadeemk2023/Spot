@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Form, Row, Col, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,7 +18,7 @@ import { usePosts } from "../PostCard/PostsContext";
 import { useProvideAuth } from "../../hooks/useAuth";
 import styles from "./ModalPostCard.module.css";
 
-const SimplePostCard = ({ post }) => {
+const ModalPostCard = ({ post }) => {
   const { editPost, deletePost, likePost, submitComment } = usePosts();
   const {
     state: { user: currentUser },
@@ -29,6 +29,7 @@ const SimplePostCard = ({ post }) => {
   const [editedText, setEditedText] = useState(post.text);
   const [hoverHeart, setHoverHeart] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -70,10 +71,17 @@ const SimplePostCard = ({ post }) => {
     });
     setCommentText("");
   };
+  useEffect(() => {
+    const imageNotDefault =
+      post.image && post.image !== "/images/default-post.jpg";
+    const imageExists = imageNotDefault && Boolean(post.image.trim());
+
+    setImageSrc(imageExists ? post.image : "");
+  }, [post.image]);
 
   return (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4" style={{ borderRadius: "10px" }}>
         <Card.Body>
           <Row className="align-items-center justify-content-between">
             <Col xs="auto">
@@ -87,7 +95,11 @@ const SimplePostCard = ({ post }) => {
             <Col>
               <Card.Title
                 className="text-start"
-                style={{ color: "#646cff", fontWeight: "bold" }}
+                style={{
+                  color: "rgb(13, 110, 253)",
+                  fontWeight: "bold",
+                  fontSize: "1.1rem",
+                }}
               >
                 {post.author.username}
               </Card.Title>
@@ -140,6 +152,19 @@ const SimplePostCard = ({ post }) => {
             </>
           ) : (
             <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
+          )}
+          {imageSrc && (
+            <img
+              src={imageSrc}
+              alt={`post from ${post?.author?.username}`}
+              className="img-fluid"
+              style={{
+                maxWidth: "40%",
+                height: "auto",
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
           )}
 
           <Row className="justify-content-between align-items-center mt-3">
@@ -204,11 +229,11 @@ const SimplePostCard = ({ post }) => {
         show={showDeleteConfirmModal}
         onHide={() => setShowDeleteConfirmModal(false)}
         style={{
-          display: "block", // This ensures that the modal is always block-level
-          marginTop: "50vh", // This pushes the modal down from the top
+          display: "block",
+          marginTop: "50vh",
           transform: "translate(-50%, -33%)",
-          position: "fixed", // Ensures the modal is positioned relative to the viewport
-          left: "50%", // Centers the modal horizontally
+          position: "fixed",
+          left: "50%",
         }}
       >
         <Modal.Header closeButton>
@@ -231,4 +256,4 @@ const SimplePostCard = ({ post }) => {
   );
 };
 
-export default SimplePostCard;
+export default ModalPostCard;

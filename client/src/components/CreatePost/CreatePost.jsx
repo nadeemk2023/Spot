@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Modal } from "react-bootstrap";
 import styles from "./CreatePost.module.css";
 import { useProvideAuth } from "../../hooks/useAuth";
 import { usePosts } from "../PostCard/PostsContext";
+import axios from "axios";
 
 const CreatePost = () => {
   const {
@@ -11,6 +12,8 @@ const CreatePost = () => {
   const [text, setText] = useState("");
   const maxChars = 500;
   const { addPost, fetchPosts } = usePosts();
+  const [image, setImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleTextChange = (e) => {
     if (e.target.value.length <= maxChars) {
@@ -18,20 +21,70 @@ const CreatePost = () => {
     }
   };
 
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     const postData = {
+  //       user: userObj,
+  //       text: text,
+  //     };
+  //
+  //     try {
+  //       await addPost(postData);
+  //       setText("");
+  //       fetchPosts();
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const postData = {
-      user: userObj,
-      text: text,
-    };
+    const formData = new FormData();
+    formData.append("text", text);
+    formData.append("userId", userObj.uid);
+    if (image) {
+      formData.append("files", image);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/files/images",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        if (response.data) {
+          formData.append("imgUrl", response.data.path);
+        }
+      } catch (error) {
+        console.error(`Error creating post:`, error);
+      }
+    }
 
     try {
-      await addPost(postData);
+      await addPost(formData);
       setText("");
+      setImage(null);
+      setShowModal(false);
       fetchPosts();
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+  const removeSelectedImage = () => {
+    setImage(null);
   };
 
   return (
@@ -41,7 +94,7 @@ const CreatePost = () => {
           <Form.Label>
             What's on your mind
             {userObj?.username ? (
-              <span style={{ color: "#646cff", fontWeight: "bold" }}>
+              <span style={{ color: "rgb(13, 110, 253)", fontWeight: "bold" }}>
                 {" "}
                 {userObj.username}
               </span>
@@ -57,15 +110,80 @@ const CreatePost = () => {
             onChange={handleTextChange}
             placeholder="Write your post here..."
             className={styles.fixedSizeTextarea}
+            style={{ borderRadius: "10px" }}
           />
           <div className="text-right">
             {text.length} / {maxChars}
           </div>
         </Form.Group>
-        <Button variant="primary" type="submit" className="px-3 py-2">
+
+        <Button
+          variant="outline-primary"
+          className="me-2"
+          onClick={handleShowModal}
+        >
+          {image ? "Change Photo" : "Upload a Photo"}
+        </Button>
+        {image && (
+          <Button
+            variant="outline-danger"
+            className="me-2"
+            onClick={removeSelectedImage}
+          >
+            Remove Photo
+          </Button>
+        )}
+        <Button variant="primary" type="submit" className="px-3 py-2 ">
           Post
         </Button>
       </Form>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            {image ? (
+              <div>
+                <p>Selected file: {image.name}</p>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected"
+                  className="img-thumbnail me-1"
+                  style={{ height: "15rem" }} // Added margin-bottom for spacing
+                />
+                <Button variant="danger" onClick={() => setImage(null)}>
+                  Remove
+                </Button>
+              </div>
+            ) : (
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          {image && (
+            <Button variant="primary" onClick={handleCloseModal}>
+              Done
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

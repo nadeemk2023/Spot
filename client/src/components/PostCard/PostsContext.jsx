@@ -21,7 +21,9 @@ export const PostsProvider = ({ children }) => {
 
   const addPost = async (postData) => {
     try {
-      const response = await api.post("/posts", postData);
+      const response = await api.post("/posts", postData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (response.data) {
         setPosts((prevPosts) => [response.data, ...prevPosts]);
       }

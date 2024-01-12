@@ -43,6 +43,7 @@ const PostCard = ({ postId, isInModal = false }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(post.text);
   const [hoverHeart, setHoverHeart] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
   const timeAgo = formatDistanceToNow(parseISO(post.createdAt), {
     addSuffix: true,
@@ -91,12 +92,20 @@ const PostCard = ({ postId, isInModal = false }) => {
     }
   };
 
+  useEffect(() => {
+    const imageNotDefault =
+      post.image && post.image !== "/images/default-post.jpg";
+    const imageExists = imageNotDefault && Boolean(post.image.trim());
+
+    setImageSrc(imageExists ? post.image : "");
+  }, [post.image]);
+
   if (!post) {
     return <div>Loading post...</div>;
   }
 
   return (
-    <Card className="mb-4 text-dark pb-0">
+    <Card className="mb-4 text-dark pb-0" style={{ borderRadius: "10px" }}>
       <Card.Body className="pt-0">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <div className="d-flex align-items-center">
@@ -115,6 +124,7 @@ const PostCard = ({ postId, isInModal = false }) => {
               <Link
                 to={`/profile/u/${post?.author?.username}`}
                 className="text-decoration-none"
+                style={{ color: "rgb(13, 110, 253)", fontSize: "1.1rem" }}
               >
                 <Card.Text className="mb-1 fw-bold">
                   {post?.author?.username}
@@ -175,6 +185,19 @@ const PostCard = ({ postId, isInModal = false }) => {
           </>
         ) : (
           <Card.Text className="text-center mt-3 px-4">{post.text}</Card.Text>
+        )}
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt={`post from ${post?.author.username}`}
+            className="img-fluid"
+            style={{
+              maxWidth: "40%",
+              height: "auto",
+              display: "block",
+              margin: "0 auto",
+            }}
+          />
         )}
         <div className="d-flex justify-content-between mb-1 m-3">
           <div className="d-flex align-items-center">
