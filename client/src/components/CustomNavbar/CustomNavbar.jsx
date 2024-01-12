@@ -48,13 +48,13 @@ function CustomNavbar() {
             >
               Search
             </Nav.Link>
-            <Nav.Link
+            {/* <Nav.Link
               as={Link}
               to="/feed"
               className="text-decoration-none fs-5"
             >
               Feed
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link
               as={Link}
               to="/"
