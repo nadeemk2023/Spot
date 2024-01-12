@@ -34,8 +34,8 @@ export const ParkProvider = ({ children }) => {
 
   const fetchParks = async () => {
     try {
-      const userCoords = await getCurrentLocation();
-      //const userCoords = {lat: 43.618881, lng: -116.215019}
+      //const userCoords = await getCurrentLocation();
+      const userCoords = {lat: 43.618881, lng: -116.215019}
       
       const pipicanOptions = {
         method: "POST",
